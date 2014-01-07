@@ -9,17 +9,33 @@
 #import "OverlapChecker.h"
 
 @implementation OverlapChecker
+{
+    bool overlapMap[MAX_COURSES][MAX_COURSES];
+}
 
--(NSMutableArray*)getBestSchedule:(NSMutableArray*)coursesPool
+-(NSMutableArray*)getBestSchedule:(NSMutableArray*)coursesPool withMaxCourses:(int)maxCourses
 {
     NSMutableArray* bestSched = [[NSMutableArray alloc] initWithObjects:nil];
     NSMutableArray* rootNodes = [[NSMutableArray alloc] initWithObjects:nil];
     StateNode* currNode;
+    StateNode* prevNode;
+    BOOL backtracking = false;
+    int maxSchedFound = 0;
     
+    [self constructOverlaps:coursesPool];
     
-    while([coursesPool count] != 0)
+    while([bestSched count] < maxCourses)
     {
+        
+        NSLog(@"**********");
+        for(Course* course in bestSched)
+        {
+            NSLog(@"%@",course.courseName);
+        }
+        NSLog(@"**********");
         BOOL addedNode = false;
+        
+        NSMutableArray* coursesPoolSelector;
         
         if([bestSched count] == 0)
         {
@@ -55,8 +71,11 @@
             
         }
         
+        if(backtracking)
+            coursesPoolSelector = [self getCourseOverlaps:prevNode.stateCourse fromCourseList:coursesPool];
+        else coursesPoolSelector = coursesPool;
         
-        for(Course* course in coursesPool)
+        for(Course* course in coursesPoolSelector)
         {
             BOOL remembered=false,overlaps=false;
             
@@ -102,6 +121,7 @@
             [coursesPool removeObject:course];
             currNode = newNode;
             addedNode = true;
+            backtracking = false;
             break;
         }
         
@@ -109,14 +129,60 @@
         {
             [coursesPool addObject:currNode.stateCourse];
             [bestSched removeObject:currNode.stateCourse];
+            prevNode = currNode;
             currNode = currNode.stateParent;
+            backtracking = true;
         }
         
         
-        
+        if([bestSched count] > maxSchedFound)
+            maxSchedFound = [bestSched count];
     }
     
+    NSLog(@"MAXIMUM FOUND: %i",maxSchedFound);
     return bestSched;
+}
+
+-(NSMutableArray*)getCourseOverlaps:(Course*)course fromCourseList:(NSMutableArray*)courseList
+{
+    NSMutableArray* courseOverlaps = [[NSMutableArray alloc] initWithObjects:nil];
+
+    for(int j = 0;j<[courseList count];j++)
+    {
+        if(overlapMap[course->courseID][((Course*)[courseList objectAtIndex:j])->courseID] == true)
+        {
+            [courseOverlaps addObject:[courseList objectAtIndex:j]];
+            break;
+        }
+    }
+    
+    return courseOverlaps;
+}
+
+-(void)constructOverlaps:(NSMutableArray*)courses
+{
+    for(int i = 0;i<MAX_COURSES;i++)
+        for(int j = 0;j<MAX_COURSES;j++)
+            overlapMap[i][j] = false;
+    
+    
+    for(int i = 0;i<[courses count];i++)
+    {
+        for(int j = i+1;j<[courses count];j++)
+        {
+            int fCourseId = ((Course*)[courses objectAtIndex:i])->courseID;
+            int sCourseId = ((Course*)[courses objectAtIndex:j])->courseID;
+            
+            if([self checkOverlapWithFirstCourse:[courses objectAtIndex:i] secondCourse:[courses objectAtIndex:j]])
+            {
+                overlapMap[fCourseId][sCourseId] = true;
+                overlapMap[sCourseId][fCourseId] = true;
+            }
+            
+        }
+    }
+        
+    
 }
 
 -(BOOL)checkOverlapWithFirstCourse:(Course*)firstCourse secondCourse:(Course*)secondCourse

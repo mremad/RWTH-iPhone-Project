@@ -11,6 +11,6 @@
 #import "StateNode.h"
 @interface OverlapChecker : NSObject
 
--(NSMutableArray*)getBestSchedule:(NSMutableArray*)coursesPool;
+-(NSMutableArray*)getBestSchedule:(NSMutableArray*)coursesPool withMaxCourses:(int)maxCourses;
 
 @end

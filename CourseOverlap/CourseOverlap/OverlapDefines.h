@@ -9,6 +9,8 @@
 #ifndef CourseOverlap_OverlapDefines_h
 #define CourseOverlap_OverlapDefines_h
 
+#define MAX_COURSES 30
+
 typedef enum
 {
     MON = 0,

@@ -18,6 +18,7 @@
 {
     [super viewDidLoad];
     
+    NSMutableArray* coursesPool = [[NSMutableArray alloc] initWithObjects:nil];
     Course* course1 = [[Course alloc] initWithCourseName:@"Course 1"];
     course1->startTime.timeHour = 13;
     course1->startTime.timeMin = 15;
@@ -27,25 +28,43 @@
     
     course1->courseDay = MON;
     
-    Course* course2 = [[Course alloc] initWithCourseName:@"Course 2"];
     
-    course2->startTime.timeHour = 14;
-    course2->startTime.timeMin = 0;
+    for(int i = 0;i<20;i++)
+    {
+        Course* course = [[Course alloc] initWithCourseName:[NSString stringWithFormat:@"Course %i",i+1]];
+        
+        course->startTime.timeHour = arc4random()%24;
+        course->startTime.timeMin = 15*(arc4random()%4);
+        
+        course->endTime.timeHour = course->startTime.timeHour + 1;
+        course->endTime.timeMin = course->startTime.timeMin + 30;
+        if(course->endTime.timeMin>=60)
+        {
+            course->endTime.timeMin = course->endTime.timeMin - 60;
+            course->endTime.timeHour++;
+        }
+        course->courseDay = (Day)(arc4random()%7);
+        
+        [coursesPool addObject:course];
+        
+        NSLog(@"%@     Start: %i:%i       End %i:%i       Day:%i",course.courseName,course->startTime.timeHour,course->startTime.timeMin,course->endTime.timeHour,course->endTime.timeMin,course->courseDay);
+    }
     
-    course2->endTime.timeHour = 15;
-    course2->endTime.timeMin = 0;
     
-    course2->courseDay = MON;
+    NSLog(@"Starting Algorithm!");
     
-    NSMutableArray* coursesPool = [[NSMutableArray alloc] initWithObjects:course1,course2, nil];
     
     OverlapChecker* overlapChecker = [[OverlapChecker alloc] init];
     
-    [overlapChecker getBestSchedule:coursesPool];
+    NSMutableArray* arr = [overlapChecker getBestSchedule:coursesPool withMaxCourses:17];
+    
+    for(Course* course in arr)
+    {
+         NSLog(@"%@     Start: %i:%i       End %i:%i       Day:%i",course.courseName,course->startTime.timeHour,course->startTime.timeMin,course->endTime.timeHour,course->endTime.timeMin,course->courseDay);
+    }
     
     
     
-    NSLog(@"CourseID1: %i    CourseID2: %i",course1->courseID,course2->courseID);
 	
 }
 
