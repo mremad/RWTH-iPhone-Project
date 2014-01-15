@@ -9,6 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "Member.h"
 
+@protocol ServerConnectionCurrentNotifiableViewDelegate <NSObject>
+@required
+- (void)notifitcationRecieved;
+
+@end
 @interface ServerConnection : NSObject
 {
     NSInteger * userIdentifier;
@@ -19,5 +24,6 @@
 - (NSArray *) GetGroupContacts: (int) groupIdentifier;
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;
+@property (nonatomic, weak) id<ServerConnectionCurrentNotifiableViewDelegate> notificationsViewDelegate;
 
 @end

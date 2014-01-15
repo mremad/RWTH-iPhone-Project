@@ -8,6 +8,8 @@
 
 #import "GroupMenuTableViewController.h"
 #import "GroupContactsTableViewController.h"
+#import "ServerConnection.h"
+#import "Group.h"
 
 @interface GroupMenuTableViewController ()
 
@@ -24,10 +26,30 @@
     return self;
 }
 
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].notificationsViewDelegate = self;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].notificationsViewDelegate = nil;
+}
+
+-(void)notifitcationRecieved
+{
+    //do something about it
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+   // UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
+  //  self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, notificationItem]; //TODO need to put an invisible button or search something..
+    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
+    self.title= g.name;
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface GroupsTableViewController : UITableViewController
+#import "ServerConnection.h"
+#import "GroupMenuTableViewController.h"
+#import "GroupContactsTableViewController.h"
+#import "Group.h"
+@interface GroupsTableViewController : UITableViewController<ServerConnectionCurrentNotifiableViewDelegate>
 
 @end

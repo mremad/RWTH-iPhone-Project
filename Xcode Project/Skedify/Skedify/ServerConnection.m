@@ -66,7 +66,7 @@ static NSString *serverAdress = @"localhost:3000";
 
 - (NSArray *) GetGroupList
 {
-    return _groupsList;
+    return _groupsList; //we do not have an instance of this class thats why we retrive properties this way
 }
 
 -(void) addGroup:(Group *)theGroup
@@ -81,5 +81,15 @@ static NSString *serverAdress = @"localhost:3000";
     return [theIdentifierGroup members];
 }
 
+#pragma mark -
+#pragma mark ServerConnection methods
+
+/*
+ * handles all messages receiving from the server
+ */
+- (void)didReceiveDataFromServerMethod
+{
+    [_notificationsViewDelegate notifitcationRecieved];
+}
 
 @end

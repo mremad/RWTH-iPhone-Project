@@ -7,7 +7,7 @@
 //
 
 #import "GroupContactsTableViewController.h"
-#import "ServerConnection.h"
+#import "Group.h"
 
 @interface GroupContactsTableViewController ()
 
@@ -27,7 +27,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
+    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, notificationItem];
+    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
+    self.title= [g.name stringByAppendingString:@" Members"]; //TODO Spacing..
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -129,5 +133,22 @@
 }
 
  */
+
+
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].notificationsViewDelegate = self;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].notificationsViewDelegate = nil;
+}
+
+-(void)notifitcationRecieved
+{
+    //do something about it
+}
+
 
 @end

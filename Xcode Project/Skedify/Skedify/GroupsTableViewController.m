@@ -7,10 +7,6 @@
 //
 
 #import "GroupsTableViewController.h"
-#import "ServerConnection.h"
-#import "GroupMenuTableViewController.h"
-#import "GroupContactsTableViewController.h"
-#import "Group.h"
 @interface GroupsTableViewController ()
 
 @end
@@ -33,12 +29,30 @@
     self.navigationItem.hidesBackButton = YES;
     UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
     self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, notificationItem];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].notificationsViewDelegate = self;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].notificationsViewDelegate = nil;
+}
+
+-(void)notifitcationRecieved
+{
+    //do something about it
+}
+
 
 - (void)didReceiveMemoryWarning
 {
