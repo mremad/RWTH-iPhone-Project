@@ -203,7 +203,6 @@
         <!--Group Menu Table View Controller - Group Menu-->
         <scene sceneID="fda-hO-bL1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="GkU-fQ-Nic" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="Fvi-WC-kR2" customClass="GroupMenuTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="NdG-AE-TjM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -242,7 +241,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Group Contacts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ug4-3i-bOo">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Group Members" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ug4-3i-bOo">
                                                     <rect key="frame" x="15" y="0.0" width="270" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -270,6 +269,7 @@
                         <barButtonItem key="backBarButtonItem" title="Menu" id="Wxa-1w-7XJ"/>
                     </navigationItem>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GkU-fQ-Nic" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1246" y="65"/>
         </scene>
@@ -288,10 +288,9 @@
             </objects>
             <point key="canvasLocation" x="-687" y="131"/>
         </scene>
-        <!--Group Contacts Table View Controller - Group Contacts-->
+        <!--Group Contacts Table View Controller - Group Members-->
         <scene sceneID="oRZ-KO-NA0">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VZF-f0-H2A" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="ZKw-0V-hbA" customClass="GroupContactsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="u4w-eG-y1h">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -321,15 +320,21 @@
                             <outlet property="delegate" destination="ZKw-0V-hbA" id="TIp-uV-dFI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Group Contacts" id="Tck-5C-KD4"/>
+                    <navigationItem key="navigationItem" title="Group Members" id="Tck-5C-KD4">
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="Jcq-VE-Zqj">
+                            <connections>
+                                <segue destination="K8L-nL-M07" kind="modal" identifier="toAddMember" modalTransitionStyle="coverVertical" id="Un2-hD-z0J"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VZF-f0-H2A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1872" y="-399"/>
+            <point key="canvasLocation" x="2128" y="-847"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Hb2-cU-vRh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HVj-nj-K2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="1h0-Ne-dBg" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="C2L-zI-V65"/>
@@ -342,8 +347,59 @@
                     </view>
                     <navigationItem key="navigationItem" id="HD1-i4-dJ2"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HVj-nj-K2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1872" y="358"/>
+            <point key="canvasLocation" x="2128" y="772"/>
+        </scene>
+        <!--Create Member View Controller-->
+        <scene sceneID="vC6-jC-xi9">
+            <objects>
+                <viewController id="K8L-nL-M07" customClass="CreateMemberViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1DC-eD-XhT"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qzg-QQ-YGY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="96T-b1-sTA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o87-2V-evi">
+                                <rect key="frame" x="0.0" y="16" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Add Member" id="Ks2-wY-5iv">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="JGV-5s-Xlg"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="mlz-k6-Kdt">
+                                            <connections>
+                                                <action selector="ButtoneDoneClicked:" destination="K8L-nL-M07" id="8jQ-Oj-m0C"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please Enter the TIM ID of the member" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="he5-me-m86">
+                                <rect key="frame" x="7" y="95" width="298" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="15C-KE-ecn">
+                                <rect key="frame" x="7" y="149" width="221" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="ButtonDone" destination="mlz-k6-Kdt" id="gUP-0K-Mwz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QiC-20-DcQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2133" y="-1559"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

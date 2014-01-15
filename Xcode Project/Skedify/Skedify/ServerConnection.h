@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Contact.h"
+#import "Member.h"
 
 @interface ServerConnection : NSObject
 {
@@ -17,5 +17,7 @@
 + (ServerConnection *)sharedServerConnection;
 - (NSArray *) GetGroupList;
 - (NSArray *) GetGroupContacts: (int) groupIdentifier;
+
+@property (nonatomic, readonly) NSMutableArray *groupsList;
 
 @end

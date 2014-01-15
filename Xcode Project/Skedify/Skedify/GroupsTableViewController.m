@@ -10,6 +10,7 @@
 #import "ServerConnection.h"
 #import "GroupMenuTableViewController.h"
 #import "GroupContactsTableViewController.h"
+#import "Group.h"
 @interface GroupsTableViewController ()
 
 @end
@@ -61,14 +62,14 @@
 {
     NSString *CellIdentifier = @"GroupCell"; //also written in StoryBoard
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    NSString *groupName =[[ServerConnection sharedServerConnection].GetGroupList objectAtIndex:indexPath.row];
+    Group *group =[[ServerConnection sharedServerConnection].GetGroupList objectAtIndex:indexPath.row];
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         
         UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 40, 350, 40)];
-        nameLabel.text = groupName;
+        nameLabel.text = group.name;
         nameLabel.highlightedTextColor = [UIColor whiteColor];
         nameLabel.font = [UIFont fontWithName:@"Helvetica" size:14];
         nameLabel.backgroundColor = [UIColor clearColor];
@@ -76,7 +77,7 @@
     }
     else
     {
-        ((UILabel *)[cell.contentView.subviews objectAtIndex:0]).text = groupName;
+        ((UILabel *)[cell.contentView.subviews objectAtIndex:0]).text = group.name;
     }
     
     return cell;

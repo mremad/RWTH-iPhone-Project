@@ -1,5 +1,5 @@
 //
-//  Contact.h
+//  Member.h
 //  Skedify
 //
 //  Created by M on 1/14/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Contact : NSObject
+@interface Member : NSObject
 @property (nonatomic, readonly) NSString *nickName;
 
 

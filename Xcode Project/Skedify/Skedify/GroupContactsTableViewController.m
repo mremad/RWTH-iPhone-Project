@@ -57,7 +57,7 @@
 {
     NSString *CellIdentifier = @"GroupContactsCell"; //also written in StoryBoard
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    Contact *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex]  objectAtIndex:indexPath.row];
+    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex]  objectAtIndex:indexPath.row];
     NSString *contactName =theContact.nickName;
    if (cell == nil||[cell.contentView.subviews count]==0) //[cell.contentView.subviews count]==0) solving weird bug where executution find a cell with this identifier which does not own a nameLabel
    {
