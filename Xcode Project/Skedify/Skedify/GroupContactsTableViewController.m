@@ -8,6 +8,7 @@
 
 #import "GroupContactsTableViewController.h"
 #import "Group.h"
+#import "CreateMemberViewController.h"
 
 @interface GroupContactsTableViewController ()
 
@@ -39,6 +40,13 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -62,7 +70,7 @@
     NSString *CellIdentifier = @"GroupContactsCell"; //also written in StoryBoard
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex]  objectAtIndex:indexPath.row];
-    NSString *contactName =theContact.nickName;
+    NSString *contactName =[theContact getStrongestIdentifier];
    if (cell == nil||[cell.contentView.subviews count]==0) //[cell.contentView.subviews count]==0) solving weird bug where executution find a cell with this identifier which does not own a nameLabel
    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -134,7 +142,14 @@
 
  */
 
-
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([[segue identifier] isEqual:@"toAddMember"])
+    {
+        CreateMemberViewController *groupContactsMenu=(CreateMemberViewController *)[segue destinationViewController];
+        groupContactsMenu.groupIndex=_groupIndex; //just delegating the value to the next controller
+    }
+}
 
 -(void)viewDidAppear:(BOOL)animated
 {

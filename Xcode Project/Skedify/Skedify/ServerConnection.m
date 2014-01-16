@@ -7,7 +7,6 @@
 //
 
 #import "ServerConnection.h"
-#import "Group.h"
 
 @implementation ServerConnection
 
@@ -45,8 +44,14 @@ static NSString *serverAdress = @"localhost:3000";
     return self;
 }
 
--(void)fetchNeededInformation
+- (void) fetchNeededInformation
 {
+    //ServerCode Get Created Groups(If any ) From Server
+    //for ex User added that was not there in the system or User just opened the app and
+    // recieves his info
+    
+    //GetGroupsFromPreviouStorage
+    
     _groupsList = [[NSMutableArray alloc]init];
     Group* g1 = [[Group alloc]initWithName:@"DIS"];
     Member *a = [[Member alloc]initWithName:@"Dil"];
@@ -63,15 +68,22 @@ static NSString *serverAdress = @"localhost:3000";
     [g2 insertMember:d];
     [_groupsList insertObject:g2 atIndex:1];
 }
-
+#pragma mark -
+#pragma mark Group Handling methods
 - (NSArray *) GetGroupList
 {
     return _groupsList; //we do not have an instance of this class thats why we retrive properties this way
 }
 
--(void) addGroup:(Group *)theGroup
+- (Group *) GetGroup:(NSInteger) index
+{
+    return (Group *)[_groupsList objectAtIndex:index];
+}
+
+-(void) addGroup:(Group *) theGroup
 {
      [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
+    //ServerCode Send Created Group To Server
 }
 
 
@@ -85,11 +97,25 @@ static NSString *serverAdress = @"localhost:3000";
 #pragma mark ServerConnection methods
 
 /*
- * handles all messages receiving from the server
+ * handles all notfication messages recieved from the server
  */
-- (void)didReceiveDataFromServerMethod
+- (void)didReceiveNotificationFromServer
 {
-    [_notificationsViewDelegate notifitcationRecieved];
+    if ([_notificationsViewDelegate respondsToSelector:@selector(notifitcationRecieved)])
+    {
+        [_notificationsViewDelegate notifitcationRecieved];
+    }
+    else
+    {
+        //for now we do nothing.. maybe we can do quick vibration ??
+        // This situation happends when we are in a view that does not have the notification icon
+    }
 }
+
+-(void)didRecieveShakeMessageFromServer
+{
+    [_notificationsViewDelegate shakeRecieved:NO];
+}
+
 
 @end

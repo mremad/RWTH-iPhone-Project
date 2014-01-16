@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
-@interface GroupContactsTableViewController : UITableViewController<ServerConnectionCurrentNotifiableViewDelegate>
+@interface GroupContactsTableViewController : UITableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
 {
    // NSInteger groupIndex;
 }

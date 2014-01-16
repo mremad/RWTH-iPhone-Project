@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServerConnection.h"
 
 @interface CreateGroupViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonDone;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonCancel;
+@property (weak, nonatomic) IBOutlet UITextField *TextBoxGroupName;
 
 @end

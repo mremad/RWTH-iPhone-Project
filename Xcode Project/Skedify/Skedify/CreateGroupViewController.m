@@ -15,7 +15,19 @@
 @implementation CreateGroupViewController
 - (IBAction)ButtonDoneClicked:(id)sender
 {
-    
+    NSString *groupName = [_TextBoxGroupName text];
+    NSString *trimmedGroupName = [groupName stringByTrimmingCharactersInSet:
+                               [NSCharacterSet whitespaceCharacterSet]];
+    if([trimmedGroupName isEqualToString:@""])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please Enter the Group's name!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+    Group* toBeAddedGroup=[[Group alloc]initWithName:trimmedGroupName];
+    //handle Members
+    [[ServerConnection sharedServerConnection] addGroup:toBeAddedGroup];
+     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)ButtonCancelClicked:(id)sender
 {

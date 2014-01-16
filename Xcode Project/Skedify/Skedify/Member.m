@@ -21,6 +21,27 @@
 {
     self = [super init];
     _nickName = theNickName;
+    
     return self;
 }
+
+- (id)initWithEmail:(NSString *)theEmail;
+{
+    self = [super init];
+    _emailAddress = theEmail;
+    return self;
+}
+
+-(NSString *) getStrongestIdentifier
+{
+    if(_nickName!=nil)
+    {
+        return _nickName;
+    }
+    else
+    {
+        return _emailAddress;
+    }
+}
+
 @end

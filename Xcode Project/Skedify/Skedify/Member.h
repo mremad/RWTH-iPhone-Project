@@ -10,8 +10,10 @@
 
 @interface Member : NSObject
 @property (nonatomic, readonly) NSString *nickName;
+@property (nonatomic, readonly) NSString *emailAddress;
 
 
 - (id)initWithName:(NSString *)theNickName;
-
+- (id)initWithEmail:(NSString *)theEmail;
+- (NSString *) getStrongestIdentifier;
 @end

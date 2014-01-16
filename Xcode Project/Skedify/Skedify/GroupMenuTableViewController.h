@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
 
-@interface GroupMenuTableViewController : UITableViewController<ServerConnectionCurrentNotifiableViewDelegate>
+@interface GroupMenuTableViewController : UITableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
 {
 }
 @property (nonatomic) NSInteger groupIndex;

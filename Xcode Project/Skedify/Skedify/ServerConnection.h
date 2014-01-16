@@ -8,22 +8,25 @@
 
 #import <Foundation/Foundation.h>
 #import "Member.h"
+#import "Group.h"
 
-@protocol ServerConnectionCurrentNotifiableViewDelegate <NSObject>
+@protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
 @required
+- (void)shakeRecieved:(BOOL) firstShaker; //as in the firstShaker gets to deceide the groups name..
+@optional
 - (void)notifitcationRecieved;
-
 @end
 @interface ServerConnection : NSObject
 {
     NSInteger * userIdentifier;
 }
 
-+ (ServerConnection *)sharedServerConnection;
++ (ServerConnection *) sharedServerConnection;
 - (NSArray *) GetGroupList;
 - (NSArray *) GetGroupContacts: (int) groupIdentifier;
-
+- (void) addGroup:(Group *) theGroup;
+- (Group *) GetGroup:(NSInteger) index;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
-@property (nonatomic, weak) id<ServerConnectionCurrentNotifiableViewDelegate> notificationsViewDelegate;
+@property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> notificationsViewDelegate;
 
 @end

@@ -48,6 +48,11 @@
     [ServerConnection sharedServerConnection].notificationsViewDelegate = nil;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+     [self.tableView reloadData];
+}
+
 -(void)notifitcationRecieved
 {
     //do something about it
