@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
 
-@interface CreateMemberViewController : UIViewController
+@interface CreateMemberViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonDone;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonCancel;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldEmail;

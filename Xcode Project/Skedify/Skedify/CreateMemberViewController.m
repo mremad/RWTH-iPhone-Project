@@ -63,7 +63,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _textFieldEmail.delegate=self;
 	// Do any additional setup after loading the view.
+}
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning

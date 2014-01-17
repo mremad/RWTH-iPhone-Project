@@ -27,7 +27,15 @@
 {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
+    _textFieldUserName.delegate=self;
+    _textFieldPassword.delegate=self;
 	// Do any additional setup after loading the view.
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
 }
 
 - (void)didReceiveMemoryWarning

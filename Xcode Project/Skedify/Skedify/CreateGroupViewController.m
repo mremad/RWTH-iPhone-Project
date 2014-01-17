@@ -15,7 +15,7 @@
 @implementation CreateGroupViewController
 - (IBAction)ButtonDoneClicked:(id)sender
 {
-    NSString *groupName = [_TextBoxGroupName text];
+    NSString *groupName = [_textFieldGroupName text];
     NSString *trimmedGroupName = [groupName stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceCharacterSet]];
     if([trimmedGroupName isEqualToString:@""])
@@ -43,9 +43,18 @@
     return self;
 }
 
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _textFieldGroupName.delegate=self;
+    
 	// Do any additional setup after loading the view.
 }
 

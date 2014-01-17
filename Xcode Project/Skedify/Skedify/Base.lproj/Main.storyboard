@@ -48,6 +48,11 @@
                         <color key="backgroundColor" red="0.12113065868196182" green="0.43440124401651292" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Log In" id="hAK-hj-yaL"/>
+                    <connections>
+                        <outlet property="ButtonLogin" destination="MgM-mt-rio" id="zcN-V0-RSA"/>
+                        <outlet property="textFieldPassword" destination="p7G-Nl-45A" id="G5c-3m-sh7"/>
+                        <outlet property="textFieldUserName" destination="mvg-8h-WUg" id="ggz-BU-S52"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
@@ -94,6 +99,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="textFieldNickName" destination="3uC-WL-nGx" id="TJE-7a-GV7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hjR-md-OIs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -166,7 +174,7 @@
                     </view>
                     <connections>
                         <outlet property="ButtonCancel" destination="J7g-VH-c4G" id="QFV-vr-zs4"/>
-                        <outlet property="TextBoxGroupName" destination="JdK-Bu-s1k" id="9xv-Xa-mDG"/>
+                        <outlet property="textFieldGroupName" destination="JdK-Bu-s1k" id="WAN-kY-OOa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1rw-Hs-iUd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -183,7 +191,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GroupCell" textLabel="SyP-NU-XLz" style="IBUITableViewCellStyleDefault" id="KO2-LE-DWK">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KO2-LE-DWK" id="uoJ-BD-0df">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -228,7 +236,7 @@
                             <tableViewSection id="WOd-um-RJR">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GroupMenuCell" textLabel="ptl-wO-RhD" style="IBUITableViewCellStyleDefault" id="usi-2q-cV4">
-                                        <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="usi-2q-cV4" id="dRV-po-YH0">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -251,7 +259,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GroupMenuCell" textLabel="ug4-3i-bOo" style="IBUITableViewCellStyleDefault" id="AaO-0A-yMt">
-                                        <rect key="frame" x="0.0" y="108" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AaO-0A-yMt" id="EZq-G2-hk0">
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -314,7 +322,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GroupContactsCell" textLabel="NX7-kD-PbJ" style="IBUITableViewCellStyleDefault" id="sh8-0y-fVA">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sh8-0y-fVA" id="pFP-dG-L6e">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
