@@ -87,7 +87,7 @@ static NSString *serverAdress = @"localhost:3000";
 }
 
 
-- (NSArray *) GetGroupContacts: (int) groupIdentifier
+- (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier
 {
     Group *theIdentifierGroup = (Group *)[_groupsList objectAtIndex:groupIdentifier];
     return [theIdentifierGroup members];

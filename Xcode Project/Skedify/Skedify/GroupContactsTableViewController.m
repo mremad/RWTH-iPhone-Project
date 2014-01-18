@@ -62,7 +62,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex] count];
+    return [[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex] count ];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

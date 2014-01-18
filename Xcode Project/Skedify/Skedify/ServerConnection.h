@@ -23,7 +23,7 @@
 
 + (ServerConnection *) sharedServerConnection;
 - (NSArray *) GetGroupList;
-- (NSArray *) GetGroupContacts: (int) groupIdentifier;
+- (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier;
 - (void) addGroup:(Group *) theGroup;
 - (Group *) GetGroup:(NSInteger) index;
 @property (nonatomic, readonly) NSMutableArray *groupsList;

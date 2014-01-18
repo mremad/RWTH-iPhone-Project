@@ -20,7 +20,7 @@
 }
 - (IBAction)EditingChanedInUserNameTextField:(id)sender
 {
-    if([_textFieldUserName text].length>=2)
+ /*   if([_textFieldUserName text].length>=2)
     {
         _textFieldUserName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
         [_textFieldUserName resignFirstResponder];
@@ -31,7 +31,7 @@
         _textFieldUserName.keyboardType = UIKeyboardTypeDefault;
         [_textFieldUserName resignFirstResponder];
         [_textFieldUserName becomeFirstResponder];
-    }
+    }*/
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
