@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D946F4131884A7100008D209 /* CreateGroupViewController.m */; };
+		D97145E31885519D008C97AA /* ServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E21885519D008C97AA /* ServerConnection.m */; };
+		D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E518856840008C97AA /* GroupContactsTableViewController.m */; };
+		D97145E918856FC0008C97AA /* GroupMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E818856FC0008C97AA /* GroupMenuTableViewController.m */; };
+		D97145F118858551008C97AA /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145F018858551008C97AA /* Member.m */; };
+		D97EBB7D188469900024CC6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97EBB7C188469900024CC6E /* Foundation.framework */; };
+		D97EBB7F188469900024CC6E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97EBB7E188469900024CC6E /* CoreGraphics.framework */; };
+		D97EBB81188469900024CC6E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97EBB80188469900024CC6E /* UIKit.framework */; };
+		D97EBB87188469900024CC6E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D97EBB85188469900024CC6E /* InfoPlist.strings */; };
+		D97EBB89188469900024CC6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBB88188469900024CC6E /* main.m */; };
+		D97EBB8D188469900024CC6E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBB8C188469900024CC6E /* AppDelegate.m */; };
+		D97EBB90188469900024CC6E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D97EBB8E188469900024CC6E /* Main.storyboard */; };
+		D97EBB95188469900024CC6E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D97EBB94188469900024CC6E /* Images.xcassets */; };
+		D97EBB9C188469900024CC6E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97EBB9B188469900024CC6E /* XCTest.framework */; };
+		D97EBB9D188469900024CC6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97EBB7C188469900024CC6E /* Foundation.framework */; };
+		D97EBB9E188469900024CC6E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97EBB80188469900024CC6E /* UIKit.framework */; };
+		D97EBBA6188469900024CC6E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D97EBBA4188469900024CC6E /* InfoPlist.strings */; };
+		D97EBBA8188469900024CC6E /* SkedifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBA7188469900024CC6E /* SkedifyTests.m */; };
+		D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBB3188472BE0024CC6E /* LoginViewController.m */; };
+		D97EBBB7188472CF0024CC6E /* NickNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBB6188472CF0024CC6E /* NickNameViewController.m */; };
+		D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */; };
+		D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */; };
+		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D97EBB9F188469900024CC6E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D97EBB71188469900024CC6E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D97EBB78188469900024CC6E;
+			remoteInfo = Skedify;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D946F4121884A7100008D209 /* CreateGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupViewController.h; sourceTree = "<group>"; };
+		D946F4131884A7100008D209 /* CreateGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupViewController.m; sourceTree = "<group>"; };
+		D97145E11885519D008C97AA /* ServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnection.h; sourceTree = "<group>"; };
+		D97145E21885519D008C97AA /* ServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnection.m; sourceTree = "<group>"; };
+		D97145E418856840008C97AA /* GroupContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupContactsTableViewController.h; sourceTree = "<group>"; };
+		D97145E518856840008C97AA /* GroupContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupContactsTableViewController.m; sourceTree = "<group>"; };
+		D97145E718856FC0008C97AA /* GroupMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupMenuTableViewController.h; sourceTree = "<group>"; };
+		D97145E818856FC0008C97AA /* GroupMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupMenuTableViewController.m; sourceTree = "<group>"; };
+		D97145EF18858551008C97AA /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
+		D97145F018858551008C97AA /* Member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Member.m; sourceTree = "<group>"; };
+		D97EBB79188469900024CC6E /* Skedify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Skedify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D97EBB7C188469900024CC6E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D97EBB7E188469900024CC6E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D97EBB80188469900024CC6E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D97EBB84188469900024CC6E /* Skedify-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Skedify-Info.plist"; sourceTree = "<group>"; };
+		D97EBB86188469900024CC6E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D97EBB88188469900024CC6E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D97EBB8A188469900024CC6E /* Skedify-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Skedify-Prefix.pch"; sourceTree = "<group>"; };
+		D97EBB8B188469900024CC6E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D97EBB8C188469900024CC6E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D97EBB8F188469900024CC6E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D97EBB94188469900024CC6E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D97EBB9A188469900024CC6E /* SkedifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkedifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D97EBB9B188469900024CC6E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D97EBBA3188469900024CC6E /* SkedifyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SkedifyTests-Info.plist"; sourceTree = "<group>"; };
+		D97EBBA5188469900024CC6E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D97EBBA7188469900024CC6E /* SkedifyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkedifyTests.m; sourceTree = "<group>"; };
+		D97EBBB2188472BE0024CC6E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		D97EBBB3188472BE0024CC6E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		D97EBBB5188472CF0024CC6E /* NickNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NickNameViewController.h; sourceTree = "<group>"; };
+		D97EBBB6188472CF0024CC6E /* NickNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NickNameViewController.m; sourceTree = "<group>"; };
+		D97EBBBC1884736F0024CC6E /* GroupsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsTableViewController.h; sourceTree = "<group>"; };
+		D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsTableViewController.m; sourceTree = "<group>"; };
+		D9B7ABC01886A2CE00883E67 /* CreateMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMemberViewController.h; sourceTree = "<group>"; };
+		D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMemberViewController.m; sourceTree = "<group>"; };
+		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
+		D9B7ABC41886A7C000883E67 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D97EBB76188469900024CC6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D97EBB7F188469900024CC6E /* CoreGraphics.framework in Frameworks */,
+				D97EBB81188469900024CC6E /* UIKit.framework in Frameworks */,
+				D97EBB7D188469900024CC6E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D97EBB97188469900024CC6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D97EBB9C188469900024CC6E /* XCTest.framework in Frameworks */,
+				D97EBB9E188469900024CC6E /* UIKit.framework in Frameworks */,
+				D97EBB9D188469900024CC6E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D97145E018855066008C97AA /* ServerHandling */ = {
+			isa = PBXGroup;
+			children = (
+				D97145E11885519D008C97AA /* ServerConnection.h */,
+				D97145E21885519D008C97AA /* ServerConnection.m */,
+			);
+			name = ServerHandling;
+			sourceTree = "<group>";
+		};
+		D97145EE18858538008C97AA /* DataTypes */ = {
+			isa = PBXGroup;
+			children = (
+				D97145EF18858551008C97AA /* Member.h */,
+				D97145F018858551008C97AA /* Member.m */,
+				D9B7ABC31886A7C000883E67 /* Group.h */,
+				D9B7ABC41886A7C000883E67 /* Group.m */,
+			);
+			name = DataTypes;
+			sourceTree = "<group>";
+		};
+		D97EBB70188469900024CC6E = {
+			isa = PBXGroup;
+			children = (
+				D97EBB82188469900024CC6E /* Skedify */,
+				D97EBBA1188469900024CC6E /* SkedifyTests */,
+				D97EBB7B188469900024CC6E /* Frameworks */,
+				D97EBB7A188469900024CC6E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D97EBB7A188469900024CC6E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D97EBB79188469900024CC6E /* Skedify.app */,
+				D97EBB9A188469900024CC6E /* SkedifyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D97EBB7B188469900024CC6E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D97EBB7C188469900024CC6E /* Foundation.framework */,
+				D97EBB7E188469900024CC6E /* CoreGraphics.framework */,
+				D97EBB80188469900024CC6E /* UIKit.framework */,
+				D97EBB9B188469900024CC6E /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D97EBB82188469900024CC6E /* Skedify */ = {
+			isa = PBXGroup;
+			children = (
+				D97145EE18858538008C97AA /* DataTypes */,
+				D97145E018855066008C97AA /* ServerHandling */,
+				D97EBBBB188473510024CC6E /* TableViewControllers */,
+				D97EBBB11884725E0024CC6E /* ViewControllers */,
+				D97EBB8B188469900024CC6E /* AppDelegate.h */,
+				D97EBB8C188469900024CC6E /* AppDelegate.m */,
+				D97EBB8E188469900024CC6E /* Main.storyboard */,
+				D97EBB94188469900024CC6E /* Images.xcassets */,
+				D97EBB83188469900024CC6E /* Supporting Files */,
+			);
+			path = Skedify;
+			sourceTree = "<group>";
+		};
+		D97EBB83188469900024CC6E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D97EBB84188469900024CC6E /* Skedify-Info.plist */,
+				D97EBB85188469900024CC6E /* InfoPlist.strings */,
+				D97EBB88188469900024CC6E /* main.m */,
+				D97EBB8A188469900024CC6E /* Skedify-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D97EBBA1188469900024CC6E /* SkedifyTests */ = {
+			isa = PBXGroup;
+			children = (
+				D97EBBA7188469900024CC6E /* SkedifyTests.m */,
+				D97EBBA2188469900024CC6E /* Supporting Files */,
+			);
+			path = SkedifyTests;
+			sourceTree = "<group>";
+		};
+		D97EBBA2188469900024CC6E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D97EBBA3188469900024CC6E /* SkedifyTests-Info.plist */,
+				D97EBBA4188469900024CC6E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D97EBBB11884725E0024CC6E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D97EBBB2188472BE0024CC6E /* LoginViewController.h */,
+				D97EBBB3188472BE0024CC6E /* LoginViewController.m */,
+				D97EBBB5188472CF0024CC6E /* NickNameViewController.h */,
+				D97EBBB6188472CF0024CC6E /* NickNameViewController.m */,
+				D946F4121884A7100008D209 /* CreateGroupViewController.h */,
+				D946F4131884A7100008D209 /* CreateGroupViewController.m */,
+				D9B7ABC01886A2CE00883E67 /* CreateMemberViewController.h */,
+				D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D97EBBBB188473510024CC6E /* TableViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D97EBBBC1884736F0024CC6E /* GroupsTableViewController.h */,
+				D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */,
+				D97145E718856FC0008C97AA /* GroupMenuTableViewController.h */,
+				D97145E818856FC0008C97AA /* GroupMenuTableViewController.m */,
+				D97145E418856840008C97AA /* GroupContactsTableViewController.h */,
+				D97145E518856840008C97AA /* GroupContactsTableViewController.m */,
+			);
+			name = TableViewControllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D97EBB78188469900024CC6E /* Skedify */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D97EBBAB188469900024CC6E /* Build configuration list for PBXNativeTarget "Skedify" */;
+			buildPhases = (
+				D97EBB75188469900024CC6E /* Sources */,
+				D97EBB76188469900024CC6E /* Frameworks */,
+				D97EBB77188469900024CC6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Skedify;
+			productName = Skedify;
+			productReference = D97EBB79188469900024CC6E /* Skedify.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D97EBB99188469900024CC6E /* SkedifyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D97EBBAE188469900024CC6E /* Build configuration list for PBXNativeTarget "SkedifyTests" */;
+			buildPhases = (
+				D97EBB96188469900024CC6E /* Sources */,
+				D97EBB97188469900024CC6E /* Frameworks */,
+				D97EBB98188469900024CC6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D97EBBA0188469900024CC6E /* PBXTargetDependency */,
+			);
+			name = SkedifyTests;
+			productName = SkedifyTests;
+			productReference = D97EBB9A188469900024CC6E /* SkedifyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D97EBB71188469900024CC6E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = SkedifyGroup;
+				TargetAttributes = {
+					D97EBB99188469900024CC6E = {
+						TestTargetID = D97EBB78188469900024CC6E;
+					};
+				};
+			};
+			buildConfigurationList = D97EBB74188469900024CC6E /* Build configuration list for PBXProject "Skedify" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D97EBB70188469900024CC6E;
+			productRefGroup = D97EBB7A188469900024CC6E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D97EBB78188469900024CC6E /* Skedify */,
+				D97EBB99188469900024CC6E /* SkedifyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D97EBB77188469900024CC6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D97EBB95188469900024CC6E /* Images.xcassets in Resources */,
+				D97EBB87188469900024CC6E /* InfoPlist.strings in Resources */,
+				D97EBB90188469900024CC6E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D97EBB98188469900024CC6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D97EBBA6188469900024CC6E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D97EBB75188469900024CC6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D97145E918856FC0008C97AA /* GroupMenuTableViewController.m in Sources */,
+				D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */,
+				D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */,
+				D9B7ABC51886A7C000883E67 /* Group.m in Sources */,
+				D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */,
+				D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */,
+				D97EBBB7188472CF0024CC6E /* NickNameViewController.m in Sources */,
+				D97145E31885519D008C97AA /* ServerConnection.m in Sources */,
+				D97145F118858551008C97AA /* Member.m in Sources */,
+				D97EBB8D188469900024CC6E /* AppDelegate.m in Sources */,
+				D97EBB89188469900024CC6E /* main.m in Sources */,
+				D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D97EBB96188469900024CC6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D97EBBA8188469900024CC6E /* SkedifyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D97EBBA0188469900024CC6E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D97EBB78188469900024CC6E /* Skedify */;
+			targetProxy = D97EBB9F188469900024CC6E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D97EBB85188469900024CC6E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D97EBB86188469900024CC6E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D97EBB8E188469900024CC6E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D97EBB8F188469900024CC6E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D97EBBA4188469900024CC6E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D97EBBA5188469900024CC6E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D97EBBA9188469900024CC6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D97EBBAA188469900024CC6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D97EBBAC188469900024CC6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
+				INFOPLIST_FILE = "Skedify/Skedify-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D97EBBAD188469900024CC6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
+				INFOPLIST_FILE = "Skedify/Skedify-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		D97EBBAF188469900024CC6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Skedify.app/Skedify";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "SkedifyTests/SkedifyTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		D97EBBB0188469900024CC6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Skedify.app/Skedify";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
+				INFOPLIST_FILE = "SkedifyTests/SkedifyTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D97EBB74188469900024CC6E /* Build configuration list for PBXProject "Skedify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D97EBBA9188469900024CC6E /* Debug */,
+				D97EBBAA188469900024CC6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D97EBBAB188469900024CC6E /* Build configuration list for PBXNativeTarget "Skedify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D97EBBAC188469900024CC6E /* Debug */,
+				D97EBBAD188469900024CC6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D97EBBAE188469900024CC6E /* Build configuration list for PBXNativeTarget "SkedifyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D97EBBAF188469900024CC6E /* Debug */,
+				D97EBBB0188469900024CC6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D97EBB71188469900024CC6E /* Project object */;
+}
