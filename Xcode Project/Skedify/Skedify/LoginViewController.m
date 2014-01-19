@@ -7,8 +7,12 @@
 //
 
 #import "LoginViewController.h"
+#import "L2PHandler.h"
 
-@interface LoginViewController ()
+
+@interface LoginViewController () <L2PHandlerDelegate>
+
+@property(retain) L2PHandler *handler;
 
 @end
 
@@ -52,6 +56,10 @@
     _textFieldPassword.delegate=self;
   
 	// Do any additional setup after loading the view.
+    
+    // Instantiate L2PHandler and set the delegate to receive calls from the handler instance.
+    _handler = [[L2PHandler alloc] initWithViewController:self];
+    _handler.delegate = self;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -64,6 +72,19 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)loginButtonPressed:(UIButton*)sender
+{
+    [_handler obtainUserCode];
+}
+
+#pragma mark - APIDelegate methods
+
+- (void) userDataWasFetched
+{
+    // Trigger the login segue after the handler notifies that all user data has been fetched.
+    [self performSegueWithIdentifier:@"Login" sender:self.ButtonLogin];
 }
 
 @end
