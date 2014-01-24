@@ -34,6 +34,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_textFieldGroupName resignFirstResponder];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

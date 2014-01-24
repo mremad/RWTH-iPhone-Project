@@ -44,6 +44,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_textFieldEmail resignFirstResponder];
+}
+
 -(BOOL) NSStringIsValidEmail:(NSString *)checkString
 {
     BOOL stricterFilter = YES; // Discussion http://blog.logichigh.com/2010/09/02/validating-an-e-mail-address/

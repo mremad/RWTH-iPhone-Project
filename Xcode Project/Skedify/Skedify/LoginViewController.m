@@ -48,6 +48,11 @@
 }
 
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_textFieldUserName resignFirstResponder];
+    [_textFieldPassword resignFirstResponder];
+}
 
 
 - (void)viewDidLoad

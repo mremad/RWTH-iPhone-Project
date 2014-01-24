@@ -32,6 +32,10 @@
 }
 
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_textFieldNickName resignFirstResponder];
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
