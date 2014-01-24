@@ -34,6 +34,7 @@
 		D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */; };
 		D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */; };
 		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
+		D9F3AACA189278AF0039D9DA /* ShakeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAC9189278AF0039D9DA /* ShakeView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +51,6 @@
 		3436E49B188C48ED00006A53 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		3436E49C188C48ED00006A53 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		3436E49D188C48ED00006A53 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
-		3436E4A6188C490D00006A53 /* OAuthClientID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAuthClientID.h; sourceTree = "<group>"; };
 		3436E4A7188C510A00006A53 /* L2PHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L2PHandler.h; sourceTree = "<group>"; };
 		3436E4A8188C510A00006A53 /* L2PHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L2PHandler.m; sourceTree = "<group>"; };
 		3436E4AA188C737B00006A53 /* L2PFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L2PFetcher.h; sourceTree = "<group>"; };
@@ -88,10 +88,13 @@
 		D97EBBB6188472CF0024CC6E /* NickNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NickNameViewController.m; sourceTree = "<group>"; };
 		D97EBBBC1884736F0024CC6E /* GroupsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsTableViewController.h; sourceTree = "<group>"; };
 		D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsTableViewController.m; sourceTree = "<group>"; };
+		D9A2882E188C946100810B03 /* OAuthClientIDTemp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAuthClientIDTemp.h; sourceTree = "<group>"; };
 		D9B7ABC01886A2CE00883E67 /* CreateMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMemberViewController.h; sourceTree = "<group>"; };
 		D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMemberViewController.m; sourceTree = "<group>"; };
 		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		D9B7ABC41886A7C000883E67 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
+		D9F3AAC8189278AF0039D9DA /* ShakeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShakeView.h; sourceTree = "<group>"; };
+		D9F3AAC9189278AF0039D9DA /* ShakeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +124,7 @@
 		3436E498188C48D700006A53 /* L2PAPI */ = {
 			isa = PBXGroup;
 			children = (
-				3436E4A6188C490D00006A53 /* OAuthClientID.h */,
+				D9A2882E188C946100810B03 /* OAuthClientIDTemp.h */,
 				3436E49B188C48ED00006A53 /* WebViewController.h */,
 				3436E49C188C48ED00006A53 /* WebViewController.m */,
 				3436E49D188C48ED00006A53 /* WebViewController.xib */,
@@ -186,6 +189,7 @@
 		D97EBB82188469900024CC6E /* Skedify */ = {
 			isa = PBXGroup;
 			children = (
+				D9F3AABE189276B90039D9DA /* UIViews */,
 				3436E498188C48D700006A53 /* L2PAPI */,
 				D97145EE18858538008C97AA /* DataTypes */,
 				D97145E018855066008C97AA /* ServerHandling */,
@@ -255,6 +259,16 @@
 				D97145E518856840008C97AA /* GroupContactsTableViewController.m */,
 			);
 			name = TableViewControllers;
+			sourceTree = "<group>";
+		};
+		D9F3AABE189276B90039D9DA /* UIViews */ = {
+			isa = PBXGroup;
+			children = (
+				D9F3AAC8189278AF0039D9DA /* ShakeView.h */,
+				D9F3AAC9189278AF0039D9DA /* ShakeView.m */,
+			);
+			name = UIViews;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,6 +384,7 @@
 				D97EBB8D188469900024CC6E /* AppDelegate.m in Sources */,
 				D97EBB89188469900024CC6E /* main.m in Sources */,
 				D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */,
+				D9F3AACA189278AF0039D9DA /* ShakeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

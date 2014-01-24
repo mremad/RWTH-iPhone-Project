@@ -77,6 +77,7 @@
 - (IBAction)loginButtonPressed:(UIButton*)sender
 {
     [_handler obtainUserCode];
+    [self userDataWasFetched]; //TODO remove in RELEASE
 }
 
 #pragma mark - APIDelegate methods
