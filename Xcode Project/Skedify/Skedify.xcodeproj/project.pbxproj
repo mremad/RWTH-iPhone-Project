@@ -34,7 +34,7 @@
 		D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */; };
 		D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */; };
 		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
-		D9F3AACA189278AF0039D9DA /* ShakeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAC9189278AF0039D9DA /* ShakeView.m */; };
+		D9F3AACE1892837C0039D9DA /* ShakeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AACD1892837C0039D9DA /* ShakeView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,13 +89,12 @@
 		D97EBBB6188472CF0024CC6E /* NickNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NickNameViewController.m; sourceTree = "<group>"; };
 		D97EBBBC1884736F0024CC6E /* GroupsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsTableViewController.h; sourceTree = "<group>"; };
 		D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsTableViewController.m; sourceTree = "<group>"; };
-		D9A2882E188C946100810B03 /* OAuthClientIDTemp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAuthClientIDTemp.h; sourceTree = "<group>"; };
 		D9B7ABC01886A2CE00883E67 /* CreateMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMemberViewController.h; sourceTree = "<group>"; };
 		D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMemberViewController.m; sourceTree = "<group>"; };
 		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		D9B7ABC41886A7C000883E67 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
-		D9F3AAC8189278AF0039D9DA /* ShakeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShakeView.h; sourceTree = "<group>"; };
-		D9F3AAC9189278AF0039D9DA /* ShakeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeView.m; sourceTree = "<group>"; };
+		D9F3AACC1892837C0039D9DA /* ShakeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShakeView.h; sourceTree = "<group>"; };
+		D9F3AACD1892837C0039D9DA /* ShakeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,11 +124,7 @@
 		3436E498188C48D700006A53 /* L2PAPI */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
-				D9A2882E188C946100810B03 /* OAuthClientIDTemp.h */,
-=======
 				3436E4AD188C826400006A53 /* OAuthClientID.h */,
->>>>>>> b61b0f973421ada308bcc45cb59650aa52ac0478
 				3436E49B188C48ED00006A53 /* WebViewController.h */,
 				3436E49C188C48ED00006A53 /* WebViewController.m */,
 				3436E49D188C48ED00006A53 /* WebViewController.xib */,
@@ -194,7 +189,7 @@
 		D97EBB82188469900024CC6E /* Skedify */ = {
 			isa = PBXGroup;
 			children = (
-				D9F3AABE189276B90039D9DA /* UIViews */,
+				D9F3AACB189283310039D9DA /* UIViews */,
 				3436E498188C48D700006A53 /* L2PAPI */,
 				D97145EE18858538008C97AA /* DataTypes */,
 				D97145E018855066008C97AA /* ServerHandling */,
@@ -266,14 +261,13 @@
 			name = TableViewControllers;
 			sourceTree = "<group>";
 		};
-		D9F3AABE189276B90039D9DA /* UIViews */ = {
+		D9F3AACB189283310039D9DA /* UIViews */ = {
 			isa = PBXGroup;
 			children = (
-				D9F3AAC8189278AF0039D9DA /* ShakeView.h */,
-				D9F3AAC9189278AF0039D9DA /* ShakeView.m */,
+				D9F3AACC1892837C0039D9DA /* ShakeView.h */,
+				D9F3AACD1892837C0039D9DA /* ShakeView.m */,
 			);
 			name = UIViews;
-			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,9 +381,9 @@
 				3436E4A9188C510A00006A53 /* L2PHandler.m in Sources */,
 				D97145F118858551008C97AA /* Member.m in Sources */,
 				D97EBB8D188469900024CC6E /* AppDelegate.m in Sources */,
+				D9F3AACE1892837C0039D9DA /* ShakeView.m in Sources */,
 				D97EBB89188469900024CC6E /* main.m in Sources */,
 				D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */,
-				D9F3AACA189278AF0039D9DA /* ShakeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
