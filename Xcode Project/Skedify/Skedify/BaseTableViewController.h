@@ -1,5 +1,5 @@
 //
-//  ShakeView.h
+//  BaseTableViewController.h
 //  Skedify
 //
 //  Created by M on 1/24/14.
@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShakeView : UIView
-
-
-
+@interface BaseTableViewController : UITableViewController
 
 @end

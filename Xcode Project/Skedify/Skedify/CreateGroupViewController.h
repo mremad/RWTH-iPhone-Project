@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
+#import "BaseViewController.h"
 
-@interface CreateGroupViewController : UIViewController<UITextFieldDelegate>
+@interface CreateGroupViewController : BaseViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonDone;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonCancel;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldGroupName;

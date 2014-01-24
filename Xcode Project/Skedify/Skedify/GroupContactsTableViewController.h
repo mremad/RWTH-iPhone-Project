@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
-@interface GroupContactsTableViewController : UITableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
+#import "BaseTableViewController.h"
+
+@interface GroupContactsTableViewController : BaseTableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
 {
    // NSInteger groupIndex;
 }
+
 
 @property (nonatomic) NSInteger groupIndex;
 @end

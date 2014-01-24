@@ -45,8 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   // UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
-  //  self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, notificationItem]; //TODO need to put an invisible button or search something..
+    
     Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
     self.title= g.name;
     

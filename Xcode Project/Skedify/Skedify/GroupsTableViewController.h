@@ -11,6 +11,7 @@
 #import "GroupMenuTableViewController.h"
 #import "GroupContactsTableViewController.h"
 #import "Group.h"
-@interface GroupsTableViewController : UITableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
+#import "BaseTableViewController.h"
+@interface GroupsTableViewController : BaseTableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
 
 @end

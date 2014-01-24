@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
+#import "BaseTableViewController.h"
 
-@interface GroupMenuTableViewController : UITableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
+@interface GroupMenuTableViewController : BaseTableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
 {
 }
 @property (nonatomic) NSInteger groupIndex;

@@ -25,10 +25,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.navigationItem.hidesBackButton = YES;
-    UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
-    self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, notificationItem];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

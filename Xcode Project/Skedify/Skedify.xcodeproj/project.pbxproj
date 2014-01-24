@@ -34,7 +34,8 @@
 		D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */; };
 		D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */; };
 		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
-		D9F3AACE1892837C0039D9DA /* ShakeView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AACD1892837C0039D9DA /* ShakeView.m */; };
+		D9F3AAD51892AB2B0039D9DA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */; };
+		D9F3AAD81892AB400039D9DA /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD71892AB400039D9DA /* BaseTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,8 +94,10 @@
 		D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMemberViewController.m; sourceTree = "<group>"; };
 		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		D9B7ABC41886A7C000883E67 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
-		D9F3AACC1892837C0039D9DA /* ShakeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShakeView.h; sourceTree = "<group>"; };
-		D9F3AACD1892837C0039D9DA /* ShakeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShakeView.m; sourceTree = "<group>"; };
+		D9F3AAD31892AB2B0039D9DA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = Skedify/BaseViewController.h; sourceTree = "<group>"; };
+		D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = Skedify/BaseViewController.m; sourceTree = "<group>"; };
+		D9F3AAD61892AB400039D9DA /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTableViewController.h; path = Skedify/BaseTableViewController.h; sourceTree = "<group>"; };
+		D9F3AAD71892AB400039D9DA /* BaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseTableViewController.m; path = Skedify/BaseTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,7 +192,7 @@
 		D97EBB82188469900024CC6E /* Skedify */ = {
 			isa = PBXGroup;
 			children = (
-				D9F3AACB189283310039D9DA /* UIViews */,
+				D9F3AACF1892AAF40039D9DA /* BaseViewControllers */,
 				3436E498188C48D700006A53 /* L2PAPI */,
 				D97145EE18858538008C97AA /* DataTypes */,
 				D97145E018855066008C97AA /* ServerHandling */,
@@ -261,13 +264,16 @@
 			name = TableViewControllers;
 			sourceTree = "<group>";
 		};
-		D9F3AACB189283310039D9DA /* UIViews */ = {
+		D9F3AACF1892AAF40039D9DA /* BaseViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D9F3AACC1892837C0039D9DA /* ShakeView.h */,
-				D9F3AACD1892837C0039D9DA /* ShakeView.m */,
+				D9F3AAD31892AB2B0039D9DA /* BaseViewController.h */,
+				D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */,
+				D9F3AAD61892AB400039D9DA /* BaseTableViewController.h */,
+				D9F3AAD71892AB400039D9DA /* BaseTableViewController.m */,
 			);
-			name = UIViews;
+			name = BaseViewControllers;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +323,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = SkedifyGroup;
 				TargetAttributes = {
+					D97EBB78188469900024CC6E = {
+						DevelopmentTeam = W88773838E;
+					};
 					D97EBB99188469900024CC6E = {
 						TestTargetID = D97EBB78188469900024CC6E;
 					};
@@ -377,11 +386,12 @@
 				D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */,
 				D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */,
 				D97EBBB7188472CF0024CC6E /* NickNameViewController.m in Sources */,
+				D9F3AAD51892AB2B0039D9DA /* BaseViewController.m in Sources */,
+				D9F3AAD81892AB400039D9DA /* BaseTableViewController.m in Sources */,
 				D97145E31885519D008C97AA /* ServerConnection.m in Sources */,
 				3436E4A9188C510A00006A53 /* L2PHandler.m in Sources */,
 				D97145F118858551008C97AA /* Member.m in Sources */,
 				D97EBB8D188469900024CC6E /* AppDelegate.m in Sources */,
-				D9F3AACE1892837C0039D9DA /* ShakeView.m in Sources */,
 				D97EBB89188469900024CC6E /* main.m in Sources */,
 				D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */,
 			);
@@ -510,10 +520,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
 				INFOPLIST_FILE = "Skedify/Skedify-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -523,10 +536,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
 				INFOPLIST_FILE = "Skedify/Skedify-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

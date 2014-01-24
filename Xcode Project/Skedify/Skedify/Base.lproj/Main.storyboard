@@ -12,7 +12,7 @@
                         <viewControllerLayoutGuide type="top" id="itX-5q-4ic"/>
                         <viewControllerLayoutGuide type="bottom" id="SU5-Fm-B2w"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS" customClass="ShakeView">
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
+#import "BaseViewController.h"
 
-@interface CreateMemberViewController : UIViewController<UITextFieldDelegate>
+@interface CreateMemberViewController : BaseViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonDone;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonCancel;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldEmail;
