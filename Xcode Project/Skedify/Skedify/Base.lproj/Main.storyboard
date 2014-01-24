@@ -368,10 +368,10 @@
             </objects>
             <point key="canvasLocation" x="2128" y="-847"/>
         </scene>
-        <!--View Controller-->
+        <!--Schedule View Controller-->
         <scene sceneID="Hb2-cU-vRh">
             <objects>
-                <viewController id="1h0-Ne-dBg" sceneMemberID="viewController">
+                <viewController id="1h0-Ne-dBg" customClass="ScheduleViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="C2L-zI-V65"/>
                         <viewControllerLayoutGuide type="bottom" id="2EJ-UF-Ryi"/>

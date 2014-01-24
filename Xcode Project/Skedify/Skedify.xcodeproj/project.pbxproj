@@ -36,6 +36,10 @@
 		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
 		D9F3AAD51892AB2B0039D9DA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */; };
 		D9F3AAD81892AB400039D9DA /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD71892AB400039D9DA /* BaseTableViewController.m */; };
+		D9F3AADF1892BF4D0039D9DA /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AADE1892BF4D0039D9DA /* ScheduleViewController.m */; };
+		D9F3AAE31892BFC00039D9DA /* ScheduleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAE21892BFC00039D9DA /* ScheduleScrollView.m */; };
+		D9F3AAE61892C3060039D9DA /* ScheduleSlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAE51892C3060039D9DA /* ScheduleSlotView.m */; };
+		D9F3AAE91892DD720039D9DA /* ScheduleTextSlotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAE81892DD720039D9DA /* ScheduleTextSlotView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +102,15 @@
 		D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = Skedify/BaseViewController.m; sourceTree = "<group>"; };
 		D9F3AAD61892AB400039D9DA /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTableViewController.h; path = Skedify/BaseTableViewController.h; sourceTree = "<group>"; };
 		D9F3AAD71892AB400039D9DA /* BaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseTableViewController.m; path = Skedify/BaseTableViewController.m; sourceTree = "<group>"; };
+		D9F3AADD1892BF4D0039D9DA /* ScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleViewController.h; sourceTree = "<group>"; };
+		D9F3AADE1892BF4D0039D9DA /* ScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleViewController.m; sourceTree = "<group>"; };
+		D9F3AAE11892BFC00039D9DA /* ScheduleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleScrollView.h; sourceTree = "<group>"; };
+		D9F3AAE21892BFC00039D9DA /* ScheduleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleScrollView.m; sourceTree = "<group>"; };
+		D9F3AAE41892C3060039D9DA /* ScheduleSlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleSlotView.h; sourceTree = "<group>"; };
+		D9F3AAE51892C3060039D9DA /* ScheduleSlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleSlotView.m; sourceTree = "<group>"; };
+		D9F3AAE71892DD720039D9DA /* ScheduleTextSlotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleTextSlotView.h; sourceTree = "<group>"; };
+		D9F3AAE81892DD720039D9DA /* ScheduleTextSlotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleTextSlotView.m; sourceTree = "<group>"; };
+		D9F3AAEA1892F3EA0039D9DA /* GlobalVariables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +205,7 @@
 		D97EBB82188469900024CC6E /* Skedify */ = {
 			isa = PBXGroup;
 			children = (
+				D9F3AADC1892BF260039D9DA /* Schedule */,
 				D9F3AACF1892AAF40039D9DA /* BaseViewControllers */,
 				3436E498188C48D700006A53 /* L2PAPI */,
 				D97145EE18858538008C97AA /* DataTypes */,
@@ -203,6 +217,7 @@
 				D97EBB8E188469900024CC6E /* Main.storyboard */,
 				D97EBB94188469900024CC6E /* Images.xcassets */,
 				D97EBB83188469900024CC6E /* Supporting Files */,
+				D9F3AAEA1892F3EA0039D9DA /* GlobalVariables.h */,
 			);
 			path = Skedify;
 			sourceTree = "<group>";
@@ -274,6 +289,21 @@
 			);
 			name = BaseViewControllers;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		D9F3AADC1892BF260039D9DA /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				D9F3AADD1892BF4D0039D9DA /* ScheduleViewController.h */,
+				D9F3AADE1892BF4D0039D9DA /* ScheduleViewController.m */,
+				D9F3AAE11892BFC00039D9DA /* ScheduleScrollView.h */,
+				D9F3AAE21892BFC00039D9DA /* ScheduleScrollView.m */,
+				D9F3AAE41892C3060039D9DA /* ScheduleSlotView.h */,
+				D9F3AAE51892C3060039D9DA /* ScheduleSlotView.m */,
+				D9F3AAE71892DD720039D9DA /* ScheduleTextSlotView.h */,
+				D9F3AAE81892DD720039D9DA /* ScheduleTextSlotView.m */,
+			);
+			name = Schedule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -380,10 +410,13 @@
 				3436E4AC188C737B00006A53 /* L2PFetcher.m in Sources */,
 				D97145E918856FC0008C97AA /* GroupMenuTableViewController.m in Sources */,
 				3436E4A2188C48ED00006A53 /* WebViewController.m in Sources */,
+				D9F3AAE61892C3060039D9DA /* ScheduleSlotView.m in Sources */,
 				D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */,
 				D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */,
 				D9B7ABC51886A7C000883E67 /* Group.m in Sources */,
 				D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */,
+				D9F3AADF1892BF4D0039D9DA /* ScheduleViewController.m in Sources */,
+				D9F3AAE91892DD720039D9DA /* ScheduleTextSlotView.m in Sources */,
 				D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */,
 				D97EBBB7188472CF0024CC6E /* NickNameViewController.m in Sources */,
 				D9F3AAD51892AB2B0039D9DA /* BaseViewController.m in Sources */,
@@ -393,6 +426,7 @@
 				D97145F118858551008C97AA /* Member.m in Sources */,
 				D97EBB8D188469900024CC6E /* AppDelegate.m in Sources */,
 				D97EBB89188469900024CC6E /* main.m in Sources */,
+				D9F3AAE31892BFC00039D9DA /* ScheduleScrollView.m in Sources */,
 				D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
