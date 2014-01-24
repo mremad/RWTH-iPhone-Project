@@ -12,5 +12,6 @@
 
 @property(retain) NSString  *accessToken;
 -(void)getL2PCourseRooms;
+- (void) getL2PCourseDates;
 
 @end

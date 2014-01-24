@@ -221,6 +221,7 @@
     NSLog(@"access token: %@", _accessToken);
     _fetcher.accessToken = _accessToken;
     [_fetcher getL2PCourseRooms];
+    //[_fetcher getL2PCourseDates];
     
     // Call the delegate method after fetch is complete.
     // FIXME: Currently, the following function is evaluated before fetch is complete since getL2PCourseRooms gets its response later.
