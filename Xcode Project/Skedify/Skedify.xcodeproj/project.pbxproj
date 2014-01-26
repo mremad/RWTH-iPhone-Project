@@ -61,8 +61,6 @@
 		3436E4A8188C510A00006A53 /* L2PHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L2PHandler.m; sourceTree = "<group>"; };
 		3436E4AA188C737B00006A53 /* L2PFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L2PFetcher.h; sourceTree = "<group>"; };
 		3436E4AB188C737B00006A53 /* L2PFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L2PFetcher.m; sourceTree = "<group>"; };
-		3436E4AD188C826400006A53 /* OAuthClientID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAuthClientID.h; sourceTree = "<group>"; };
-		546EDF43189463D200B1EE77 /* OAuthClientID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAuthClientID.h; sourceTree = "<group>"; };
 		546EDF44189466E900B1EE77 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D946F4121884A7100008D209 /* CreateGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupViewController.h; sourceTree = "<group>"; };
 		D946F4131884A7100008D209 /* CreateGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupViewController.m; sourceTree = "<group>"; };
@@ -97,6 +95,7 @@
 		D97EBBB6188472CF0024CC6E /* NickNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NickNameViewController.m; sourceTree = "<group>"; };
 		D97EBBBC1884736F0024CC6E /* GroupsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsTableViewController.h; sourceTree = "<group>"; };
 		D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsTableViewController.m; sourceTree = "<group>"; };
+		D98507DA1895419100FD47C4 /* OAuthClientIDTemp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAuthClientIDTemp.h; sourceTree = "<group>"; };
 		D9B7ABC01886A2CE00883E67 /* CreateMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMemberViewController.h; sourceTree = "<group>"; };
 		D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMemberViewController.m; sourceTree = "<group>"; };
 		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
@@ -144,8 +143,7 @@
 		3436E498188C48D700006A53 /* L2PAPI */ = {
 			isa = PBXGroup;
 			children = (
-				3436E4AD188C826400006A53 /* OAuthClientID.h */,
-				546EDF43189463D200B1EE77 /* OAuthClientID.h */,
+				D98507DA1895419100FD47C4 /* OAuthClientIDTemp.h */,
 				3436E49B188C48ED00006A53 /* WebViewController.h */,
 				3436E49C188C48ED00006A53 /* WebViewController.m */,
 				3436E49D188C48ED00006A53 /* WebViewController.xib */,
