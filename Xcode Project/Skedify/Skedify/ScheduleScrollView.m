@@ -26,7 +26,7 @@
     NSMutableString *result;
     if(time<10)
     {
-         result = [NSMutableString stringWithFormat: @"%0d", (int)time];
+         result = [NSMutableString stringWithFormat: @"0%d", (int)time];
     }
     else
     {
@@ -41,26 +41,37 @@
 -(void)AddSlots
 {
   
-    for(int i=0;i<24;i++)
+    for(int i=7;i<24;i++)
     {
         UILabel *label =[[UILabel alloc] init];
         label.text=[NSString stringWithFormat:@" %@", [self getTime:i]];
         label.bounds =CGRectMake(0, 0, TIME_WIDTH, TIME_HEIGHT);
         label.layer.borderColor = [UIColor blackColor].CGColor;
-        label.layer.borderWidth = 3.0;
-        label.center=CGPointMake(TIME_WIDTH/2,TIME_STARTING_CENTER_POINT+(i*TIME_HEIGHT));
-        label.backgroundColor=[UIColor whiteColor];
+        //label.layer.borderWidth = 0;
+        label.center=CGPointMake((TIME_WIDTH/2) + 10,15+((i-7)*TIME_HEIGHT));
+        label.backgroundColor=[UIColor clearColor];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+        label.textColor = [UIColor colorWithRed:0.3 green:0.5 blue:0.6 alpha:1];
+        
+        
+        CGFloat borderWidth = 0.5;
+        UIColor *borderColor = [UIColor colorWithRed:0.5 green:0.6 blue:0.6 alpha:0.7];
+        UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(7,((i-7)*TIME_HEIGHT)+5, self.layer.bounds.size.width-14, borderWidth)];
+        topView.opaque = YES;
+        topView.backgroundColor = borderColor;
+        
+        [self addSubview:topView];
         [self addSubview:label];
     }
     
-    float startingPointX = SCHEDULES_SLOT_CENTER_POINT - (DAY_WIDTH/2);
+    float startingPointX = TIME_WIDTH;
     for (int i=0; i<7; i++)
     {
-        for (int j=0; j<24; j++)
+        for (int j=7; j<24; j++)
         {
-            float startingPointY = TIME_STARTING_CENTER_POINT - (3*TIME_HEIGHT/2)  + (j*SCHEDULES_SLOT_HEIGHT);
+            float startingPointY = TIME_STARTING_CENTER_POINT - (3*TIME_HEIGHT/2)  + ((j-7)*TIME_HEIGHT) + 7;
             
-            CGRect r = CGRectMake(startingPointX + i*SCHEDULES_SLOT_WIDTH,startingPointY + SCHEDULES_SLOT_HEIGHT, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT);
+            CGRect r = CGRectMake(startingPointX + i*DAY_WIDTH + DAY_WIDTH/4,startingPointY + TIME_HEIGHT + TIME_HEIGHT/4, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT);
             
             ScheduleSlotView *slot =[[ScheduleSlotView alloc] initWithFrame:r];
             [self addSubview:slot];

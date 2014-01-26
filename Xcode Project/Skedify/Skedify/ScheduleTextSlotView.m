@@ -15,7 +15,7 @@
     if ((self = [super initWithFrame:frame])) {
         //self.opaque = NO;
         self.backgroundColor = [UIColor greenColor];
-        self.layer.borderWidth = 1;
+        self.layer.borderWidth = 0.5;
         self.layer.borderColor = [UIColor blackColor].CGColor;
         //self.clipsToBounds = NO;
         [self setIsAccessibilityElement:YES];

@@ -8,7 +8,7 @@
 
 #import "ScheduleViewController.h"
 
-#define ViewContentHeight 800
+#define ViewContentHeight (TIME_HEIGHT*(24-4))
 #define SLIDER_VIEW_START_POSITION DAY_HEIGHT
 #define ViewContentXStart 64 + SLIDER_VIEW_START_POSITION
 #define UIVIEWS_STARTING_YPOSITION 64
@@ -37,7 +37,7 @@
     _scrollView=[[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)];
     _scrollView.contentSize = CGSizeMake(320, ViewContentHeight);
     _scrollView.delegate =self;
-    _scrollView.backgroundColor=[UIColor purpleColor];
+    _scrollView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:_scrollView];
    
     
@@ -48,14 +48,14 @@
     self.view.opaque = NO;
     self.view.clipsToBounds = YES;
     
-    UILabel *label =[[UILabel alloc] init];
+    /*UILabel *label =[[UILabel alloc] init];
     label.bounds = CGRectMake(0,0 ,TIME_WIDTH, TIME_HEIGHT);
     label.layer.borderColor = [UIColor blackColor].CGColor;
-    label.layer.borderWidth = 3.0;
+    label.layer.borderWidth = 0.5;
     label.center=CGPointMake(TIME_WIDTH/2,UIVIEWS_STARTING_YPOSITION+ (DAY_HEIGHT/2));
     NSLog(@"%d",DAY_WIDTH);
     //label.backgroundColor=[UIColor blackColor];
-    [self.view addSubview:label];
+    [self.view addSubview:label];*/
 
     
     NSArray *weekDays = @[@"Mo",@"Tu",@"We",@"Th",@"Fr",@"Sa",@"Su"];
@@ -65,8 +65,10 @@
         label.text=[NSString stringWithFormat:@" %@", [weekDays objectAtIndex:i]];
         label.bounds = CGRectMake(0,0 ,DAY_WIDTH, DAY_HEIGHT);
         label.layer.borderColor = [UIColor blackColor].CGColor;
-        label.layer.borderWidth = 3.0;
-        label.center=CGPointMake(DAY_STARTING_CENTER_POINT+i*((int)DAY_WIDTH),UIVIEWS_STARTING_YPOSITION+ (DAY_HEIGHT/2));
+        //label.layer.borderWidth = 0.5;
+        label.center=CGPointMake(DAY_STARTING_CENTER_POINT+i*((int)DAY_WIDTH) + DAY_WIDTH/4,UIVIEWS_STARTING_YPOSITION+ (DAY_HEIGHT/2));
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
+        label.textColor = [UIColor colorWithHue:29 saturation:100 brightness:100 alpha:1];
         NSLog(@"%d",DAY_WIDTH);
         //label.backgroundColor=[UIColor blackColor];
         [self.view addSubview:label];

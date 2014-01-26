@@ -13,6 +13,11 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
+    int smallerHeight = frame.size.height - 5;
+    int smallerWidth = frame.size.width - 5;
+    
+    frame = CGRectMake(frame.origin.x, frame.origin.y, smallerWidth, smallerHeight);
+    
     if ((self = [super initWithFrame:frame])) {
         
         int r = arc4random() % 35;
@@ -36,8 +41,11 @@
       
         
         
-        self.layer.borderWidth = 1;
+        
+        //self.layer.borderWidth = 0.5;
         self.layer.borderColor = [UIColor blackColor].CGColor;
+        self.layer.cornerRadius = 0;
+        self.layer.masksToBounds = YES;
         [self setIsAccessibilityElement:YES];
         [self setAccessibilityTraits:UIAccessibilityTraitButton];
     }
