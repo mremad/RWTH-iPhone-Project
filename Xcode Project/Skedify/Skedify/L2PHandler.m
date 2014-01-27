@@ -9,7 +9,7 @@
 #import "L2PHandler.h"
 #import "WebViewController.h"
 #import "L2PFetcher.h"
-#import "OAuthClientIDTemp.h"
+#import "OAuthClientID.h"
 
 @interface L2PHandler () <WebViewDelegate>
 
@@ -151,7 +151,7 @@
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    //NSLog(@"Received response: %@", response);
+    NSLog(@"Received response: %@", response);
 }
 
 #pragma mark -
