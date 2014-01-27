@@ -117,6 +117,7 @@
 -(void)removeNotificationBadge{
     
     [self.notificationBadge removeFromSuperview];
+    notificationCounter = 1;
 }
 
 -(void)initNotificationItem{
