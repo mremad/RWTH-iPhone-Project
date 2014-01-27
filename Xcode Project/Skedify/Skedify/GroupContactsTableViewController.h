@@ -10,7 +10,7 @@
 #import "ServerConnection.h"
 #import "BaseTableViewController.h"
 
-@interface GroupContactsTableViewController : BaseTableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
+@interface GroupContactsTableViewController : BaseTableViewController
 {
    // NSInteger groupIndex;
 }

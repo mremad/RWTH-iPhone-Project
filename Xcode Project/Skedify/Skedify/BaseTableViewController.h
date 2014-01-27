@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "CustomBadge.h"
+#import "ServerConnection.h"
 
-@interface BaseTableViewController : UITableViewController <CLLocationManagerDelegate>
+
+@interface BaseTableViewController : UITableViewController <CLLocationManagerDelegate,ServerConnectionCurrentNotifiableShakableViewDelegate>
 
 @property CustomBadge *notificationBadge;
 @property UIButton *badgeButton;

@@ -18,6 +18,12 @@
     int notificationCounter;
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    //[self addNotificationBadgeWithNumber:[ServerConnection sharedServerConnection].class]];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -34,6 +40,7 @@
     {
         [self initNotificationItem];
         UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithCustomView:self.badgeButton];
+        //UIBarButtonItem addbutton = [UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector("asdasd")
         
         if(self.navigationItem.rightBarButtonItem==nil)
         {
@@ -51,6 +58,9 @@
         }
     }
 }
+
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -130,6 +140,11 @@
     
     notificationCounter = 1;
     
+}
+
+-(void)notifitcationRecieved
+{
+    [self addNotificationBadgeWithNumber:2];
 }
 
 @end

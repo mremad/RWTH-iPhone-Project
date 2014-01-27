@@ -10,7 +10,7 @@
 #import "ServerConnection.h"
 #import "BaseTableViewController.h"
 
-@interface GroupMenuTableViewController : BaseTableViewController<ServerConnectionCurrentNotifiableShakableViewDelegate>
+@interface GroupMenuTableViewController : BaseTableViewController
 {
 }
 @property (nonatomic) NSInteger groupIndex;
