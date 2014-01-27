@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "CustomBadge.h"
 
 @interface BaseTableViewController : UITableViewController <CLLocationManagerDelegate>
+
+@property CustomBadge *notificationBadge;
+@property UIButton *badgeButton;
 
 @end

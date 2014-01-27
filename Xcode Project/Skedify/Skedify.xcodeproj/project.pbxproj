@@ -11,6 +11,8 @@
 		3436E4A3188C48ED00006A53 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436E49D188C48ED00006A53 /* WebViewController.xib */; };
 		3436E4A9188C510A00006A53 /* L2PHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436E4A8188C510A00006A53 /* L2PHandler.m */; };
 		3436E4AC188C737B00006A53 /* L2PFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436E4AB188C737B00006A53 /* L2PFetcher.m */; };
+		545BB7C31895E58800D4499F /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 545BB7C21895E58800D4499F /* CustomBadge.m */; };
+		545BB7C61895E70300D4499F /* notificationIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 545BB7C51895E70300D4499F /* notificationIcon.png */; };
 		546EDF45189466E900B1EE77 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546EDF44189466E900B1EE77 /* CoreLocation.framework */; };
 		D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D946F4131884A7100008D209 /* CreateGroupViewController.m */; };
 		D97145E31885519D008C97AA /* ServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E21885519D008C97AA /* ServerConnection.m */; };
@@ -61,6 +63,9 @@
 		3436E4A8188C510A00006A53 /* L2PHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L2PHandler.m; sourceTree = "<group>"; };
 		3436E4AA188C737B00006A53 /* L2PFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L2PFetcher.h; sourceTree = "<group>"; };
 		3436E4AB188C737B00006A53 /* L2PFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L2PFetcher.m; sourceTree = "<group>"; };
+		545BB7C11895E58800D4499F /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
+		545BB7C21895E58800D4499F /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
+		545BB7C51895E70300D4499F /* notificationIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon.png; sourceTree = "<group>"; };
 		546EDF44189466E900B1EE77 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D946F4121884A7100008D209 /* CreateGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupViewController.h; sourceTree = "<group>"; };
 		D946F4131884A7100008D209 /* CreateGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupViewController.m; sourceTree = "<group>"; };
@@ -155,6 +160,23 @@
 			name = L2PAPI;
 			sourceTree = "<group>";
 		};
+		545BB7C01895E58800D4499F /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				545BB7C11895E58800D4499F /* CustomBadge.h */,
+				545BB7C21895E58800D4499F /* CustomBadge.m */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		545BB7C41895E70300D4499F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				545BB7C51895E70300D4499F /* notificationIcon.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D97145E018855066008C97AA /* ServerHandling */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +231,7 @@
 		D97EBB82188469900024CC6E /* Skedify */ = {
 			isa = PBXGroup;
 			children = (
+				545BB7C01895E58800D4499F /* Notifications */,
 				D9F3AADC1892BF260039D9DA /* Schedule */,
 				D9F3AACF1892AAF40039D9DA /* BaseViewControllers */,
 				3436E498188C48D700006A53 /* L2PAPI */,
@@ -220,6 +243,7 @@
 				D97EBB8C188469900024CC6E /* AppDelegate.m */,
 				D97EBB8E188469900024CC6E /* Main.storyboard */,
 				D97EBB94188469900024CC6E /* Images.xcassets */,
+				545BB7C41895E70300D4499F /* Resources */,
 				D97EBB83188469900024CC6E /* Supporting Files */,
 				D9F3AAEA1892F3EA0039D9DA /* GlobalVariables.h */,
 			);
@@ -392,6 +416,7 @@
 				D97EBB95188469900024CC6E /* Images.xcassets in Resources */,
 				D97EBB87188469900024CC6E /* InfoPlist.strings in Resources */,
 				D97EBB90188469900024CC6E /* Main.storyboard in Resources */,
+				545BB7C61895E70300D4499F /* notificationIcon.png in Resources */,
 				3436E4A3188C48ED00006A53 /* WebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,6 +444,7 @@
 				D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */,
 				D9B7ABC51886A7C000883E67 /* Group.m in Sources */,
 				D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */,
+				545BB7C31895E58800D4499F /* CustomBadge.m in Sources */,
 				D9F3AADF1892BF4D0039D9DA /* ScheduleViewController.m in Sources */,
 				D9F3AAE91892DD720039D9DA /* ScheduleTextSlotView.m in Sources */,
 				D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */,

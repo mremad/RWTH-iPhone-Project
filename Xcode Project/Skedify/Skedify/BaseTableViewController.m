@@ -14,6 +14,8 @@
 @implementation BaseTableViewController{
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
+    
+    int notificationCounter;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -30,9 +32,12 @@
     [super viewDidLoad];
     if(YES)
     {
+        [self initNotificationItem];
+        UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithCustomView:self.badgeButton];
+        
         if(self.navigationItem.rightBarButtonItem==nil)
         {
-            UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
+            
             UIBarButtonItem *flexibleSpaceBarButton = [[UIBarButtonItem alloc]
                                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                        target:nil
@@ -42,7 +47,6 @@
         }
         else
         {
-            UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:nil];
             self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, notificationItem];
         }
     }
@@ -59,7 +63,10 @@
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
-         NSLog(@"didUpdateToLocation: %@", [self getLocation]); // This call should be changed to send to the server 
+        NSLog(@"didUpdateToLocation: %@", [self getLocation]); // This call should be changed to send to the server
+        
+        [self addNotificationBadgeWithNumber:notificationCounter]; // Should be added by a call from the server **Testing Purpose**
+        notificationCounter ++;
     }
     
     if ( [super respondsToSelector:@selector(motionEnded:withEvent:)] )
@@ -89,7 +96,39 @@
     
     [locationManager startUpdatingLocation];
     
-    return currentLocation;    
+    return currentLocation;
+}
+
+-(void)addNotificationBadgeWithNumber:(int)number{
+    
+    NSString* string = [NSString stringWithFormat:@"%i", number];
+    
+    if (self.notificationBadge != nil) {
+        [self.notificationBadge removeFromSuperview];
+    }
+    
+    self.notificationBadge = [CustomBadge customBadgeWithString:string withStringColor:[UIColor whiteColor] withInsetColor:[UIColor redColor] withBadgeFrame:NO withBadgeFrameColor:[UIColor whiteColor]];
+    CGRect badgeFrame = CGRectMake((-self.notificationBadge.frame.size.width) + 11, -1.0f, self.notificationBadge.frame.size.width, self.notificationBadge.frame.size.height);
+    [self.notificationBadge setFrame:badgeFrame];
+    
+    [self.badgeButton addSubview:self.notificationBadge];
+}
+
+-(void)removeNotificationBadge{
+    
+    [self.notificationBadge removeFromSuperview];
+}
+
+-(void)initNotificationItem{
+    
+    self.badgeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.badgeButton.frame = CGRectMake(0, 0, 30, 30);
+    [self.badgeButton addTarget:self action:@selector(removeNotificationBadge) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.badgeButton setImage:[UIImage imageNamed:@"notificationIcon.png"] forState:UIControlStateNormal];
+    
+    notificationCounter = 1;
+    
 }
 
 @end
