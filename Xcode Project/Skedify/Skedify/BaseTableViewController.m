@@ -15,13 +15,18 @@
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     
-    int notificationCounter;
+    int testingNotificationCounter;
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
     [super viewDidAppear:YES];
-    //[self addNotificationBadgeWithNumber:[ServerConnection sharedServerConnection].class]];
+    if([[ServerConnection sharedServerConnection] notificationsNotReadCounter] != 0){
+    [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
+    }
+//    For testing Purpose
+//        [self addNotificationBadgeWithNumber:testingNotificationCounter];
+
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -59,14 +64,11 @@
     }
 }
 
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
@@ -75,13 +77,17 @@
         // Put in code here to handle shake
         NSLog(@"didUpdateToLocation: %@", [self getLocation]); // This call should be changed to send to the server
         
-        [self addNotificationBadgeWithNumber:notificationCounter]; // Should be added by a call from the server **Testing Purpose**
-        notificationCounter ++;
+        testingNotificationCounter ++;
+        [self addNotificationBadgeWithNumber:testingNotificationCounter]; // Should be added by a call from the server **Testing Purpose**
+        
     }
     
     if ( [super respondsToSelector:@selector(motionEnded:withEvent:)] )
         [super motionEnded:motion withEvent:event];
 }
+
+#pragma mark -
+#pragma mark LocationManager methods
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
@@ -109,6 +115,9 @@
     return currentLocation;
 }
 
+#pragma mark -
+#pragma mark DrawingNotificationBadge methods
+
 -(void)addNotificationBadgeWithNumber:(int)number{
     
     NSString* string = [NSString stringWithFormat:@"%i", number];
@@ -127,7 +136,7 @@
 -(void)removeNotificationBadge{
     
     [self.notificationBadge removeFromSuperview];
-    notificationCounter = 1;
+    testingNotificationCounter = 0;
 }
 
 -(void)initNotificationItem{
@@ -138,13 +147,20 @@
     
     [self.badgeButton setImage:[UIImage imageNamed:@"notificationIcon.png"] forState:UIControlStateNormal];
     
-    notificationCounter = 1;
+    testingNotificationCounter = 0;
     
 }
 
+#pragma mark -
+#pragma mark NotificationsReceivedFromServer methods
+
 -(void)notifitcationRecieved
 {
-    [self addNotificationBadgeWithNumber:2];
+    [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
+}
+
+-(void)shakeRecieved:(BOOL)firstShaker{
+    
 }
 
 @end

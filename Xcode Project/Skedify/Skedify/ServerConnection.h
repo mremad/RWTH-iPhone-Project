@@ -29,5 +29,6 @@
 - (Group *) GetGroup:(NSInteger) index;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> notificationsViewDelegate;
-
+@property (nonatomic, readonly) NSMutableArray *notificationsList;
+@property int notificationsNotReadCounter;
 @end
