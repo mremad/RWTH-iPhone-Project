@@ -7,6 +7,7 @@
 //
 
 #import "ServerConnection.h"
+#import "Member.h"
 
 @implementation ServerConnection
 
@@ -94,7 +95,7 @@ static NSString *serverAdress = @"localhost:3000";
 }
 
 #pragma mark -
-#pragma mark ServerConnection methods
+#pragma mark Recieiving Data From Server methods
 
 /*
  * handles all notfication messages recieved from the server
@@ -116,6 +117,68 @@ static NSString *serverAdress = @"localhost:3000";
 {
     [_notificationsViewDelegate shakeRecieved:NO];
 }
+
+#pragma mark -
+#pragma mark Sending Data From Server methods
+
+
+-(void)serverShakeLocation:(CLLocation *)location
+{
+    //send location to Server
+}
+
+-(void)serverAddMember:(Member *)member inGroup:(Group *) group
+{
+    //add member to group on server
+}
+
+
+-(void)serverAddGroup:(Group *)group WithMembers:(NSArray *) members
+{
+    //create group with members on server
+}
+
+-(void)serverRemoveGroup:(Group *)group
+{
+    //remove group from server from my list of groups
+}
+
+-(void) serverAcceptGroupRequest:(Group *) group
+{
+    
+}
+
+-(void) serverRejectGroupRequest:(Group *) group
+{
+    
+}
+
+-(void)serverCreateMeeting:(Group *)group fromTimeSlot:(NSNumber *) startingTimeSlot toTimeSlot:(NSNumber *) endingTimeSlot
+{
+    //create meeting with group on server
+}
+
+
+-(void)serverRejectMeeting:(Group *) group fromTimeSlot:(NSNumber *) startingTimeSlot
+{
+    //reject the meeting that was created starting in this timeslot
+}
+
+-(void)serverSendSchedule
+{
+    //Data structure not yet implemented
+}
+
+-(void)serverAuthenticate
+{
+    
+}
+
+-(void) serverSetNickName :(Member *) member
+{
+    //setting/changing the nickname of this member(the signed in member)
+}
+
 
 
 @end
