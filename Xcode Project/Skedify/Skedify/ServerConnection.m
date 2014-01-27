@@ -97,6 +97,17 @@ static NSString *serverAdress = @"localhost:3000";
 #pragma mark -
 #pragma mark Recieiving Data From Server methods
 
+
+/*Recieve From Server Methods
+ recieve Combin Schedule
+ recieve created Meeting
+ recieve meeting/group request
+ recieve member acceptance in group(wheather he accepted/rejected the group reques)
+ receive member acceptance in meeting(or rejection)
+ 
+
+
+*/
 /*
  * handles all notfication messages recieved from the server
  */
@@ -115,66 +126,66 @@ static NSString *serverAdress = @"localhost:3000";
 
 -(void)didRecieveShakeMessageFromServer
 {
-    [_notificationsViewDelegate shakeRecieved:NO];
+   // [_notificationsViewDelegate shakeRecieved:NO];
 }
 
 #pragma mark -
 #pragma mark Sending Data From Server methods
 
 
--(void)serverShakeLocation:(CLLocation *)location
+-(void)SendToServerShakeLocation:(CLLocation *)location
 {
     //send location to Server
 }
 
--(void)serverAddMember:(Member *)member inGroup:(Group *) group
+-(void)SendToServerAddMember:(Member *)member inGroup:(Group *) group
 {
     //add member to group on server
 }
 
 
--(void)serverAddGroup:(Group *)group WithMembers:(NSArray *) members
+-(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
     //create group with members on server
 }
 
--(void)serverRemoveGroup:(Group *)group
+-(void)SendToServerRemoveGroup:(Group *)group
 {
     //remove group from server from my list of groups
 }
 
--(void) serverAcceptGroupRequest:(Group *) group
+-(void) SendToServerAcceptGroupRequest:(Group *) group
 {
     
 }
 
--(void) serverRejectGroupRequest:(Group *) group
+-(void) SendToServerRejectGroupRequest:(Group *) group
 {
     
 }
 
--(void)serverCreateMeeting:(Group *)group fromTimeSlot:(NSNumber *) startingTimeSlot toTimeSlot:(NSNumber *) endingTimeSlot
+-(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSNumber *) startingTimeSlot toTimeSlot:(NSNumber *) endingTimeSlot
 {
     //create meeting with group on server
 }
 
 
--(void)serverRejectMeeting:(Group *) group fromTimeSlot:(NSNumber *) startingTimeSlot
+-(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSNumber *) startingTimeSlot
 {
     //reject the meeting that was created starting in this timeslot
 }
 
--(void)serverSendSchedule
+-(void)SendToServerSendSchedule
 {
     //Data structure not yet implemented
 }
 
--(void)serverAuthenticate
+-(void)SendToServerAuthenticate
 {
     
 }
 
--(void) serverSetNickName :(Member *) member
+-(void) SendToServerSetNickName :(Member *) member
 {
     //setting/changing the nickname of this member(the signed in member)
 }

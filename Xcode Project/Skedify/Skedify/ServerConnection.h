@@ -13,7 +13,7 @@
 
 @protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
 @required
-- (void)shakeRecieved:(BOOL) firstShaker; //as in the firstShaker gets to deceide the groups name..
+- (void)shakeRecieved;
 @optional
 - (void)notifitcationRecieved;
 @end
