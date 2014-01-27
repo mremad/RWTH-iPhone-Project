@@ -20,8 +20,19 @@
 #define DAY_WIDTH ((320-TIME_WIDTH)/7)
 #define DAY_STARTING_CENTER_POINT (TIME_WIDTH +(DAY_WIDTH/2))
 
-#define SCHEDULES_SLOT_HEIGHT 25
-#define SCHEDULES_SLOT_WIDTH 25
+#define SCHEDULES_SLOT_HEIGHT 30
+#define SCHEDULES_SLOT_WIDTH 30
 #define SCHEDULES_SLOT_CENTER_POINT TIME_WIDTH + (DAY_WIDTH/2)
 
 #endif
+
+typedef enum
+{
+    Mo = 0,
+    Tu,
+    We,
+    Th,
+    Fr,
+    Sa,
+    Su
+}Day;

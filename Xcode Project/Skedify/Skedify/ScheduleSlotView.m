@@ -9,10 +9,17 @@
 #import "ScheduleSlotView.h"
 
 @implementation ScheduleSlotView
-
-
-- (id)initWithFrame:(CGRect)frame
 {
+    Day day;
+    int time;
+}
+
+
+- (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time
+{
+    day = _day;
+    time = _time;
+    
     int smallerHeight = frame.size.height - 5;
     int smallerWidth = frame.size.width - 5;
     
@@ -42,14 +49,24 @@
         
         
         
-        //self.layer.borderWidth = 0.5;
-        self.layer.borderColor = [UIColor blackColor].CGColor;
-        self.layer.cornerRadius = 0;
+        //self.layer.borderWidth = 1;
+        self.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        self.layer.cornerRadius = 1;
         self.layer.masksToBounds = YES;
-        [self setIsAccessibilityElement:YES];
-        [self setAccessibilityTraits:UIAccessibilityTraitButton];
+        self.userInteractionEnabled = YES;
+
     }
     return self;
+}
+
+-(Day)getDay
+{
+    return day;
+}
+
+-(int)getTime
+{
+    return time;
 }
 
 - (void)drawRect:(CGRect)rect
