@@ -54,14 +54,6 @@ typedef enum _requestState requestState;
         IDs = [NSMutableArray new];
         dates = [NSMutableArray new];
         
-        
-        NSDictionary* requestDictionary = @{@"action" : @"Login",
-                                            @"username" : @"yigit.guenay@rwth-aachen.de"};
-        HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-            NSLog(@"Login completed with dictionary: %@", dictionary);
-            
-        } errorHandler:nil];
-        
     }
     return self;
 }
