@@ -11,7 +11,6 @@
 @interface L2PFetcher : NSObject  <NSURLConnectionDataDelegate, NSXMLParserDelegate>
 
 @property(retain) NSString  *accessToken;
--(void)getL2PCourseRooms;
-- (void) getL2PCourseDates;
+- (void) getL2PCourseRooms;
 
 @end

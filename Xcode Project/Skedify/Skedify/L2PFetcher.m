@@ -7,7 +7,7 @@
 //
 
 #import "L2PFetcher.h"
-
+#import "HttpRequest.h"
 #define iPhoneCourseID "13ws-22433"
 #define oneDocumentID "2"
 
@@ -53,6 +53,15 @@ typedef enum _requestState requestState;
         self.state = notSet;
         IDs = [NSMutableArray new];
         dates = [NSMutableArray new];
+        
+        
+        NSDictionary* requestDictionary = @{@"action" : @"Login",
+                                            @"username" : @"yigit.guenay@rwth-aachen.de"};
+        HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+            NSLog(@"Login completed with dictionary: %@", dictionary);
+            
+        } errorHandler:nil];
+        
     }
     return self;
 }
@@ -131,7 +140,7 @@ typedef enum _requestState requestState;
     self.urlConnection = [[NSURLConnection alloc] initWithRequest:courseInfoRequest delegate:self startImmediately:YES];
 }
 
-#pragma mark NSURLConnectionDataDelegate
+#pragma mark NSURLConnectionDataDelegate methods
 
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
@@ -163,7 +172,7 @@ typedef enum _requestState requestState;
     }
 }
 
-#pragma mark NSXMLParserDelegate
+#pragma mark NSXMLParserDelegate methods
 
 -(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {

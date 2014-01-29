@@ -8,6 +8,7 @@
 
 #import "ServerConnection.h"
 #import "Member.h"
+#import "HttpRequest.h"
 
 @implementation ServerConnection
 
@@ -180,9 +181,15 @@ static NSString *serverAdress = @"localhost:3000";
     //Data structure not yet implemented
 }
 
--(void)SendToServerAuthenticate
+-(void)SendToServerLogin
 {
+    // Example for HttpRequest:
+    NSDictionary* requestDictionary = @{@"action" : @"Login",
+                                        @"username" : @"yigit.guenay@rwth-aachen.de"};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Login completed with dictionary: %@", dictionary);
     
+    } errorHandler:nil];
 }
 
 -(void) SendToServerSetNickName :(Member *) member
