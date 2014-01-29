@@ -1,19 +1,19 @@
 //
-//  CreateMemberViewController.m
+//  AddMemberViewController.m
 //  Skedify
 //
 //  Created by M on 1/15/14.
 //  Copyright (c) 2014 SkedifyGroup. All rights reserved.
 //
 
-#import "CreateMemberViewController.h"
+#import "AddMemberViewController.h"
 #import "GroupContactsTableViewController.h"
 #import "Member.h"
-@interface CreateMemberViewController ()
+@interface AddMemberViewController ()
 
 @end
 
-@implementation CreateMemberViewController
+@implementation AddMemberViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

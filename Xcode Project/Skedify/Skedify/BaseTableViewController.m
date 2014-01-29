@@ -45,11 +45,10 @@
     {
         [self initNotificationItem];
         UIBarButtonItem *notificationItem = [[UIBarButtonItem alloc] initWithCustomView:self.badgeButton];
-        //UIBarButtonItem addbutton = [UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector("asdasd")
         
-        if(self.navigationItem.rightBarButtonItem==nil)
+         UIBarButtonItem *myBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(buttonAddAction:)];
+        if([self.title isEqual:@"GroupMenu"])
         {
-            
             UIBarButtonItem *flexibleSpaceBarButton = [[UIBarButtonItem alloc]
                                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                        target:nil
@@ -59,16 +58,53 @@
         }
         else
         {
-            self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem, notificationItem];
+            self.navigationItem.rightBarButtonItems = @[myBarButton, notificationItem];
         }
     }
 }
+
+-(void)buttonAddAction:(id)sender
+{
+    //to be overwritten from sub classes who do not have their rightbuttonitem == nil on viewDidLoad
+}
+
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+-(NSString *) suitableNameWithAddedDotsIfAboveAcceptableSize:(NSString *) name AndAcceptableSize:(NSInteger) acceptableSize
+{
+    int size=[name length];
+    NSMutableString *result = [[NSMutableString alloc]init];
+    if (size>acceptableSize)
+    {
+        int start = acceptableSize/2;
+        for(int i = 0;i < start ;i++)
+        {
+            [result appendFormat:@"%c",[name characterAtIndex:i]];
+        }
+        
+        [result appendFormat:@"..."];
+        
+        int end = acceptableSize/3;
+        for(int i = size-end;i < size;i++)
+        {
+            [result appendFormat:@"%c",[name characterAtIndex:i]];
+        }
+        
+        return result;
+    }
+    else
+    {
+        return name;
+    }
+}
+
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {

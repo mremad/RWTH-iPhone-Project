@@ -1,18 +1,18 @@
 //
-//  CreateGroupViewController.m
+//  AddGroupViewController.m
 //  Skedify
 //
 //  Created by M on 1/13/14.
 //  Copyright (c) 2014 SkedifyGroup. All rights reserved.
 //
 
-#import "CreateGroupViewController.h"
+#import "AddGroupViewController.h"
 
-@interface CreateGroupViewController ()
+@interface AddGroupViewController ()
 
 @end
 
-@implementation CreateGroupViewController
+@implementation AddGroupViewController
 - (IBAction)ButtonDoneClicked:(id)sender
 {
     NSString *groupName = [_textFieldGroupName text];

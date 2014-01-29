@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Kea-yR-14c">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Kea-yR-14c">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
         <!--Login View Controller - Login-->
@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ts677564" borderStyle="roundedRect" placeholder=" Username             ex. vp123456" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mvg-8h-WUg">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Username             ex. vp123456" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mvg-8h-WUg">
                                 <rect key="frame" x="35" y="191" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" hint="" label="">
@@ -119,10 +119,10 @@
             </objects>
             <point key="canvasLocation" x="250" y="131"/>
         </scene>
-        <!--Create Group View Controller-->
+        <!--Add Group View Controller-->
         <scene sceneID="opl-7o-TgV">
             <objects>
-                <viewController id="zep-O6-PIh" customClass="CreateGroupViewController" sceneMemberID="viewController">
+                <viewController id="zep-O6-PIh" customClass="AddGroupViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uRV-1l-EiP"/>
                         <viewControllerLayoutGuide type="bottom" id="jbD-vf-847"/>
@@ -135,7 +135,7 @@
                                 <rect key="frame" x="0.0" y="16" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Create Group" id="67K-XB-qwe">
+                                    <navigationItem title="Add Group" id="67K-XB-qwe">
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="J7g-VH-c4G">
                                             <connections>
                                                 <action selector="ButtonCancelClicked:" destination="zep-O6-PIh" id="q7h-Gq-EbQ"/>
@@ -224,22 +224,19 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Groups" id="Cb2-Fk-Nn5">
-                        <barButtonItem key="rightBarButtonItem" title="Add" id="nem-nb-Rtt">
-                            <connections>
-                                <segue destination="zep-O6-PIh" kind="modal" identifier="toCreateGroup" modalTransitionStyle="coverVertical" id="dYe-Kr-hpB"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Groups" id="Cb2-Fk-Nn5"/>
+                    <connections>
+                        <segue destination="zep-O6-PIh" kind="modal" identifier="toAddGroup" modalTransitionStyle="coverVertical" id="0rX-Mh-awa"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sqt-lm-7h6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="717" y="131"/>
         </scene>
-        <!--Group Menu Table View Controller - Group Menu-->
+        <!--Group Menu Table View Controller - GroupMenu-->
         <scene sceneID="fda-hO-bL1">
             <objects>
-                <tableViewController id="Fvi-WC-kR2" customClass="GroupMenuTableViewController" sceneMemberID="viewController">
+                <tableViewController title="GroupMenu" id="Fvi-WC-kR2" customClass="GroupMenuTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="NdG-AE-TjM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -356,13 +353,10 @@
                             <outlet property="delegate" destination="ZKw-0V-hbA" id="TIp-uV-dFI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Group Members" id="Tck-5C-KD4">
-                        <barButtonItem key="rightBarButtonItem" title="Add" id="Jcq-VE-Zqj">
-                            <connections>
-                                <segue destination="K8L-nL-M07" kind="modal" identifier="toAddMember" modalTransitionStyle="coverVertical" id="Un2-hD-z0J"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Group Members" id="Tck-5C-KD4"/>
+                    <connections>
+                        <segue destination="K8L-nL-M07" kind="modal" identifier="toAddMember" modalTransitionStyle="coverVertical" id="WYB-WV-DV4"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZF-f0-H2A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -387,10 +381,10 @@
             </objects>
             <point key="canvasLocation" x="2128" y="772"/>
         </scene>
-        <!--Create Member View Controller-->
+        <!--Add Member View Controller-->
         <scene sceneID="vC6-jC-xi9">
             <objects>
-                <viewController id="K8L-nL-M07" customClass="CreateMemberViewController" sceneMemberID="viewController">
+                <viewController id="K8L-nL-M07" customClass="AddMemberViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1DC-eD-XhT"/>
                         <viewControllerLayoutGuide type="bottom" id="Qzg-QQ-YGY"/>

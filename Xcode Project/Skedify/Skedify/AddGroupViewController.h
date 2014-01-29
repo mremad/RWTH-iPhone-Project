@@ -1,5 +1,5 @@
 //
-//  CreateGroupViewController.h
+//  AddGroupViewController.h
 //  Skedify
 //
 //  Created by M on 1/13/14.
@@ -10,7 +10,7 @@
 #import "ServerConnection.h"
 #import "BaseViewController.h"
 
-@interface CreateGroupViewController : BaseViewController<UITextFieldDelegate>
+@interface AddGroupViewController : BaseViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonDone;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonCancel;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldGroupName;
