@@ -1,5 +1,5 @@
 //
-//  CreateMemberViewController.h
+//  AddMemberViewController.h
 //  Skedify
 //
 //  Created by M on 1/15/14.
@@ -10,7 +10,7 @@
 #import "ServerConnection.h"
 #import "BaseViewController.h"
 
-@interface CreateMemberViewController : BaseViewController<UITextFieldDelegate>
+@interface AddMemberViewController : BaseViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonDone;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *ButtonCancel;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldEmail;

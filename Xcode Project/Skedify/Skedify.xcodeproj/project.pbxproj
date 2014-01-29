@@ -14,7 +14,7 @@
 		545BB7C31895E58800D4499F /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 545BB7C21895E58800D4499F /* CustomBadge.m */; };
 		545BB7C61895E70300D4499F /* notificationIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 545BB7C51895E70300D4499F /* notificationIcon.png */; };
 		546EDF45189466E900B1EE77 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546EDF44189466E900B1EE77 /* CoreLocation.framework */; };
-		D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D946F4131884A7100008D209 /* CreateGroupViewController.m */; };
+		D946F4141884A7100008D209 /* AddGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D946F4131884A7100008D209 /* AddGroupViewController.m */; };
 		D97145E31885519D008C97AA /* ServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E21885519D008C97AA /* ServerConnection.m */; };
 		D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E518856840008C97AA /* GroupContactsTableViewController.m */; };
 		D97145E918856FC0008C97AA /* GroupMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E818856FC0008C97AA /* GroupMenuTableViewController.m */; };
@@ -35,7 +35,7 @@
 		D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBB3188472BE0024CC6E /* LoginViewController.m */; };
 		D97EBBB7188472CF0024CC6E /* NickNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBB6188472CF0024CC6E /* NickNameViewController.m */; };
 		D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */; };
-		D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */; };
+		D9B7ABC21886A2CE00883E67 /* AddMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* AddMemberViewController.m */; };
 		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
 		D9F3AAD51892AB2B0039D9DA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */; };
 		D9F3AAD81892AB400039D9DA /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD71892AB400039D9DA /* BaseTableViewController.m */; };
@@ -67,8 +67,8 @@
 		545BB7C21895E58800D4499F /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		545BB7C51895E70300D4499F /* notificationIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon.png; sourceTree = "<group>"; };
 		546EDF44189466E900B1EE77 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		D946F4121884A7100008D209 /* CreateGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateGroupViewController.h; sourceTree = "<group>"; };
-		D946F4131884A7100008D209 /* CreateGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateGroupViewController.m; sourceTree = "<group>"; };
+		D946F4121884A7100008D209 /* AddGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AddGroupViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		D946F4131884A7100008D209 /* AddGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AddGroupViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D97145E11885519D008C97AA /* ServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnection.h; sourceTree = "<group>"; };
 		D97145E21885519D008C97AA /* ServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnection.m; sourceTree = "<group>"; };
 		D97145E418856840008C97AA /* GroupContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupContactsTableViewController.h; sourceTree = "<group>"; };
@@ -101,8 +101,8 @@
 		D97EBBBC1884736F0024CC6E /* GroupsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsTableViewController.h; sourceTree = "<group>"; };
 		D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsTableViewController.m; sourceTree = "<group>"; };
 		D98507DA1895419100FD47C4 /* OAuthClientID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAuthClientID.h; sourceTree = "<group>"; };
-		D9B7ABC01886A2CE00883E67 /* CreateMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMemberViewController.h; sourceTree = "<group>"; };
-		D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMemberViewController.m; sourceTree = "<group>"; };
+		D9B7ABC01886A2CE00883E67 /* AddMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMemberViewController.h; sourceTree = "<group>"; };
+		D9B7ABC11886A2CE00883E67 /* AddMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMemberViewController.m; sourceTree = "<group>"; };
 		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		D9B7ABC41886A7C000883E67 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
 		D9F3AAD31892AB2B0039D9DA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = Skedify/BaseViewController.h; sourceTree = "<group>"; };
@@ -286,10 +286,10 @@
 				D97EBBB3188472BE0024CC6E /* LoginViewController.m */,
 				D97EBBB5188472CF0024CC6E /* NickNameViewController.h */,
 				D97EBBB6188472CF0024CC6E /* NickNameViewController.m */,
-				D946F4121884A7100008D209 /* CreateGroupViewController.h */,
-				D946F4131884A7100008D209 /* CreateGroupViewController.m */,
-				D9B7ABC01886A2CE00883E67 /* CreateMemberViewController.h */,
-				D9B7ABC11886A2CE00883E67 /* CreateMemberViewController.m */,
+				D946F4121884A7100008D209 /* AddGroupViewController.h */,
+				D946F4131884A7100008D209 /* AddGroupViewController.m */,
+				D9B7ABC01886A2CE00883E67 /* AddMemberViewController.h */,
+				D9B7ABC11886A2CE00883E67 /* AddMemberViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -441,13 +441,13 @@
 				3436E4A2188C48ED00006A53 /* WebViewController.m in Sources */,
 				D9F3AAE61892C3060039D9DA /* ScheduleSlotView.m in Sources */,
 				D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */,
-				D9B7ABC21886A2CE00883E67 /* CreateMemberViewController.m in Sources */,
+				D9B7ABC21886A2CE00883E67 /* AddMemberViewController.m in Sources */,
 				D9B7ABC51886A7C000883E67 /* Group.m in Sources */,
 				D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */,
 				545BB7C31895E58800D4499F /* CustomBadge.m in Sources */,
 				D9F3AADF1892BF4D0039D9DA /* ScheduleViewController.m in Sources */,
 				D9F3AAE91892DD720039D9DA /* ScheduleTextSlotView.m in Sources */,
-				D946F4141884A7100008D209 /* CreateGroupViewController.m in Sources */,
+				D946F4141884A7100008D209 /* AddGroupViewController.m in Sources */,
 				D97EBBB7188472CF0024CC6E /* NickNameViewController.m in Sources */,
 				D9F3AAD51892AB2B0039D9DA /* BaseViewController.m in Sources */,
 				D9F3AAD81892AB400039D9DA /* BaseTableViewController.m in Sources */,

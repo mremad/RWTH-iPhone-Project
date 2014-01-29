@@ -26,15 +26,12 @@
 {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-
+-(void)buttonAddAction:(id)sender
+{
+    [self performSegueWithIdentifier:@"toAddGroup" sender:sender];
+}
 
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -149,7 +146,7 @@
         NSInteger row = ((NSIndexPath *)[self.tableView indexPathForSelectedRow]).row;
         groupMenu.groupIndex=row;
     }
-    if([[segue identifier] isEqual:@"toCreateGroup"])
+    if([[segue identifier] isEqual:@"toAddGroup"])
     {
        //set as delegate
     }

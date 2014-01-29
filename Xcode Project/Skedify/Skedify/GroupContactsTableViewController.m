@@ -8,7 +8,7 @@
 
 #import "GroupContactsTableViewController.h"
 #import "Group.h"
-#import "CreateMemberViewController.h"
+#import "AddMemberViewController.h"
 
 @interface GroupContactsTableViewController ()
 
@@ -29,8 +29,8 @@
 {
     [super viewDidLoad];
     Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
-    self.title= [g.name stringByAppendingString:@" Members"]; //TODO Spacing..
-    
+    NSString *nameOfViewWithDots = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:10];
+    self.title= [nameOfViewWithDots stringByAppendingString:@" Members"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -144,9 +144,14 @@
 {
     if([[segue identifier] isEqual:@"toAddMember"])
     {
-        CreateMemberViewController *groupContactsMenu=(CreateMemberViewController *)[segue destinationViewController];
+        AddMemberViewController *groupContactsMenu=(AddMemberViewController *)[segue destinationViewController];
         groupContactsMenu.groupIndex=_groupIndex; //just delegating the value to the next controller
     }
+}
+
+-(void)buttonAddAction:(id)sender
+{
+    [self performSegueWithIdentifier:@"toAddMember" sender:sender];
 }
 
 -(void)viewDidAppear:(BOOL)animated

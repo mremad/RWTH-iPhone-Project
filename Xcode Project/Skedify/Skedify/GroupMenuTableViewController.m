@@ -27,6 +27,8 @@
 }
 
 
+
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [ServerConnection sharedServerConnection].notificationsViewDelegate = self;
@@ -47,7 +49,8 @@
     [super viewDidLoad];
     
     Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
-    self.title= g.name;
+    self.title = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:18];
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -55,6 +58,9 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+
+
 
 - (void)didReceiveMemoryWarning
 {

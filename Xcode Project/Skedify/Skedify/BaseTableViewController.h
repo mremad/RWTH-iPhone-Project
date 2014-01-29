@@ -16,5 +16,5 @@
 
 @property CustomBadge *notificationBadge;
 @property UIButton *badgeButton;
-
+-(NSString *) suitableNameWithAddedDotsIfAboveAcceptableSize:(NSString *) name AndAcceptableSize:(NSInteger) acceptableSize;
 @end
