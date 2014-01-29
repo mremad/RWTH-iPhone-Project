@@ -185,13 +185,13 @@
     
     if (_viewController)
     {
-        /*//present web view
+        //present web view
         NSString *pathComponent = [NSString stringWithFormat:@"?q=verify&d=%@", self.userCode];
         NSURL *verficationURLWithCode = [self.verificationURL URLByAppendingPathComponent:pathComponent];
         WebViewController *webVC = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:Nil];
         [_viewController presentViewController:webVC animated:YES completion:nil];
         webVC.delegate = self;
-        [webVC setVerificationURL:verficationURLWithCode];*/
+        [webVC setVerificationURL:verficationURLWithCode];
     }
 }
 
