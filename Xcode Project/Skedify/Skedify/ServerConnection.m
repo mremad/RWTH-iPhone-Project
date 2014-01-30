@@ -97,8 +97,10 @@ static NSString *serverAdress = @"localhost:3000";
 
 -(void) addGroup:(Group *) theGroup
 {
-     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
-    //ServerCode Send Created Group To Server
+    [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
+    
+    // TODO: ServerCode Send Created Group To Server
+    [self SendToServerAddGroup:theGroup WithMembers:nil];
 }
 
 
@@ -112,12 +114,12 @@ static NSString *serverAdress = @"localhost:3000";
 #pragma mark Recieiving Data From Server methods
 
 
-/*Recieve From Server Methods
- recieve Combin Schedule
- recieve created Meeting
- recieve meeting/group request
- recieve member acceptance in group(wheather he accepted/rejected the group reques)
- receive member acceptance in meeting(or rejection)
+/* Recieve From Server Methods
+ TODO: recieve Combin Schedule
+ TODO: recieve created Meeting
+ TODO: recieve meeting/group request
+ TODO: recieve member acceptance in group(wheather he accepted/rejected the group reques)
+ TODO: receive member acceptance in meeting(or rejection)
  
 
 
@@ -158,8 +160,12 @@ static NSString *serverAdress = @"localhost:3000";
         
         
         
-        //for now we do nothing.. maybe we can do quick vibration ??
-        // This situation happends when we are in a view that does not have the notification icon
+        // here the situation is that you get a notification in one of the add group or add contact view.
+        // in thoose views you do not have a notification icon as designed
+        // The question was if we need to generate a kind of alert to the user that something is recieved
+        // Solution 1 vibrate (easy) . Solution 2 do nothing (easy) . Solution 3 build some kind of notification label
+        // appearing showing short discription of the notification and if we built such a thing, we could use it in all other
+        // views(Views containg the notification icon)
     }
 }
 
@@ -174,49 +180,50 @@ static NSString *serverAdress = @"localhost:3000";
 
 -(void)SendToServerShakeLocation:(CLLocation *)location
 {
-    //send location to Server
+    // TODO: send location to Server
 }
 
 -(void)SendToServerAddMember:(Member *)member inGroup:(Group *) group
 {
-    //add member to group on server
+    // TODO: add member to group on server
 }
 
 
 -(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
-    //create group with members on server
+    NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
+    // TODO: create group with members on server
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group
 {
-    //remove group from server from my list of groups
+    // TODO: remove group from server from my list of groups
 }
 
 -(void) SendToServerAcceptGroupRequest:(Group *) group
 {
-    
+    // TODO:
 }
 
 -(void) SendToServerRejectGroupRequest:(Group *) group
 {
-    
+    // TODO:
 }
 
 -(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSNumber *) startingTimeSlot toTimeSlot:(NSNumber *) endingTimeSlot
 {
-    //create meeting with group on server
+    // TODO: create meeting with group on server
 }
 
 
 -(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSNumber *) startingTimeSlot
 {
-    //reject the meeting that was created starting in this timeslot
+    // TODO: reject the meeting that was created starting in this timeslot
 }
 
 -(void)SendToServerSendSchedule
 {
-    //Data structure not yet implemented
+    // TODO: Data structure not yet implemented
 }
 
 -(void)SendToServerLogin
@@ -232,7 +239,7 @@ static NSString *serverAdress = @"localhost:3000";
 
 -(void) SendToServerSetNickName :(Member *) member
 {
-    //setting/changing the nickname of this member(the signed in member)
+    // TODO: setting/changing the nickname of this member(the signed in member)
 }
 
 

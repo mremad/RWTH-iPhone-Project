@@ -29,8 +29,8 @@
 {
     [super viewDidLoad];
     
-    
 	// Do any additional setup after loading the view.
+    
 }
 
 
@@ -39,7 +39,7 @@
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
-        NSLog(@"didUpdateToLocation: %@", [self getLocation]); // This call should be changed to send to the server        
+        NSLog(@"didUpdateToLocation: %@", [self getLocation]); // TODO: This call should be changed to send to the server        
     }
     
     if ( [super respondsToSelector:@selector(motionEnded:withEvent:)] )

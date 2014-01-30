@@ -63,6 +63,7 @@
     _textFieldPassword.delegate=self;
   
 	// Do any additional setup after loading the view.
+    [self loadCredentials];
     
     // Instantiate L2PHandler and set the delegate to receive calls from the handler instance.
     _handler = [[L2PHandler alloc] initWithViewController:self];
@@ -83,8 +84,9 @@
 
 - (IBAction)loginButtonPressed:(UIButton*)sender
 {
+    [self saveCredentials:[_textFieldUserName text] withPass:[_textFieldPassword text]];
     [_handler obtainUserCode];
-    [self userDataWasFetched]; //TODO remove in RELEASE
+    [self userDataWasFetched]; // TODO: remove in RELEASE
 }
 
 #pragma mark - APIDelegate methods
@@ -94,5 +96,34 @@
     // Trigger the login segue after the handler notifies that all user data has been fetched.
     [self performSegueWithIdentifier:@"Login" sender:self.ButtonLogin];
 }
+
+/**
+ saves username and password to userdefaults
+ */
+- (void) saveCredentials: (NSString *) username withPass: (NSString *) password
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:username forKey:@"user"];
+    [defaults setObject:password forKey:@"pass"];
+    [defaults synchronize];
+}
+
+/**
+ loads username and password from userdefaults and sets textviews
+ */
+- (void) loadCredentials
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *user = [defaults objectForKey: @"user"];
+    NSString *pass = [defaults objectForKey: @"pass"];
+    if (user != nil) {
+        [_textFieldUserName setText:user];
+        NSLog(@"user: %@", user);
+        [_textFieldPassword setText:pass];
+    } else {
+        NSLog(@"no user information cached");
+    }
+}
+
 
 @end
