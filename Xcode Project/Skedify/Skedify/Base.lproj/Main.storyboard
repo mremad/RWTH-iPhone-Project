@@ -163,19 +163,19 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PCr-uc-U77">
-                                <rect key="frame" x="7" y="269" width="221" height="30"/>
+                                <rect key="frame" x="7" y="214" width="221" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please Enter the Email of a friend" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yC-O4-HKC">
-                                <rect key="frame" x="7" y="232" width="254" height="21"/>
+                                <rect key="frame" x="7" y="177" width="254" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSv-LG-LbW">
-                                <rect key="frame" x="236" y="269" width="30" height="30"/>
+                                <rect key="frame" x="236" y="214" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="+">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -355,6 +355,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Group Members" id="Tck-5C-KD4"/>
                     <connections>
+                        <outlet property="membersTableView" destination="u4w-eG-y1h" id="wq4-p8-xNX"/>
                         <segue destination="K8L-nL-M07" kind="modal" identifier="toAddMember" modalTransitionStyle="coverVertical" id="WYB-WV-DV4"/>
                     </connections>
                 </tableViewController>

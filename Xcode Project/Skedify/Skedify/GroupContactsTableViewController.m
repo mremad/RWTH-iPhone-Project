@@ -63,6 +63,15 @@
     return [[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex] count ];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex]  objectAtIndex:indexPath.row];
+    theContact.hasAcceptedGroupInvitation=YES;
+    
+  [_membersTableView reloadData]; //TODO remove the complete method ..leave it for now..
+    
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *CellIdentifier = @"GroupContactsCell"; //also written in StoryBoard
@@ -80,10 +89,23 @@
         nameLabel.font = [UIFont fontWithName:@"Helvetica" size:14];
         nameLabel.backgroundColor = [UIColor clearColor];
         [cell.contentView addSubview:nameLabel];
-    }
+          }
     else
     {
         ((UILabel *)[cell.contentView.subviews objectAtIndex:0]).text = contactName;
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    
+    
+    if ([theContact hasAcceptedGroupInvitation])
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
@@ -147,6 +169,7 @@
         AddMemberViewController *groupContactsMenu=(AddMemberViewController *)[segue destinationViewController];
         groupContactsMenu.groupIndex=_groupIndex; //just delegating the value to the next controller
     }
+    
 }
 
 -(void)buttonAddAction:(id)sender
@@ -156,15 +179,17 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [ServerConnection sharedServerConnection].notificationsViewDelegate = self;
+    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [ServerConnection sharedServerConnection].notificationsViewDelegate = nil;
+    [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
 }
 
 -(void)notifitcationRecieved
 {
+    [_membersTableView reloadData];
+    
     //do something about it
 }
 

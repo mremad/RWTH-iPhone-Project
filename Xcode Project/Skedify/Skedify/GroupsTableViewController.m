@@ -35,11 +35,11 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [ServerConnection sharedServerConnection].notificationsViewDelegate = self;
+    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [ServerConnection sharedServerConnection].notificationsViewDelegate = nil;
+    [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated

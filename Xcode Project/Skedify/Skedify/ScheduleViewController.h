@@ -12,7 +12,7 @@
 typedef enum SlotState {SlotStateEmpty,
     SlotStateOccupied,
     SlotState,
-    refillButtonGotPressed} EntnahmeStates;
+    refillButtonGotPressed} SlotStates;
 
 @interface ScheduleViewController : UIViewController<UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet ScheduleScrollView *scrollView;

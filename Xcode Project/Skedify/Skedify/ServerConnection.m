@@ -82,6 +82,19 @@ static NSString *serverAdress = @"localhost:3000";
     return (Group *)[_groupsList objectAtIndex:index];
 }
 
+- (Group *) GetGroupGivenName:(NSString *) groupName
+{
+    for(int i=0;i<[_groupsList count];i++)
+    {
+        Group *g =[_groupsList objectAtIndex:i];
+        if([g.name isEqualToString:groupName])
+        {
+            return g;
+        }
+    }
+    return nil;
+}
+
 -(void) addGroup:(Group *) theGroup
 {
      [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
@@ -109,17 +122,42 @@ static NSString *serverAdress = @"localhost:3000";
 
 
 */
+
+
+
+-(void) MemberAcceptedGroupInvitation:(Member *) memberThatAcceptedGroupInvitation
+{
+    memberThatAcceptedGroupInvitation.hasAcceptedGroupInvitation=YES;
+    [_delegatenotificationsView notifitcationRecieved];
+}
+
 /*
  * handles all notfication messages recieved from the server
  */
 - (void)didReceiveNotificationFromServer
 {
-    if ([_notificationsViewDelegate respondsToSelector:@selector(notifitcationRecieved)])
+    if ([_delegatenotificationsView respondsToSelector:@selector(notifitcationRecieved)])
     {
-        [_notificationsViewDelegate notifitcationRecieved];
+        [_delegatenotificationsView notifitcationRecieved];
     }
     else
     {
+        if(YES) // member accepted Group
+        {
+            Member *theFetchedMember=[[Member alloc]init];
+            [self MemberAcceptedGroupInvitation:theFetchedMember];
+        }
+        else if(YES) // member declined Group
+        {
+            //TODO We need to think of this a little about ... (probelm woth multple group names..)
+            NSString *emailOfMember = @"theDeclinedMembersEmail";
+            NSString *theGroupName =@"theGroupName";
+            Group *g = [self GetGroupGivenName:theGroupName];
+            [g removeMemberWithEmail:emailOfMember];
+        }
+        
+        
+        
         //for now we do nothing.. maybe we can do quick vibration ??
         // This situation happends when we are in a view that does not have the notification icon
     }

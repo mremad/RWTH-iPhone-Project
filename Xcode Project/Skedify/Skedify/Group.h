@@ -16,4 +16,5 @@
 
 - (id)initWithName:(NSString *)theGroupName;
 -(void)insertMember :(Member *)theMember;
+-(void)removeMemberWithEmail :(NSString *)theEmail;
 @end

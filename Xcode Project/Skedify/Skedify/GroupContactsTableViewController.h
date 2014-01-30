@@ -14,7 +14,6 @@
 {
    // NSInteger groupIndex;
 }
-
-
+@property (strong, nonatomic) IBOutlet UITableView *membersTableView;
 @property (nonatomic) NSInteger groupIndex;
 @end

@@ -11,6 +11,7 @@
 #import "Member.h"
 #import "Group.h"
 
+
 @protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
 @required
 - (void)shakeRecieved;
@@ -28,7 +29,7 @@
 - (void) addGroup:(Group *) theGroup;
 - (Group *) GetGroup:(NSInteger) index;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
-@property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> notificationsViewDelegate;
+@property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
 @property (nonatomic, readonly) NSMutableArray *notificationsList;
 @property int notificationsNotReadCounter;
 @end

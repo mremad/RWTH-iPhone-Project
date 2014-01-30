@@ -11,6 +11,7 @@
 @interface Member : NSObject
 @property (nonatomic, readonly) NSString *nickName;
 @property (nonatomic, readonly) NSString *emailAddress;
+@property (nonatomic) BOOL hasAcceptedGroupInvitation;
 
 
 - (id)initWithName:(NSString *)theNickName;

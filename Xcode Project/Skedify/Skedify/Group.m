@@ -35,6 +35,18 @@
  [_members insertObject:theMember atIndex:[_members count]];
 }
 
+-(void)removeMemberWithEmail :(NSString *)theEmail
+{
+    for(int i=0;i<[_members count];i++)
+    {
+        Member *m =[_members objectAtIndex:i];
+        if([m.emailAddress isEqualToString:theEmail])
+        {
+            [_members removeObjectAtIndex:i];
+        }
+    }
+}
+
 
 
 
