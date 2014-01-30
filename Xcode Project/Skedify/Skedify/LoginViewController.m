@@ -97,6 +97,9 @@
     [self performSegueWithIdentifier:@"Login" sender:self.ButtonLogin];
 }
 
+/**
+ saves username and password to userdefaults
+ */
 - (void) saveCredentials: (NSString *) username withPass: (NSString *) password
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -105,6 +108,9 @@
     [defaults synchronize];
 }
 
+/**
+ loads username and password from userdefaults and sets textviews
+ */
 - (void) loadCredentials
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

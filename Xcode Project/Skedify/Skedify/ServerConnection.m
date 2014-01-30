@@ -84,8 +84,10 @@ static NSString *serverAdress = @"localhost:3000";
 
 -(void) addGroup:(Group *) theGroup
 {
-     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
+    [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
+    
     // TODO: ServerCode Send Created Group To Server
+    [self SendToServerAddGroup:theGroup WithMembers:nil];
 }
 
 
@@ -147,6 +149,7 @@ static NSString *serverAdress = @"localhost:3000";
 
 -(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
+    NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     // TODO: create group with members on server
 }
 
