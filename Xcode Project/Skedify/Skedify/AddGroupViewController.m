@@ -53,6 +53,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)buttonEditAction:(id)sender
+{
+    
+}
+
 - (IBAction)ButtonAddClicked:(id)sender
 {
     [_textFiledEmail resignFirstResponder];

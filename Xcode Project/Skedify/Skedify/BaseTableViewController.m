@@ -53,11 +53,13 @@
                                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
                                                        target:nil
                                                        action:nil];
-            flexibleSpaceBarButton.width=42;
-            self.navigationItem.rightBarButtonItems = @[flexibleSpaceBarButton, notificationItem];
+            flexibleSpaceBarButton.width=12;
+              UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonAddAction:)];
+            self.navigationItem.rightBarButtonItems = @[editButton,flexibleSpaceBarButton, notificationItem];
         }
         else
         {
+            
             self.navigationItem.rightBarButtonItems = @[myBarButton, notificationItem];
         }
     }
@@ -65,7 +67,12 @@
 
 -(void)buttonAddAction:(id)sender
 {
-    //to be overwritten from sub classes who do not have their rightbuttonitem == nil on viewDidLoad
+    //to be overwritten from sub classes who that want to use the add button
+}
+
+-(void)buttonEditAction:(id)sender
+{
+    //to be overwritten from sub classes who that want to use the edit button
 }
 
 

@@ -104,7 +104,6 @@ static NSString *serverAdress = @"localhost:3000";
     
     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
     
-    // TODO: ServerCode Send Created Group To Server
     [self SendToServerAddGroup:theGroup WithMembers:members];
 }
 
