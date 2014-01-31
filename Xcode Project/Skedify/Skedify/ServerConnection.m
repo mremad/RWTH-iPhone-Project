@@ -95,12 +95,17 @@ static NSString *serverAdress = @"localhost:3000";
     return nil;
 }
 
--(void) addGroup:(Group *) theGroup
+- (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) members
 {
+    for(int i=0;i<[members count];i++)
+    {
+        [theGroup insertMember: [[Member alloc] initWithEmail:[members objectAtIndex:i]]];
+    }
+    
     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
     
     // TODO: ServerCode Send Created Group To Server
-    [self SendToServerAddGroup:theGroup WithMembers:nil];
+    [self SendToServerAddGroup:theGroup WithMembers:members];
 }
 
 

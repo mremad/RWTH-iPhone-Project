@@ -17,4 +17,5 @@
 - (id)initWithName:(NSString *)theNickName;
 - (id)initWithEmail:(NSString *)theEmail;
 - (NSString *) getStrongestIdentifier;
++(BOOL) NSStringIsValidRWTHAachenEmail:(NSString *)checkString;
 @end
