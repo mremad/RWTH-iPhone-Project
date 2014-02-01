@@ -57,7 +57,7 @@
               UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonAddAction:)];
             self.navigationItem.rightBarButtonItems = @[editButton,flexibleSpaceBarButton, notificationItem];
         }
-        else
+        else if (![self.title isEqual:@"notifications"])
         {
             
             self.navigationItem.rightBarButtonItems = @[myBarButton, notificationItem];
@@ -75,7 +75,11 @@
     //to be overwritten from sub classes who that want to use the edit button
 }
 
-
+-(void)buttonNotifications:(id)sender{
+    
+    [self removeNotificationBadge];
+        [self performSegueWithIdentifier:@"toNotifications" sender:sender];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -158,6 +162,7 @@
     return currentLocation;
 }
 
+
 #pragma mark -
 #pragma mark DrawingNotificationBadge methods
 
@@ -178,15 +183,17 @@
 
 -(void)removeNotificationBadge{
     
+    if (self.notificationBadge != nil) {
     [self.notificationBadge removeFromSuperview];
     testingNotificationCounter = 0;
+    }
 }
 
 -(void)initNotificationItem{
     
     self.badgeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.badgeButton.frame = CGRectMake(0, 0, 30, 30);
-    [self.badgeButton addTarget:self action:@selector(removeNotificationBadge) forControlEvents:UIControlEventTouchUpInside];
+    [self.badgeButton addTarget:self action:@selector(buttonNotifications:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.badgeButton setImage:[UIImage imageNamed:@"notificationIcon.png"] forState:UIControlStateNormal];
     

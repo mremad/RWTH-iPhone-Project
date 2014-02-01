@@ -8,7 +8,7 @@
 
 #import "L2PHandler.h"
 #import "WebViewController.h"
-#import "L2PFetcher.h"
+#import "CalendarFetcher.h"
 #import "OAuthClientID.h"
 
 @interface L2PHandler () <WebViewDelegate>
@@ -34,7 +34,7 @@
 @property(retain) NSDate    *accessExpiresAtDate;
 
 @property(retain) UIViewController *viewController;
-@property(retain) L2PFetcher* fetcher;
+@property(retain) CalendarFetcher* fetcher;
 
 @end
 
@@ -45,7 +45,8 @@
     if (self = [super init])
     {
         _viewController = viewController;
-        _fetcher = [[L2PFetcher alloc] init];
+        _fetcher = [[CalendarFetcher alloc] init];
+
     }
     
     return self;
@@ -182,6 +183,7 @@
     
     [self saveUserDefaults];
     
+    NSLog(@"user code response: %@", dict);
     
     if (_viewController)
     {
@@ -220,8 +222,8 @@
     // After access token is received, fetch course room data from L2P using the fetcher.
     NSLog(@"access token: %@", _accessToken);
     _fetcher.accessToken = _accessToken;
-    [_fetcher getL2PCourseRooms];
-    //[_fetcher getL2PCourseDates];
+    [_fetcher fetchL2PCourseRooms];
+    [_fetcher fetchIphoneEvents];
     
     // Call the delegate method after fetch is complete.
     // FIXME: Currently, the following function is evaluated before fetch is complete since getL2PCourseRooms gets its response later.

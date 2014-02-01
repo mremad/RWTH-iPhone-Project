@@ -7,6 +7,7 @@
 //
 
 #import "GroupsTableViewController.h"
+#import "NotificationsTableViewController.h"
 @interface GroupsTableViewController ()
 
 @end
@@ -51,7 +52,6 @@
 {
     //do something about it
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -149,6 +149,10 @@
     if([[segue identifier] isEqual:@"toAddGroup"])
     {
        //set as delegate
+    }
+    if([[segue identifier] isEqual:@"toNotifications"])
+    {
+     NotificationsTableViewController *notificationsVC=(NotificationsTableViewController *)[segue destinationViewController];
     }
 }
 

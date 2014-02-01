@@ -1,15 +1,17 @@
 //
-//  L2PFetcher.m
+//  CalendarFetcher.m
 //  Skedify
 //
 //  Created by Yigit Gunay on 1/19/14.
 //  Copyright (c) 2014 SkedifyGroup. All rights reserved.
 //
 
-#import "L2PFetcher.h"
+#import "CalendarFetcher.h"
 #import "HttpRequest.h"
 #define iPhoneCourseID "13ws-22433"
 #define oneDocumentID "2"
+
+#import <EventKit/EventKit.h>
 
 enum _requestState {
     notSet = -1,
@@ -24,7 +26,7 @@ enum _requestState {
 
 typedef enum _requestState requestState;
 
-@interface L2PFetcher ()
+@interface CalendarFetcher ()
 {
     bool parseData;
     NSMutableArray* IDs;
@@ -41,7 +43,7 @@ typedef enum _requestState requestState;
 
 @end
 
-@implementation L2PFetcher
+@implementation CalendarFetcher
 
 - (id)init
 {
@@ -58,7 +60,7 @@ typedef enum _requestState requestState;
     return self;
 }
 
--(void)getDatesForL2PCourse:(NSString*) courseID
+-(void)fetchDatesForL2PCourse:(NSString*) courseID
 {
     self.state = courseDates;
     
@@ -96,7 +98,7 @@ typedef enum _requestState requestState;
 }
 
 
--(void)getL2PCourseRooms
+-(void)fetchL2PCourseRooms
 {
     self.state = courseRooms;
     
@@ -130,6 +132,46 @@ typedef enum _requestState requestState;
     [courseInfoRequest setHTTPBody:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
     
     self.urlConnection = [[NSURLConnection alloc] initWithRequest:courseInfoRequest delegate:self startImmediately:YES];
+    
+    
+    //[self fetchIphoneEvents];
+    
+    
+}
+
+- (void) fetchIphoneEvents
+{
+    EKEventStore *store = [[EKEventStore alloc] init];
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        // handle access here
+        // Get the appropriate calendar
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        
+        // Create the start date components
+        NSDateComponents *oneDayAgoComponents = [[NSDateComponents alloc] init];
+        oneDayAgoComponents.day = -1;
+        NSDate *oneDayAgo = [calendar dateByAddingComponents:oneDayAgoComponents
+                                                      toDate:[NSDate date]
+                                                     options:0];
+        
+        // Create the end date components
+        NSDateComponents *oneYearFromNowComponents = [[NSDateComponents alloc] init];
+        oneYearFromNowComponents.year = 1;
+        NSDate *oneYearFromNow = [calendar dateByAddingComponents:oneYearFromNowComponents
+                                                           toDate:[NSDate date]
+                                                          options:0];
+        
+        // Create the predicate from the event store's instance method
+        NSPredicate *predicate = [store predicateForEventsWithStartDate:oneDayAgo
+                                                                endDate:oneYearFromNow
+                                                              calendars:nil];
+        
+        // Fetch all events that match the predicate
+        NSArray *events = [store eventsMatchingPredicate:predicate];
+        
+        NSLog(@"Events: %@", events);
+        
+    }];
 }
 
 #pragma mark NSURLConnectionDataDelegate methods
@@ -199,7 +241,7 @@ typedef enum _requestState requestState;
     {
         for (NSString* courseID in IDs)
         {
-            [self getDatesForL2PCourse:courseID];
+            [self fetchDatesForL2PCourse:courseID];
         }
         
         [IDs removeAllObjects];

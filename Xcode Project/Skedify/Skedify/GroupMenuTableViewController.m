@@ -10,6 +10,7 @@
 #import "GroupContactsTableViewController.h"
 #import "ServerConnection.h"
 #import "Group.h"
+#import "NotificationsTableViewController.h"
 
 @interface GroupMenuTableViewController ()
 
@@ -58,8 +59,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
-
 
 
 - (void)didReceiveMemoryWarning
@@ -119,6 +118,10 @@
      {
          GroupContactsTableViewController *groupContactsMenu=(GroupContactsTableViewController *)[segue destinationViewController];
          groupContactsMenu.groupIndex=_groupIndex; //just delegating the value to the next controller
+     }
+     if([[segue identifier] isEqual:@"toNotifications"])
+     {
+         NotificationsTableViewController *notificationsVC=(NotificationsTableViewController *)[segue destinationViewController];
      }
  }
 
