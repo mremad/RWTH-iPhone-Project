@@ -24,6 +24,8 @@ class CalculateGroupScheduleHandler extends GroupHandler
 						$availability[$userID] = $this->getUserAvailability($userID);
 					}
 					
+					$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+					$states = array("available", "busy", "user_available", "appointment_fixed");
 					for ($i=0; $i <TOTAL_INTERVALS; $i++)
 					{
 						$busy = false;
@@ -37,13 +39,20 @@ class CalculateGroupScheduleHandler extends GroupHandler
 						$appointmentMade = $this->isGroupAppointmentMadeAtInterval($groupID, $i);
 						
 						if ($appointmentMade)
-							$groupSchedule[$i] = 3;
+							$state = 3;
 						else if ($busy)
-							$groupSchedule[$i] = 1;
+							$state = 1;
 						else if ($userAvailable)
-							$groupSchedule[$i] = 2;	
+							$state = 2;	
 						else
-							$groupSchedule[$i] = 0;
+							$state = 0;
+							
+							
+						$day = $days[floor($i / 24)];
+						$hour = $i % 24;
+						$groupSchedule[$i]["interval"] = "$day $hour".":00 - $hour".":59";
+						$groupSchedule[$i]["state"] = $states[$state];	
+							
 					}
 					
 					return array("response" => $groupSchedule);

@@ -38,7 +38,7 @@ class AjaxHandler
 			// Trigger the action.
         	$data = $obj->trigger();
         	if (!empty($data)) // Return json data if not empty
-          		return json_encode($data);
+          		return json_encode(array($data));
     	}
 		return json_encode(array());
 	}
