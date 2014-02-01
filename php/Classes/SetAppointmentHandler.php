@@ -1,16 +1,16 @@
 <?php
 
-class SetAvailableHandler extends ActionHandler
+class SetAppointmentHandler extends GroupHandler
 {
 	public function trigger()
 	{	
 		// Escape string for protecting against injection.
-		$userID = $this->getUserIDIfExists($this->options["username"]);
+		$groupID = $this->getGroupIDIfExists($this->options["groupID"]);
 		$start = $this->options["start"];
 		$end = $this->options["end"];
-		if ($userID > 0 && $start && $end)
+		if ($groupID > 0 && $start && $end)
 		{
-			$query = "DELETE FROM schedules WHERE userID = $userID AND start >= $start AND end <= $end";
+			$query = "INSERT INTO appointments (groupID, start, end) VALUES ($groupID, $start, $end)";
 			$res = $this->mysqli->query($query);
 			return array("response" => "success");
 		}

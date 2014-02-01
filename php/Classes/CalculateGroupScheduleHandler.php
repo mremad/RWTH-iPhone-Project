@@ -19,14 +19,37 @@ class CalculateGroupScheduleHandler extends GroupHandler
 				
 				if (!empty($groupUsers))
 				{
+					$minTime = null;
+					$maxTime = 0;
 					foreach($groupUsers as $userID)
 					{
 						$availability[$userID] = $this->getUserAvailability($userID);
+						
+						$lastkey = end(array_keys($availability[$userID]));
+						
+						reset($availability[$userID]);
+						$firstkey = key($availability[$userID]);
+						
+						if (!$minTime)
+							$minTime = $firstkey;
+						
+						if ($lastkey > $maxTime)
+							$maxTime = $lastkey;
+						if ($firstkey < $minTime)
+							$minTime = $firstkey;
+							
+							
+						print_r($availability[$userID]);
 					}
 					
-					$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+					
+					
+					
+					//$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
 					$states = array("available", "busy", "user_available", "appointment_fixed");
-					for ($i=0; $i <TOTAL_INTERVALS; $i++)
+					
+					$counter = 0;
+					for ($i=$minTime; $i <=$maxTime; $i++)
 					{
 						$busy = false;
 						
@@ -46,12 +69,15 @@ class CalculateGroupScheduleHandler extends GroupHandler
 							$state = 2;	
 						else
 							$state = 0;
-							
-							
-						$day = $days[floor($i / 24)];
-						$hour = $i % 24;
-						$groupSchedule[$i]["interval"] = "$day $hour".":00 - $hour".":59";
-						$groupSchedule[$i]["state"] = $states[$state];	
+
+						if ($state > 0)
+						{
+							$groupSchedule[$counter]["start"] = date("Y-m-d H:i:s", $i * TIME_INTERVAL);
+							$groupSchedule[$counter]["end"] = date("Y-m-d H:i:s", ($i+1) * TIME_INTERVAL - 1);
+							$groupSchedule[$counter]["state"] = $states[$state];
+						}
+						
+						$counter++;	
 							
 					}
 					
@@ -68,14 +94,21 @@ class CalculateGroupScheduleHandler extends GroupHandler
 		//$userID = $this->getUserIDIfExists($userID);
 		if ($userID > 0)
 		{
-			$query = "SELECT state FROM schedules WHERE userID = $userID";
+			$query = "SELECT start, end FROM schedules WHERE userID = $userID";
 			$res = $this->mysqli->query($query);
 			if ($res)
 			{
 				$res->data_seek(0);
 				while ($row = $res->fetch_assoc()) 
 				{
-					$availability[] = (bool)$row["state"];
+					//$availability[] = (bool)$row["state"];
+					$start = (int)$row["start"] / TIME_INTERVAL;
+					$end = (int)$row["end"] / TIME_INTERVAL;
+					
+					for($i=$start; $i<= $end; $i++)
+					{
+						$availability[$i] = true;
+					}
 				}
 			}
 		}
@@ -87,14 +120,21 @@ class CalculateGroupScheduleHandler extends GroupHandler
 		$groupID = $this->getGroupIDIfExists($groupID);
 		if ($groupID > 0)
 		{
-			$query = "SELECT timeInterval FROM appointments WHERE groupID = $groupID AND timeInterval = $timeInterval";
+			$start = $timeInterval * TIME_INTERVAL;
+			$end = ($timeInterval+1) * TIME_INTERVAL - 1;
+			$query = "SELECT start FROM appointments WHERE groupID = $groupID AND start <= $start AND end >= $end";
+			
 			$res = $this->mysqli->query($query);
 			if ($res)
 			{
 				$res->data_seek(0);
 				while ($row = $res->fetch_assoc()) 
 				{
-					return true;
+					//$start = (int)$row["start"] / TIME_INTERVAL;
+					//$end = (int)$row["end"] / TIME_INTERVAL;
+					
+					//if ($timeInterval >= $start && $timeInterval<= $end)
+						return true;
 				}
 			}
 		}

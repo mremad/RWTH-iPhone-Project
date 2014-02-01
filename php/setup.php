@@ -28,7 +28,7 @@ else
 	$res = $mysqli->query($query);
 	
 	// Group Appointments table
-	$query = "CREATE TABLE IF NOT EXISTS appointments (groupID BIGINT UNSIGNED NOT NULL, dtime BIGINT UNSIGNED NOT NULL)";
+	$query = "CREATE TABLE IF NOT EXISTS appointments (groupID BIGINT UNSIGNED NOT NULL, start BIGINT UNSIGNED NOT NULL, end BIGINT UNSIGNED NOT NULL)";
 	$res = $mysqli->query($query);
 }
 

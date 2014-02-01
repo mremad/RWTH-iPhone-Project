@@ -6,10 +6,13 @@ class SetBusyHandler extends ActionHandler
 	{	
 		// Escape string for protecting against injection.
 		$userID = $this->getUserIDIfExists($this->options["username"]);
-		$timeInterval = $this->options["day"] * 24 + $this->options["timeInterval"];
-		if ($userID > 0 && $timeInterval)
+		$start = $this->options["start"];
+		$end = $this->options["end"];
+		if ($userID > 0 && $start && $end)
 		{
-			$query = "UPDATE schedules SET state = '1' WHERE userID = $userID AND  timeInterval = $timeInterval LIMIT 1";
+			$query = "DELETE FROM schedules WHERE userID = $userID AND start >= $start AND end <= $end";
+			$res = $this->mysqli->query($query);
+			$query = "INSERT INTO schedules (userID, start, end) VALUES ($userID, $start, $end)";
 			$res = $this->mysqli->query($query);
 			return array("response" => "success");
 		}

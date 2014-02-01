@@ -11,9 +11,7 @@ define ('DB_DATABASE', 'skedify');
 define ('DB_USER', 'skedifyAdmin');
 define ('DB_PASSWORD', 'skedify');
 define('CLASS_DIR', 'Classes');
-define('TIME_INTERVAL', 60); // in minutes
-define('TOTAL_INTERVALS', 5* 24); // 24 hours for each day 
-
+define('TIME_INTERVAL', 15 * 60); // in seconds
 
 error_reporting(E_ERROR | E_PARSE);
 

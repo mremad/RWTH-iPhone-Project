@@ -12,7 +12,7 @@ class LoginHandler extends ActionHandler
 			$query = "INSERT INTO users (username) VALUES ('$username')";
 			$res = $this->mysqli->query($query);
 			
-			$this->initUserSchedule($this->mysqli->insert_id);
+			//$this->initUserSchedule($this->mysqli->insert_id);
 			
 			return array("response" => "success");
 		}
