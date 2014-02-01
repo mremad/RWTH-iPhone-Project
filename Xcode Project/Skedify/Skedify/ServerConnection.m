@@ -9,6 +9,7 @@
 #import "ServerConnection.h"
 #import "Member.h"
 #import "HttpRequest.h"
+#import "Notification.h"
 
 @implementation ServerConnection
 
@@ -17,7 +18,8 @@
 #pragma mark Singleton stuff
 
 static ServerConnection *sharedServerConnection = nil;
-static NSString *serverAdress = @"localhost:3000";
+static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
+static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 /*
  * returns the singleton instance of ServerConnection.
  */
@@ -183,6 +185,23 @@ static NSString *serverAdress = @"localhost:3000";
    // [_notificationsViewDelegate shakeRecieved:NO];
 }
 
+/**Receive Notification from server and concatinate it in the notifications list
+ Expected from server isGroupInvitation = Yes => GroupInvitation, NO => MeetingInvitation
+ if group invitation: group name and group creator name
+ else if meeting invitation: group name, meeting beginning time and meeting ending time
+ **/
+-(void)receiveFromServerNotificationWithType: (BOOL)isGroupInvitation name:(NSString*)groupName sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
+{
+    Notification *fetechedNotification = [[Notification alloc] init];
+    fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
+    fetechedNotification.groupName = groupName;
+    fetechedNotification.senderName = senderName;
+    fetechedNotification.meetingBeginningTime = beginTime;
+    fetechedNotification.meetingEndingTime = endTime;
+    
+    [self.notificationsList addObject:fetechedNotification];
+}
+
 #pragma mark -
 #pragma mark Sending Data From Server methods
 
@@ -202,6 +221,14 @@ static NSString *serverAdress = @"localhost:3000";
 {
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     // TODO: create group with members on server
+    
+    NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Group created: %@", dictionary);
+        
+    } errorHandler:nil];
+    
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group

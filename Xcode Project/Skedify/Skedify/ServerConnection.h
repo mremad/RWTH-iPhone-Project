@@ -31,6 +31,6 @@
 - (void) AppStart;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
-@property (nonatomic, readonly) NSMutableArray *notificationsList;
+@property NSMutableArray *notificationsList;
 @property int notificationsNotReadCounter;
 @end

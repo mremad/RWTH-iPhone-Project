@@ -8,7 +8,7 @@
 
 #import "BaseTableViewController.h"
 
-@interface NotificationsTableViewController : BaseTableViewController
+@interface NotificationsTableViewController : BaseTableViewController<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 - (IBAction)cancelButtonTapped:(id)sender;
 
 @end
