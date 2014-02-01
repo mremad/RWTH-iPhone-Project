@@ -176,9 +176,9 @@
     // receivedData is declared as a property elsewhere
     NSLog(@"Succeeded! Received %d bytes of data",[_receivedData length]);
     NSError *e = nil;
-    NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData: _receivedData options: NSJSONReadingMutableContainers error: &e];
-    //NSLog(@"response: %@", [[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding]);
-    //NSLog(@"response dictionary: %@", responseDictionary);
+    NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData: _receivedData options:  NSJSONReadingMutableContainers error: &e];
+    NSLog(@"response: %@", [[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding]);
+    NSLog(@"response dictionary: %@", responseDictionary);
     
     if (!responseDictionary)
     {

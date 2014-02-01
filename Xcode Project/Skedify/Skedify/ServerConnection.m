@@ -18,7 +18,8 @@
 #pragma mark Singleton stuff
 
 static ServerConnection *sharedServerConnection = nil;
-static NSString *serverAdress = @"localhost:3000";
+static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
+static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 /*
  * returns the singleton instance of ServerConnection.
  */
@@ -220,6 +221,14 @@ static NSString *serverAdress = @"localhost:3000";
 {
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     // TODO: create group with members on server
+    
+    NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Group created: %@", dictionary);
+        
+    } errorHandler:nil];
+    
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group
