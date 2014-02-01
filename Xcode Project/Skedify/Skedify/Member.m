@@ -54,8 +54,9 @@
     return [emailTest evaluateWithObject:checkString];
 }
 
-+(BOOL) NSStringIsValidRWTHAachenEmail:(NSString *)checkString
++(BOOL) NSStringIsValidRWTHAachenEmail:(NSString *)toCheckString
 {
+    NSString *checkString = [toCheckString lowercaseString];
     return [checkString hasSuffix:@"rwth-aachen.de"] && [self NSStringIsValidEmail:checkString];
 }
 

@@ -54,7 +54,7 @@
                                                        target:nil
                                                        action:nil];
             flexibleSpaceBarButton.width=12;
-              UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonAddAction:)];
+              UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(buttonEditAction:)];
             self.navigationItem.rightBarButtonItems = @[editButton,flexibleSpaceBarButton, notificationItem];
         }
         else if (![self.title isEqual:@"notifications"])

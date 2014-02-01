@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServerConnection.h"
 
-@interface GroupViewController : UIViewController
-
+@interface GroupViewController : UIViewController<UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *textFieldGroupName;
+@property (nonatomic) NSInteger groupIndex;
 @end

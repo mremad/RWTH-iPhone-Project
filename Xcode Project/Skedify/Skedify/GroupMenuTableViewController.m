@@ -28,11 +28,21 @@
 }
 
 
+-(void)buttonEditAction:(id)sender
+{
+    [self performSegueWithIdentifier:@"toEditGroupMenu" sender:sender]; 
+}
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self setViewTitle];
+}
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [ServerConnection sharedServerConnection].delegatenotificationsView = self;
+    
+   // [self.tableView reloadData];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -44,13 +54,16 @@
     //do something about it
 }
 
-
+-(void)setViewTitle
+{
+    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
+    self.title = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:18];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
-    self.title = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:18];
+    
     
     
     // Uncomment the following line to preserve selection between presentations.
@@ -122,6 +135,12 @@
      if([[segue identifier] isEqual:@"toNotifications"])
      {
          NotificationsTableViewController *notificationsVC=(NotificationsTableViewController *)[segue destinationViewController];
+     }
+     if([[segue identifier] isEqual:@"toEditGroupMenu"])
+     {
+         GroupViewController *groupVC=(GroupViewController *)[segue destinationViewController];
+         groupVC.groupIndex=_groupIndex;
+         
      }
  }
 
