@@ -39,6 +39,12 @@
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
+        CLLocation *location = [self getLocation];
+        if (location != nil) {
+            [[ServerConnection sharedServerConnection] SendToServerShakeLocation:currentLocation];
+        }
+        
+        //Testing Location
         NSLog(@"didUpdateToLocation: %@", [self getLocation]); // TODO: This call should be changed to send to the server        
     }
     
@@ -59,10 +65,14 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    //For testing
     NSLog(@"didFailWithError: %@", error);
-    UIAlertView *errorAlert = [[UIAlertView alloc]
-                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [errorAlert show];
+    
+    /*
+     UIAlertView *errorAlert = [[UIAlertView alloc]
+     initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+     [errorAlert show];*/
+
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -107,7 +117,7 @@
     [self addLocalNotification];
 }
 
--(void)shakeRecieved:(BOOL)firstShaker{
+-(void)shakeRecieved{
     
 }
 

@@ -29,6 +29,7 @@
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
 - (Group *) GetGroup:(NSInteger) index;
 - (void) AppStart;
+- (void)SendToServerShakeLocation:(CLLocation *)location;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
 @property NSMutableArray *notificationsList;

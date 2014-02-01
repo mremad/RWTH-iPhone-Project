@@ -77,8 +77,13 @@
 
 -(void)buttonNotifications:(id)sender{
     
+    //Remove badge
     [self removeNotificationBadge];
+    //Reset notifications not read counter
+    [ServerConnection sharedServerConnection].notificationsNotReadCounter = 0;
+    //Go to notifications view
     [self performSegueWithIdentifier:@"toNotifications" sender:sender];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,7 +127,13 @@
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
-        NSLog(@"didUpdateToLocation: %@", [self getLocation]); //TODO: This call should be changed to send to the server
+        CLLocation *location = [self getLocation];
+        if (location != nil) {
+            [[ServerConnection sharedServerConnection] SendToServerShakeLocation:currentLocation];
+        }
+        
+        //Testing Location
+        NSLog(@"didUpdateToLocation: %@", [self getLocation]); 
         
         //Testing Notification Badge
         testingNotificationCounter ++;
@@ -142,10 +153,13 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    //For testing
     NSLog(@"didFailWithError: %@", error);
+    
+    /*
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [errorAlert show];
+    [errorAlert show];*/
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
