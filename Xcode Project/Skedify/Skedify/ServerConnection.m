@@ -200,6 +200,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     fetechedNotification.meetingEndingTime = endTime;
     
     [self.notificationsList addObject:fetechedNotification];
+    self.notificationsNotReadCounter ++;
 }
 
 #pragma mark -
