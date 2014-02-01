@@ -1,0 +1,13 @@
+//
+//  GroupViewController.m
+//  Skedify
+//
+//  Created by M on 1/31/14.
+//  Copyright (c) 2014 SkedifyGroup. All rights reserved.
+//
+
+#import "GroupViewController.h"
+
+@implementation GroupViewController
+
+@end
