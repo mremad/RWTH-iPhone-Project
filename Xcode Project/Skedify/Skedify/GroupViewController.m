@@ -15,7 +15,10 @@
     [[ServerConnection sharedServerConnection] GetGroup:_groupIndex].name=[_textFieldGroupName text];
      [self dismissViewControllerAnimated:YES completion:nil];
 }
-
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_textFieldGroupName resignFirstResponder];
+}
 
 - (void)viewDidLoad
 {
