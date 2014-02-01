@@ -122,10 +122,14 @@
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
-        NSLog(@"didUpdateToLocation: %@", [self getLocation]); // This call should be changed to send to the server
+        NSLog(@"didUpdateToLocation: %@", [self getLocation]); //TODO: This call should be changed to send to the server
         
+        //Testing Notification Badge
         testingNotificationCounter ++;
-        [self addNotificationBadgeWithNumber:testingNotificationCounter]; // Should be added by a call from the server **Testing Purpose**
+        [self addNotificationBadgeWithNumber:testingNotificationCounter];
+        
+        //Testing Local Notification
+        [self addLocalNotification];
         
     }
     
@@ -185,14 +189,6 @@
     
     [self.badgeButton addSubview:self.notificationBadge];
     
-    //Add Local Notification scheduled to fire after 5 seconds
-    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-    localNotification.alertBody = @"You have an invitation from Skedify";
-    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    
-    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 -(void)removeNotificationBadge{
@@ -215,12 +211,26 @@
     
 }
 
+-(void)addLocalNotification{
+    
+    //Add Local Notification scheduled to fire after 5 seconds
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNotification.alertBody = @"You have an invitation from Skedify";
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+
+}
+
 #pragma mark -
 #pragma mark NotificationsReceivedFromServer methods
 
 -(void)notifitcationRecieved
 {
     [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
+    [self addLocalNotification];
 }
 
 -(void)shakeRecieved:(BOOL)firstShaker{
