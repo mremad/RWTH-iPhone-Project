@@ -83,4 +83,33 @@
     return currentLocation;
 }
 
+#pragma mark -
+#pragma mark Local Notification methods
+
+-(void)addLocalNotification{
+    
+    //Add Local Notification scheduled to fire after 5 seconds
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNotification.alertBody = @"You have an invitation from Skedify";
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+}
+
+#pragma mark -
+#pragma mark NotificationsReceivedFromServer methods
+
+-(void)notifitcationRecieved
+{
+    [self addLocalNotification];
+}
+
+-(void)shakeRecieved:(BOOL)firstShaker{
+    
+}
+
+
 @end

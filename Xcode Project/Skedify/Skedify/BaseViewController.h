@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "ServerConnection.h"
 
-@interface BaseViewController : UIViewController <CLLocationManagerDelegate>
+@interface BaseViewController : UIViewController <CLLocationManagerDelegate, ServerConnectionCurrentNotifiableShakableViewDelegate>
 
 @end
