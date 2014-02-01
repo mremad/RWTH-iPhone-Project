@@ -196,7 +196,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1rw-Hs-iUd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="717" y="-565"/>
+            <point key="canvasLocation" x="1246" y="-785"/>
         </scene>
         <!--Groups Table View Controller - Groups-->
         <scene sceneID="pck-fW-yZW">
@@ -232,6 +232,7 @@
                     <navigationItem key="navigationItem" title="Groups" id="Cb2-Fk-Nn5"/>
                     <connections>
                         <segue destination="zep-O6-PIh" kind="modal" identifier="toAddGroup" modalTransitionStyle="coverVertical" id="0rX-Mh-awa"/>
+                        <segue destination="vO7-bi-5D7" kind="modal" identifier="toNotifications" id="6Vh-PT-1um"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sqt-lm-7h6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -306,10 +307,49 @@
                     <navigationItem key="navigationItem" title="Group Menu" id="ykB-bF-Krl">
                         <barButtonItem key="backBarButtonItem" title="Menu" id="Wxa-1w-7XJ"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="vO7-bi-5D7" kind="modal" identifier="toNotifications" id="dis-ZP-ZU9"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GkU-fQ-Nic" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1246" y="65"/>
+            <point key="canvasLocation" x="1222" y="131"/>
+        </scene>
+        <!--Notifications Table View Controller - notifications-->
+        <scene sceneID="fFc-gx-hka">
+            <objects>
+                <tableViewController title="notifications" id="zhp-B7-CaH" customClass="NotificationsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ixc-J0-bi3">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="osT-Oa-qdg">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="osT-Oa-qdg" id="JaM-iF-FQJ">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="zhp-B7-CaH" id="BB9-LI-2s2"/>
+                            <outlet property="delegate" destination="zhp-B7-CaH" id="48X-av-mWw"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Notifications" id="YRg-tH-Msa">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="WuL-9v-voV">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="zhp-B7-CaH" id="HnB-Lu-YEk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jEe-CZ-pSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3271" y="123"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ZBJ-I5-Atq">
@@ -362,6 +402,7 @@
                     <connections>
                         <outlet property="membersTableView" destination="u4w-eG-y1h" id="wq4-p8-xNX"/>
                         <segue destination="K8L-nL-M07" kind="modal" identifier="toAddMember" modalTransitionStyle="coverVertical" id="WYB-WV-DV4"/>
+                        <segue destination="vO7-bi-5D7" kind="modal" identifier="toNotifications" id="f2M-aG-enH"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZF-f0-H2A" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -385,7 +426,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HVj-nj-K2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2128" y="772"/>
+            <point key="canvasLocation" x="2133" y="908"/>
         </scene>
         <!--Add Member View Controller-->
         <scene sceneID="vC6-jC-xi9">
@@ -443,10 +484,31 @@
             </objects>
             <point key="canvasLocation" x="2133" y="-1559"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="yTe-L8-0hP">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vO7-bi-5D7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Q9x-b6-Wal">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zhp-B7-CaH" kind="relationship" relationship="rootViewController" id="Y16-8Q-2a2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="115-iG-fVb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2697" y="131"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="dis-ZP-ZU9"/>
+    </inferredMetricsTieBreakers>
 </document>
