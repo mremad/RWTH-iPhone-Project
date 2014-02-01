@@ -12,4 +12,6 @@ define ('DB_USER', 'skedifyAdmin');
 define ('DB_PASSWORD', 'skedify');
 define('CLASS_DIR', 'Classes');
 
+error_reporting(E_ERROR | E_PARSE);
+
 ?>
