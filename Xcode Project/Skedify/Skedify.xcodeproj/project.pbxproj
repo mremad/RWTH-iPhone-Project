@@ -16,6 +16,7 @@
 		545BB7C31895E58800D4499F /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 545BB7C21895E58800D4499F /* CustomBadge.m */; };
 		545BB7C61895E70300D4499F /* notificationIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 545BB7C51895E70300D4499F /* notificationIcon.png */; };
 		545FA46D189C289900E98B6A /* NotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 545FA46C189C289900E98B6A /* NotificationsTableViewController.m */; };
+		545FA470189D73B900E98B6A /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 545FA46F189D73B900E98B6A /* Notification.m */; };
 		546EDF45189466E900B1EE77 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546EDF44189466E900B1EE77 /* CoreLocation.framework */; };
 		D946F4141884A7100008D209 /* AddGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D946F4131884A7100008D209 /* AddGroupViewController.m */; };
 		D97145E31885519D008C97AA /* ServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E21885519D008C97AA /* ServerConnection.m */; };
@@ -77,6 +78,8 @@
 		545BB7C51895E70300D4499F /* notificationIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon.png; sourceTree = "<group>"; };
 		545FA46B189C289900E98B6A /* NotificationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsTableViewController.h; sourceTree = "<group>"; };
 		545FA46C189C289900E98B6A /* NotificationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsTableViewController.m; sourceTree = "<group>"; };
+		545FA46E189D73B900E98B6A /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
+		545FA46F189D73B900E98B6A /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		546EDF44189466E900B1EE77 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D946F4121884A7100008D209 /* AddGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AddGroupViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		D946F4131884A7100008D209 /* AddGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AddGroupViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -213,6 +216,8 @@
 				D97145F018858551008C97AA /* Member.m */,
 				D9B7ABC31886A7C000883E67 /* Group.h */,
 				D9B7ABC41886A7C000883E67 /* Group.m */,
+				545FA46E189D73B900E98B6A /* Notification.h */,
+				545FA46F189D73B900E98B6A /* Notification.m */,
 			);
 			name = DataTypes;
 			sourceTree = "<group>";
@@ -484,6 +489,7 @@
 				D9F3AAE61892C3060039D9DA /* ScheduleSlotView.m in Sources */,
 				D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */,
 				D9B7ABC21886A2CE00883E67 /* AddMemberViewController.m in Sources */,
+				545FA470189D73B900E98B6A /* Notification.m in Sources */,
 				D9B7ABC51886A7C000883E67 /* Group.m in Sources */,
 				D97EBBB4188472BE0024CC6E /* LoginViewController.m in Sources */,
 				545BB7C31895E58800D4499F /* CustomBadge.m in Sources */,

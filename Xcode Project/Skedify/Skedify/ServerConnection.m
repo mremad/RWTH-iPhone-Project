@@ -9,6 +9,7 @@
 #import "ServerConnection.h"
 #import "Member.h"
 #import "HttpRequest.h"
+#import "Notification.h"
 
 @implementation ServerConnection
 
@@ -181,6 +182,23 @@ static NSString *serverAdress = @"localhost:3000";
 -(void)didRecieveShakeMessageFromServer
 {
    // [_notificationsViewDelegate shakeRecieved:NO];
+}
+
+/**Receive Notification from server and concatinate it in the notifications list
+ Expected from server isGroupInvitation = Yes => GroupInvitation, NO => MeetingInvitation
+ if group invitation: group name and group creator name
+ else if meeting invitation: group name, meeting beginning time and meeting ending time
+ **/
+-(void)receiveFromServerNotificationWithType: (BOOL)isGroupInvitation name:(NSString*)groupName sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
+{
+    Notification *fetechedNotification = [[Notification alloc] init];
+    fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
+    fetechedNotification.groupName = groupName;
+    fetechedNotification.senderName = senderName;
+    fetechedNotification.meetingBeginningTime = beginTime;
+    fetechedNotification.meetingEndingTime = endTime;
+    
+    [self.notificationsList addObject:fetechedNotification];
 }
 
 #pragma mark -
