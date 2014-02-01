@@ -51,7 +51,7 @@
     NSRange rangeOfString = [url rangeOfString:@"q=authorized"];
     
     if (rangeOfString.location != NSNotFound) {
-        [self dismissViewControllerAnimated:YES completion:^{
+        [self dismissViewControllerAnimated:NO completion:^{
             if (_delegate)
                 [_delegate webViewWasDismissed];
         }];

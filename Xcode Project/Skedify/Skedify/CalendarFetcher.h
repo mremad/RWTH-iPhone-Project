@@ -1,5 +1,5 @@
 //
-//  L2PFetcher.h
+//  CalendarFetcher.h
 //  Skedify
 //
 //  Created by Yigit Gunay on 1/19/14.
@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface L2PFetcher : NSObject  <NSURLConnectionDataDelegate, NSXMLParserDelegate>
+@interface CalendarFetcher : NSObject  <NSURLConnectionDataDelegate, NSXMLParserDelegate>
 
 @property(retain) NSString  *accessToken;
-- (void) getL2PCourseRooms;
+- (void) fetchL2PCourseRooms;
+- (void) fetchIphoneEvents;
 
 @end

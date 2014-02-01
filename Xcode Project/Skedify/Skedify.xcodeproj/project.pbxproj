@@ -10,8 +10,9 @@
 		3436E4A2188C48ED00006A53 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436E49C188C48ED00006A53 /* WebViewController.m */; };
 		3436E4A3188C48ED00006A53 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3436E49D188C48ED00006A53 /* WebViewController.xib */; };
 		3436E4A9188C510A00006A53 /* L2PHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436E4A8188C510A00006A53 /* L2PHandler.m */; };
-		3436E4AC188C737B00006A53 /* L2PFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436E4AB188C737B00006A53 /* L2PFetcher.m */; };
+		3436E4AC188C737B00006A53 /* CalendarFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436E4AB188C737B00006A53 /* CalendarFetcher.m */; };
 		3441F1291899A5CE006DE6D9 /* HttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3441F1281899A5CE006DE6D9 /* HttpRequest.m */; };
+		34498BC2189CDC4D00FA0472 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34498BC1189CDC4D00FA0472 /* EventKit.framework */; };
 		545BB7C31895E58800D4499F /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 545BB7C21895E58800D4499F /* CustomBadge.m */; };
 		545BB7C61895E70300D4499F /* notificationIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 545BB7C51895E70300D4499F /* notificationIcon.png */; };
 		546EDF45189466E900B1EE77 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546EDF44189466E900B1EE77 /* CoreLocation.framework */; };
@@ -62,10 +63,11 @@
 		3436E49D188C48ED00006A53 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		3436E4A7188C510A00006A53 /* L2PHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L2PHandler.h; sourceTree = "<group>"; };
 		3436E4A8188C510A00006A53 /* L2PHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L2PHandler.m; sourceTree = "<group>"; };
-		3436E4AA188C737B00006A53 /* L2PFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = L2PFetcher.h; sourceTree = "<group>"; };
-		3436E4AB188C737B00006A53 /* L2PFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = L2PFetcher.m; sourceTree = "<group>"; };
+		3436E4AA188C737B00006A53 /* CalendarFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarFetcher.h; sourceTree = "<group>"; };
+		3436E4AB188C737B00006A53 /* CalendarFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarFetcher.m; sourceTree = "<group>"; };
 		3441F1271899A5CE006DE6D9 /* HttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequest.h; sourceTree = "<group>"; };
 		3441F1281899A5CE006DE6D9 /* HttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpRequest.m; sourceTree = "<group>"; };
+		34498BC1189CDC4D00FA0472 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		545BB7C11895E58800D4499F /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
 		545BB7C21895E58800D4499F /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		545BB7C51895E70300D4499F /* notificationIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon.png; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34498BC2189CDC4D00FA0472 /* EventKit.framework in Frameworks */,
 				546EDF45189466E900B1EE77 /* CoreLocation.framework in Frameworks */,
 				D97EBB7F188469900024CC6E /* CoreGraphics.framework in Frameworks */,
 				D97EBB81188469900024CC6E /* UIKit.framework in Frameworks */,
@@ -157,8 +160,8 @@
 				3436E49D188C48ED00006A53 /* WebViewController.xib */,
 				3436E4A7188C510A00006A53 /* L2PHandler.h */,
 				3436E4A8188C510A00006A53 /* L2PHandler.m */,
-				3436E4AA188C737B00006A53 /* L2PFetcher.h */,
-				3436E4AB188C737B00006A53 /* L2PFetcher.m */,
+				3436E4AA188C737B00006A53 /* CalendarFetcher.h */,
+				3436E4AB188C737B00006A53 /* CalendarFetcher.m */,
 			);
 			name = L2PAPI;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 		D97EBB7B188469900024CC6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				34498BC1189CDC4D00FA0472 /* EventKit.framework */,
 				546EDF44189466E900B1EE77 /* CoreLocation.framework */,
 				D97EBB7C188469900024CC6E /* Foundation.framework */,
 				D97EBB7E188469900024CC6E /* CoreGraphics.framework */,
@@ -441,7 +445,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3436E4AC188C737B00006A53 /* L2PFetcher.m in Sources */,
+				3436E4AC188C737B00006A53 /* CalendarFetcher.m in Sources */,
 				3441F1291899A5CE006DE6D9 /* HttpRequest.m in Sources */,
 				D97145E918856FC0008C97AA /* GroupMenuTableViewController.m in Sources */,
 				3436E4A2188C48ED00006A53 /* WebViewController.m in Sources */,
