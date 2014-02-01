@@ -22,6 +22,14 @@ else
 	// Group users table
 	$query = "CREATE TABLE IF NOT EXISTS groupusers (groupID BIGINT UNSIGNED NOT NULL, userID BIGINT UNSIGNED NOT NULL)";
 	$res = $mysqli->query($query);
+	
+	// Personal Schedule table
+	$query = "CREATE TABLE IF NOT EXISTS schedules (userID BIGINT UNSIGNED NOT NULL, timeInterval BIGINT UNSIGNED NOT NULL, state TINYINT UNSIGNED NOT NULL)";
+	$res = $mysqli->query($query);
+	
+	// Group Appointments table
+	$query = "CREATE TABLE IF NOT EXISTS appointments (groupID BIGINT UNSIGNED NOT NULL, timeInterval BIGINT UNSIGNED NOT NULL)";
+	$res = $mysqli->query($query);
 }
 
 

@@ -31,9 +31,9 @@ class AjaxHandler
 	public function getJSONData()
   	{   
 		$class = $this->actionHandler."Handler";
-    	if (class_exists($class) && is_subclass_of($class, "ActionHandler")) // FIXME: exception handling!!
+    	if (class_exists($class) && is_subclass_of($class, "ActionHandler"))
     	{
-      		$obj = new $class($this->options);
+			$obj = new $class($this->options);
 			// Trigger the action.
         	$data = $obj->trigger();
         	if (!empty($data)) // Return json data if not empty
