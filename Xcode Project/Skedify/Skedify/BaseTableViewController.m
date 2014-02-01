@@ -78,7 +78,7 @@
 -(void)buttonNotifications:(id)sender{
     
     [self removeNotificationBadge];
-        [self performSegueWithIdentifier:@"toNotifications" sender:sender];
+    [self performSegueWithIdentifier:@"toNotifications" sender:sender];
 }
 
 - (void)didReceiveMemoryWarning
@@ -146,7 +146,12 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    if (newLocation == nil) {
+        currentLocation = oldLocation;
+    }
+    else{
     currentLocation = newLocation;
+    }
 }
 
 - (CLLocation*)getLocation{
@@ -179,6 +184,15 @@
     [self.notificationBadge setFrame:badgeFrame];
     
     [self.badgeButton addSubview:self.notificationBadge];
+    
+    //Add Local Notification scheduled to fire after 5 seconds
+    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNotification.alertBody = @"You have an invitation from Skedify";
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 -(void)removeNotificationBadge{
