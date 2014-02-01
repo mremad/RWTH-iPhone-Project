@@ -40,6 +40,9 @@
 		D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */; };
 		D9B7ABC21886A2CE00883E67 /* AddMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* AddMemberViewController.m */; };
 		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
+		D9BDF093189D2D5E0043F601 /* EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF090189D2D5E0043F601 /* EmailViewController.m */; };
+		D9BDF094189D2D5E0043F601 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF092189D2D5E0043F601 /* GroupViewController.m */; };
+		D9BDF098189D647A0043F601 /* SkedNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF097189D647A0043F601 /* SkedNavigationController.m */; };
 		D9F3AAD51892AB2B0039D9DA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */; };
 		D9F3AAD81892AB400039D9DA /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AAD71892AB400039D9DA /* BaseTableViewController.m */; };
 		D9F3AADF1892BF4D0039D9DA /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F3AADE1892BF4D0039D9DA /* ScheduleViewController.m */; };
@@ -113,6 +116,12 @@
 		D9B7ABC11886A2CE00883E67 /* AddMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMemberViewController.m; sourceTree = "<group>"; };
 		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		D9B7ABC41886A7C000883E67 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
+		D9BDF08F189D2D5E0043F601 /* EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailViewController.h; sourceTree = "<group>"; };
+		D9BDF090189D2D5E0043F601 /* EmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailViewController.m; sourceTree = "<group>"; };
+		D9BDF091189D2D5E0043F601 /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		D9BDF092189D2D5E0043F601 /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		D9BDF096189D647A0043F601 /* SkedNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SkedNavigationController.h; path = Skedify/SkedNavigationController.h; sourceTree = "<group>"; };
+		D9BDF097189D647A0043F601 /* SkedNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SkedNavigationController.m; path = Skedify/SkedNavigationController.m; sourceTree = "<group>"; };
 		D9F3AAD31892AB2B0039D9DA /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseViewController.h; path = Skedify/BaseViewController.h; sourceTree = "<group>"; };
 		D9F3AAD41892AB2B0039D9DA /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseViewController.m; path = Skedify/BaseViewController.m; sourceTree = "<group>"; };
 		D9F3AAD61892AB400039D9DA /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTableViewController.h; path = Skedify/BaseTableViewController.h; sourceTree = "<group>"; };
@@ -243,6 +252,7 @@
 		D97EBB82188469900024CC6E /* Skedify */ = {
 			isa = PBXGroup;
 			children = (
+				D9BDF095189D643B0043F601 /* NavigationController */,
 				545BB7C01895E58800D4499F /* Notifications */,
 				D9F3AADC1892BF260039D9DA /* Schedule */,
 				D9F3AACF1892AAF40039D9DA /* BaseViewControllers */,
@@ -294,6 +304,10 @@
 		D97EBBB11884725E0024CC6E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D9BDF08F189D2D5E0043F601 /* EmailViewController.h */,
+				D9BDF090189D2D5E0043F601 /* EmailViewController.m */,
+				D9BDF091189D2D5E0043F601 /* GroupViewController.h */,
+				D9BDF092189D2D5E0043F601 /* GroupViewController.m */,
 				D97EBBB2188472BE0024CC6E /* LoginViewController.h */,
 				D97EBBB3188472BE0024CC6E /* LoginViewController.m */,
 				D97EBBB5188472CF0024CC6E /* NickNameViewController.h */,
@@ -319,6 +333,16 @@
 				545FA46C189C289900E98B6A /* NotificationsTableViewController.m */,
 			);
 			name = TableViewControllers;
+			sourceTree = "<group>";
+		};
+		D9BDF095189D643B0043F601 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				D9BDF096189D647A0043F601 /* SkedNavigationController.h */,
+				D9BDF097189D647A0043F601 /* SkedNavigationController.m */,
+			);
+			name = NavigationController;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		D9F3AACF1892AAF40039D9DA /* BaseViewControllers */ = {
@@ -450,10 +474,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9BDF094189D2D5E0043F601 /* GroupViewController.m in Sources */,
+				D9BDF093189D2D5E0043F601 /* EmailViewController.m in Sources */,
 				3436E4AC188C737B00006A53 /* CalendarFetcher.m in Sources */,
 				3441F1291899A5CE006DE6D9 /* HttpRequest.m in Sources */,
 				D97145E918856FC0008C97AA /* GroupMenuTableViewController.m in Sources */,
 				3436E4A2188C48ED00006A53 /* WebViewController.m in Sources */,
+				D9BDF098189D647A0043F601 /* SkedNavigationController.m in Sources */,
 				D9F3AAE61892C3060039D9DA /* ScheduleSlotView.m in Sources */,
 				D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */,
 				D9B7ABC21886A2CE00883E67 /* AddMemberViewController.m in Sources */,

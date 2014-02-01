@@ -15,4 +15,6 @@ define('TIME_INTERVAL', 60); // in minutes
 define('TOTAL_INTERVALS', 24);
 
 
+error_reporting(E_ERROR | E_PARSE);
+
 ?>

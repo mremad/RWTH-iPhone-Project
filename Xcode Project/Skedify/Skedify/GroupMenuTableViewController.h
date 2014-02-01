@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
 #import "BaseTableViewController.h"
+#import "GroupViewController.h"
 
 @interface GroupMenuTableViewController : BaseTableViewController
 {

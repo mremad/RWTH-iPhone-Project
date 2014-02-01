@@ -11,7 +11,7 @@
 
 @interface Group : NSObject
 
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic) NSString *name;
 @property (nonatomic, readonly) NSMutableArray *members;
 
 - (id)initWithName:(NSString *)theGroupName;

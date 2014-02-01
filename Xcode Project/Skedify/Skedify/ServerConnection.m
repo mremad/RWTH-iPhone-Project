@@ -35,6 +35,11 @@ static NSString *serverAdress = @"localhost:3000";
     return sharedServerConnection;
 }
 
+- (void) AppStart
+{
+    //method called as soon as app starts
+}
+
 - (id)init
 {
     self = [super init];

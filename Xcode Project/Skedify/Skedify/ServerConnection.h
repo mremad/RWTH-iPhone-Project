@@ -28,6 +28,7 @@
 - (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier;
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
 - (Group *) GetGroup:(NSInteger) index;
+- (void) AppStart;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
 @property (nonatomic, readonly) NSMutableArray *notificationsList;
