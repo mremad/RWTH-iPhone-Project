@@ -25,6 +25,5 @@
 
 -(void)expandScheduleAtLeftDay:(int)leftDay rightDay:(int)rightDay topHour:(int)topHour bottomHour:(int)bottomHour;
 -(void) addWeekDays;
--(void)toggleExpansionWithLeftDay:(int)leftDay rightDay:(int)rightDay topHour:(int)topHour bottomHour:(int)bottomHour;
 
 @end

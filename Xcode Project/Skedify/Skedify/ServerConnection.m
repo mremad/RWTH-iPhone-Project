@@ -40,6 +40,59 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 - (void) AppStart
 {
     //method called as soon as app starts
+    //still testing NsDate
+    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *cal1 = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *comp =[[NSDateComponents alloc] init];
+    [comp setYear:2014];
+    [comp setMonth:1];
+    [comp setDay:5];
+    [comp setMinute:30];
+    [comp setHour:17];
+    [comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    NSDate *startingDate =[cal dateFromComponents:comp];
+    
+    NSDateComponents *compEnd =[[NSDateComponents alloc] init];
+    [compEnd setYear:2014];
+    [compEnd setMonth:1];
+    [compEnd setDay:5];
+    [compEnd setMinute:45];
+    [compEnd setHour:23];
+    [compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    NSDate *endingDate =[cal1 dateFromComponents:compEnd];
+    
+    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate];
+}
+
+//more than one slot
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate
+{
+  /*  NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    unsigned int unitFlags = NSHourCalendarUnit|NSMinuteCalendarUnit;
+    NSDateComponents *comp = [calendar components:unitFlags fromDate:startDate];
+    
+    NSInteger hour = [comp hour];
+    NSInteger minute = [comp minute];*/
+    
+    //this method calles the AddDateToMutableArrayWithWeekNumber
+    //KIKO
+}
+
+//only one slot
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
+{
+   
+    //this method calles the AddDateToMutableArrayWithWeekNumber
+    //KIKO
+    
+}
+
+//for now this method only works in the year 2014
+-(void)AddDateToMutableArrayWithWeekNumber:(NSInteger *)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot
+{
+    //this method should be implemented for the adding in the Schedule
+    //EMAD
 }
 
 - (id)init
@@ -224,7 +277,8 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     // TODO: create group with members on server
     
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
-                                        @"username" : user};
+                                        @"username" : user,
+                                        @"groupname" : [group name]};
     HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Group created: %@", dictionary);
         

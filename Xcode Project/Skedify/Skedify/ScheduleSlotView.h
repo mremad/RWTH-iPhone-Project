@@ -15,5 +15,6 @@
 -(int)getTime;
 
 - (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time;
-
+- (void)expandSlot;
+- (void)collapseSlot;
 @end
