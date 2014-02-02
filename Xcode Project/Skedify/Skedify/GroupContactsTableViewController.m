@@ -9,7 +9,6 @@
 #import "GroupContactsTableViewController.h"
 #import "Group.h"
 #import "AddMemberViewController.h"
-#import "NotificationsTableViewController.h"
 
 @interface GroupContactsTableViewController ()
 
@@ -191,11 +190,9 @@
     [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
 }
 
--(void)notifitcationRecieved
+-(void)memberAcceptRejectinGroupNotification
 {
     [_membersTableView reloadData];
-    
-    //do something about it
 }
 
 

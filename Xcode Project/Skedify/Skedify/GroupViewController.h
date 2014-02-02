@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
-
-@interface GroupViewController : UIViewController<UITextFieldDelegate>
+#import "GroupsTableViewController.h"
+#import "BaseViewController.h"
+@interface GroupViewController : BaseViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textFieldGroupName;
 @property (nonatomic) NSInteger groupIndex;
 @end

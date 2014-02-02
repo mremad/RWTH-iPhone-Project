@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import "ServerConnection.h"
 
 @interface NickNameViewController : BaseViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textFieldNickName;

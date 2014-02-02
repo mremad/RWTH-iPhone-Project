@@ -12,9 +12,11 @@
 #import "ServerConnection.h"
 
 
+
 @interface BaseTableViewController : UITableViewController <CLLocationManagerDelegate,ServerConnectionCurrentNotifiableShakableViewDelegate>
 
 @property CustomBadge *notificationBadge;
 @property UIButton *badgeButton;
 -(NSString *) suitableNameWithAddedDotsIfAboveAcceptableSize:(NSString *) name AndAcceptableSize:(NSInteger) acceptableSize;
+-(void)buttonNotifications:(id)sender;
 @end

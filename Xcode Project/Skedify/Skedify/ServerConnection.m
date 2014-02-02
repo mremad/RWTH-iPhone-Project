@@ -62,7 +62,11 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSDate *endingDate =[cal1 dateFromComponents:compEnd];
     
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate];
+   // [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    //TODO make sure the line above is removed
 }
+
+
 
 //more than one slot
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate
@@ -164,12 +168,14 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     
     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
     
-    [self SendToServerAddGroup:theGroup WithMembers:members];
+    NSInteger *theGroupID =[self SendToServerAddGroup:theGroup WithMembers:members];
+    theGroup.groupId=theGroupID;
 }
 
 
 - (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier
 {
+    //TODO: KIKO change groupIdentifier from array position to group Id
     Group *theIdentifierGroup = (Group *)[_groupsList objectAtIndex:groupIdentifier];
     return [theIdentifierGroup members];
 }
@@ -190,37 +196,69 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 */
 
 
+/*
+ 
+ RequestNotification: Group Invitation , Meeting Invitation
+ 
+ AcceptRejectNotification: MemberAcceptGroup, MemberRejectMeeting, MemberRejectGroup
+ 
+ */
 
--(void) MemberAcceptedGroupInvitation:(Member *) memberThatAcceptedGroupInvitation
+-(Group *) getGroupGivenGroupId:(NSInteger *) theGroupId
 {
-    memberThatAcceptedGroupInvitation.hasAcceptedGroupInvitation=YES;
-    [_delegatenotificationsView notifitcationRecieved];
+    for(int i =0;i<[_groupsList count];i++)
+    {
+        Group* g =[_groupsList objectAtIndex:i];
+        if(g.groupId==theGroupId)
+        {
+            return g;
+        }
+    }
+    NSLog(@"should never happen getGroupGivnGroupId");
+    return nil;
+}
+
+
+-(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation name:(NSInteger*)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
+{
+    Notification *fetechedNotification = [[Notification alloc] init];
+    fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
+    Group *g=[self getGroupGivenGroupId:groupId];
+    fetechedNotification.groupName = g.name;
+    fetechedNotification.senderName = senderName;
+    fetechedNotification.meetingBeginningTime = beginTime;
+    fetechedNotification.meetingEndingTime = endTime;
+    
+    [self.notificationsList addObject:fetechedNotification];
+    self.notificationsNotReadCounter ++;
+}
+
+- (void)storeAccountInfoInUserDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
+    [defaults setObject:_accountNickName forKey:@"accountNickName"];
+    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator 
 }
 
 /*
  * handles all notfication messages recieved from the server
  */
-- (void)didReceiveNotificationFromServer
+- (void)didReceiveFromServerAcceptRejectNotification
 {
-    if ([_delegatenotificationsView respondsToSelector:@selector(notifitcationRecieved)])
+    if(YES) // member accepted Group
     {
-        [_delegatenotificationsView notifitcationRecieved];
-    }
-    else
-    {
-        if(YES) // member accepted Group
-        {
-            Member *theFetchedMember=[[Member alloc]init];
+        Member *theFetchedMember=[[Member alloc]init];
             [self MemberAcceptedGroupInvitation:theFetchedMember];
-        }
-        else if(YES) // member declined Group
-        {
+    }
+    if(YES) // member declined Group
+    {
             //TODO We need to think of this a little about ... (probelm woth multple group names..)
             NSString *emailOfMember = @"theDeclinedMembersEmail";
             NSString *theGroupName =@"theGroupName";
             Group *g = [self GetGroupGivenName:theGroupName];
             [g removeMemberWithEmail:emailOfMember];
-        }
+    }
         
         
         
@@ -230,7 +268,6 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
         // Solution 1 vibrate (easy) . Solution 2 do nothing (easy) . Solution 3 build some kind of notification label
         // appearing showing short discription of the notification and if we built such a thing, we could use it in all other
         // views(Views containg the notification icon)
-    }
 }
 
 -(void)didRecieveShakeMessageFromServer
@@ -271,7 +308,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 }
 
 
--(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
+-(NSInteger *)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     // TODO: create group with members on server
@@ -283,7 +320,8 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
         NSLog(@"Group created: %@", dictionary);
         
     } errorHandler:nil];
-    
+    //TODO Tobis return me the unique group ID
+    return 0;
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group
@@ -338,6 +376,13 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     // TODO: setting/changing the nickname of this member(the signed in member)
 }
 
-
+-(void) MemberAcceptedGroupInvitation:(Member *) memberThatAcceptedGroupInvitation
+{
+    memberThatAcceptedGroupInvitation.hasAcceptedGroupInvitation=YES;
+    if ([_delegatenotificationsView respondsToSelector:@selector(memberAcceptRejectinGroupNotification)])
+    {
+        [_delegatenotificationsView memberAcceptRejectinGroupNotification];
+    }
+}
 
 @end

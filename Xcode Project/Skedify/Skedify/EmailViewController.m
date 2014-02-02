@@ -40,4 +40,12 @@
     }
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].accountEmailAddress = [_textFieldEmail text];
+    [[ServerConnection sharedServerConnection] storeAccountInfoInUserDefaults];
+}
+
+
+
 @end

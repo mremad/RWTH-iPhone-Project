@@ -18,25 +18,6 @@
 
 @implementation LoginViewController
 
-- (IBAction)ValueChangedInUserNameTextField:(id)sender
-{
-    
-}
-- (IBAction)EditingChanedInUserNameTextField:(id)sender
-{
- /*   if([_textFieldUserName text].length>=2)
-    {
-        _textFieldUserName.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-        [_textFieldUserName resignFirstResponder];
-        [_textFieldUserName becomeFirstResponder];
-    }
-    else
-    {
-        _textFieldUserName.keyboardType = UIKeyboardTypeDefault;
-        [_textFieldUserName resignFirstResponder];
-        [_textFieldUserName becomeFirstResponder];
-    }*/
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -48,33 +29,21 @@
 }
 
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [_textFieldUserName resignFirstResponder];
-    [_textFieldPassword resignFirstResponder];
-}
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
-    _textFieldUserName.delegate=self;
-    _textFieldPassword.delegate=self;
   
 	// Do any additional setup after loading the view.
-    [self loadCredentials];
+    //[self loadCredentials];
     
     // Instantiate L2PHandler and set the delegate to receive calls from the handler instance.
     _handler = [[L2PHandler alloc] initWithViewController:self];
     _handler.delegate = self;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return NO;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -84,9 +53,21 @@
 
 - (IBAction)loginButtonPressed:(UIButton*)sender
 {
-    [self saveCredentials:[_textFieldUserName text] withPass:[_textFieldPassword text]];
-    [_handler obtainUserCode];
-//     [self userDataWasFetched]; // TODO: remove in RELEASE
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *accountEmail = [defaults objectForKey: @"accountEmailAddress"];
+    
+    if(accountEmail==nil)
+    {
+        [_handler obtainUserCode];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"toGroupsDirectly" sender:sender];
+    }
+    //[self saveCredentials:[_textFieldUserName text] withPass:[_textFieldPassword text]];
+    
+    
+// [self userDataWasFetched]; // TODO: remove in RELEASE
 }
 
 #pragma mark - APIDelegate methods
@@ -95,34 +76,6 @@
 {
     // Trigger the login segue after the handler notifies that all user data has been fetched.
     [self performSegueWithIdentifier:@"Login" sender:self.ButtonLogin];
-}
-
-/**
- saves username and password to userdefaults
- */
-- (void) saveCredentials: (NSString *) username withPass: (NSString *) password
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:username forKey:@"user"];
-    [defaults setObject:password forKey:@"pass"];
-    [defaults synchronize];
-}
-
-/**
- loads username and password from userdefaults and sets textviews
- */
-- (void) loadCredentials
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *user = [defaults objectForKey: @"user"];
-    NSString *pass = [defaults objectForKey: @"pass"];
-    if (user != nil) {
-        [_textFieldUserName setText:user];
-        NSLog(@"user: %@", user);
-        [_textFieldPassword setText:pass];
-    } else {
-        NSLog(@"no user information cached");
-    }
 }
 
 
