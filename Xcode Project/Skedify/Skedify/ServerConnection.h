@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Member.h"
 #import "Group.h"
+#import "GlobalVariables.h"
 
 
 @protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
@@ -35,6 +36,8 @@
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate;
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate;
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
