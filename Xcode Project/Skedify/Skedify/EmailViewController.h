@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 #import "Member.h"
+#import "ServerConnection.h"
 @interface EmailViewController : BaseViewController <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textFieldEmail;
 

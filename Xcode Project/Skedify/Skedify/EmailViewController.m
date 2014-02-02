@@ -28,8 +28,6 @@
 
 -(BOOL)isAllowedToLeaveView
 {
-    return YES;
-
     if(![Member NSStringIsValidRWTHAachenEmail:[_textFieldEmail text]])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please Enter a valid RWTH Aachen Email Address!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
@@ -41,5 +39,13 @@
         return YES;
     }
 }
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].accountEmailAddress = [_textFieldEmail text];
+    [[ServerConnection sharedServerConnection] storeAccountInfoInUserDefaults];
+}
+
+
 
 @end

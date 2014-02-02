@@ -49,4 +49,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [ServerConnection sharedServerConnection].accountNickName = [_textFieldNickName text];
+    
+}
+
 @end

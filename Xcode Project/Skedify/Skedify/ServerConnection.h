@@ -48,9 +48,12 @@ enum _acceptRejectNotification {
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate;
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate;
+- (void) storeAccountInfoInUserDefaults;
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
 @property NSMutableArray *notificationsList;
 @property int notificationsNotReadCounter;
+@property (nonatomic) NSString *accountEmailAddress;
+@property (nonatomic) NSString  *accountNickName;
 @end

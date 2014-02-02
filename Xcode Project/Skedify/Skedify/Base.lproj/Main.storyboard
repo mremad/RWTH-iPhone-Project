@@ -35,6 +35,7 @@
                     <connections>
                         <outlet property="ButtonLogin" destination="MgM-mt-rio" id="zcN-V0-RSA"/>
                         <segue destination="xIV-Oe-UIG" kind="push" identifier="Login" id="sWq-7m-p4X"/>
+                        <segue destination="hbl-0e-rrY" kind="push" identifier="toGroupsDirectly" id="txX-wm-42n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -95,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hjR-md-OIs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="251" y="154"/>
+            <point key="canvasLocation" x="271" y="682"/>
         </scene>
         <!--Email View Controller - Email-->
         <scene sceneID="uzl-Mz-yYo">
@@ -137,7 +138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88I-SV-p4M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="770" y="154"/>
+            <point key="canvasLocation" x="790" y="682"/>
         </scene>
         <!--Add Group View Controller-->
         <scene sceneID="opl-7o-TgV">
@@ -622,6 +623,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="txX-wm-42n"/>
         <segue reference="dis-ZP-ZU9"/>
     </inferredMetricsTieBreakers>
 </document>

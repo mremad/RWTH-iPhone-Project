@@ -62,7 +62,11 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSDate *endingDate =[cal1 dateFromComponents:compEnd];
     
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate];
+   // [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    //TODO make sure the line above is removed
 }
+
+
 
 //more than one slot
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate
@@ -229,6 +233,13 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     self.notificationsNotReadCounter ++;
 }
 
+- (void)storeAccountInfoInUserDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
+    [defaults setObject:_accountNickName forKey:@"accountNickName"];
+    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator 
+}
 
 /*
  * handles all notfication messages recieved from the server
