@@ -277,7 +277,8 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     // TODO: create group with members on server
     
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
-                                        @"username" : user};
+                                        @"username" : user,
+                                        @"groupname" : [group name]};
     HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Group created: %@", dictionary);
         
