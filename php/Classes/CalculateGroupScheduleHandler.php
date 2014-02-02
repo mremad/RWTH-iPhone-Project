@@ -37,15 +37,8 @@ class CalculateGroupScheduleHandler extends GroupHandler
 							$maxTime = $lastkey;
 						if ($firstkey < $minTime)
 							$minTime = $firstkey;
-							
-							
-						print_r($availability[$userID]);
 					}
-					
-					
-					
-					
-					//$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+
 					$states = array("available", "busy", "user_available", "appointment_fixed");
 					
 					$counter = 0;

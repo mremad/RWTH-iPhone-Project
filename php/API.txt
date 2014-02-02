@@ -1,0 +1,17 @@
+API actions:
+action=Login&username=<email_address>
+
+action=AddGroup&username=<email_address> 
+-> retrieves the groupID
+
+action=AddGroupUser&username=<email_address>&groupID=<groupID>
+
+action=RemoveGroupUser&username=<email_address>&groupID=<groupID>
+
+action=CalculateGroupSchedule&username=<email_address>&groupID=<groupID>
+-> retrieves an array in the following format:
+[{"start":"1970-01-01 00:15:00","end":"1970-01-01 00:29:59","state":"appointment_fixed"},{"start":"1970-01-01 00:30:00","end":"1970-01-01 00:44:59","state":"busy"},{"start":"1970-01-01 00:45:00","end":"1970-01-01 00:59:59","state":"busy”}]
+
+action=SetAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>
+action=SetAvailable&username=<email_address>&start=<unix_timestamp>&end=<unix_timestamp>
+action=SetBusy&username=<email_address>&start=<unix_timestamp>&end=<unix_timestamp>
