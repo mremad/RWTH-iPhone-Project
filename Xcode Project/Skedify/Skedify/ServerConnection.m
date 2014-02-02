@@ -247,15 +247,20 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     // TODO:
 }
 
--(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSNumber *) startingTimeSlot toTimeSlot:(NSNumber *) endingTimeSlot
+-(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
     // TODO: create meeting with group on server
 }
 
 
--(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSNumber *) startingTimeSlot
+-(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
 {
     // TODO: reject the meeting that was created starting in this timeslot
+}
+
+-(void)SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
+{
+    // TODO: accept the meeting that was created starting in this timeslot
 }
 
 -(void)SendToServerSendSchedule
