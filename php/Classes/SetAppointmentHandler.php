@@ -4,7 +4,6 @@ class SetAppointmentHandler extends GroupHandler
 {
 	public function trigger()
 	{	
-		// Escape string for protecting against injection.
 		$groupID = $this->getGroupIDIfExists($this->options["groupID"]);
 		$start = $this->options["start"];
 		$end = $this->options["end"];

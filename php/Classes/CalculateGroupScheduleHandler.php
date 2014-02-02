@@ -25,6 +25,9 @@ class CalculateGroupScheduleHandler extends GroupHandler
 					{
 						$availability[$userID] = $this->getUserAvailability($userID);
 						
+						if (empty($availability[$userID]))
+							continue;
+						
 						$lastkey = end(array_keys($availability[$userID]));
 						
 						reset($availability[$userID]);
@@ -44,6 +47,10 @@ class CalculateGroupScheduleHandler extends GroupHandler
 					$counter = 0;
 					for ($i=$minTime; $i <=$maxTime; $i++)
 					{
+						if ($i == 0 || $i == null)
+							continue;
+							
+							
 						$busy = false;
 						
 						foreach($groupUsers as $userID)

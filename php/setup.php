@@ -15,12 +15,12 @@ else
 	$res = $mysqli->query($query);
 	
 	// Groups table
-	$query = "CREATE TABLE IF NOT EXISTS groups (ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, ownerID BIGINT UNSIGNED NOT NULL, PRIMARY KEY (ID))";
+	$query = "CREATE TABLE IF NOT EXISTS groups (ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, ownerID BIGINT UNSIGNED NOT NULL, groupname VARCHAR(64) NOT NULL, PRIMARY KEY (ID))";
 	$res = $mysqli->query($query);
 	
 	
 	// Group users table
-	$query = "CREATE TABLE IF NOT EXISTS groupusers (groupID BIGINT UNSIGNED NOT NULL, userID BIGINT UNSIGNED NOT NULL)";
+	$query = "CREATE TABLE IF NOT EXISTS groupusers (groupID BIGINT UNSIGNED NOT NULL, userID BIGINT UNSIGNED NOT NULL, accepted TINYINT NOT NULL)";
 	$res = $mysqli->query($query);
 	
 	// Personal Schedule table
