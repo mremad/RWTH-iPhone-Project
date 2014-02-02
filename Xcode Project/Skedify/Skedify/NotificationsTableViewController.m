@@ -81,17 +81,21 @@
     NSString *alertMessage = @"You have received a ";
     
     if (notificationChosen.isGroupInvitationNotification) {
-        alertMessage = [[[[[alertMessage stringByAppendingString:@"Group Invitation from "] stringByAppendingString:notificationChosen.senderName] stringByAppendingString:@" with group name: "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@"."];
+        alertMessage = [[[[[alertMessage stringByAppendingString:@"Group Invitation from "] stringByAppendingString:notificationChosen.senderName] stringByAppendingString:@", group name "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@"."];
     }
     else{
-        NSString *beginDate = [NSDateFormatter localizedStringFromDate:notificationChosen.meetingBeginningTime
-                                                              dateStyle:NSDateFormatterShortStyle
+        
+        NSString *date = [NSDateFormatter localizedStringFromDate:notificationChosen.meetingBeginningTime
+                                                        dateStyle:NSDateFormatterShortStyle
+                                                        timeStyle:NSDateFormatterNoStyle];
+        NSString *beginTime = [NSDateFormatter localizedStringFromDate:notificationChosen.meetingBeginningTime
+                                                              dateStyle:NSDateFormatterNoStyle
                                                               timeStyle:NSDateFormatterShortStyle];
-        NSString *endDate = [NSDateFormatter localizedStringFromDate:notificationChosen.meetingEndingTime
-                                                              dateStyle:NSDateFormatterShortStyle
+        NSString *endTime = [NSDateFormatter localizedStringFromDate:notificationChosen.meetingEndingTime
+                                                              dateStyle:NSDateFormatterNoStyle
                                                               timeStyle:NSDateFormatterShortStyle];
         
-        alertMessage = [[[[[[[alertMessage stringByAppendingString:@"Meeting Invitation for "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@". Begins at: "] stringByAppendingString:beginDate] stringByAppendingString:@". Ends at: "] stringByAppendingString:endDate] stringByAppendingString:@"."];
+        alertMessage = [[[[[[[[[alertMessage stringByAppendingString:@"Meeting Invitation for "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@". On: "] stringByAppendingString:date] stringByAppendingString:@". Begins at: "] stringByAppendingString:beginTime] stringByAppendingString:@" and Ends at: "] stringByAppendingString:endTime] stringByAppendingString:@"."];
     }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
     // optional - add more buttons:
