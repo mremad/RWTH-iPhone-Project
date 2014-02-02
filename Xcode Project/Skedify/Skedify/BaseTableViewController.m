@@ -264,6 +264,15 @@
 
 -(void)shakeRecieved
 {
+    NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
+    if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
+    {
+        return;
+    }
+    else
+    {
+        [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
+    }
     
     UINavigationController * baseNC;
     if([self.title isEqual:@"notifications"])
