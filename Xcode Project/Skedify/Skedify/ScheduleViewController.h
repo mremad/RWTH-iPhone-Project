@@ -16,6 +16,7 @@ typedef enum SlotState {SlotStateEmpty,
 
 @interface ScheduleViewController : UIViewController<UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet ScheduleScrollView *scrollView;
+@property BOOL* fullSchedule;
 
 -(void)singleTap:(UITapGestureRecognizer*)sender;
 
