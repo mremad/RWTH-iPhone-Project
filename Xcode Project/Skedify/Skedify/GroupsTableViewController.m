@@ -150,10 +150,10 @@
     {
        //set as delegate
     }
-    if([[segue identifier] isEqual:@"toNotifications"])
-    {
-     NotificationsTableViewController *notificationsVC=(NotificationsTableViewController *)[segue destinationViewController];
-    }
+//    if([[segue identifier] isEqual:@"toNotifications"])
+//    {
+//     NotificationsTableViewController *notificationsVC=(NotificationsTableViewController *)[segue destinationViewController];
+//    }
 }
 
 

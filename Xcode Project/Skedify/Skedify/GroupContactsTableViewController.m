@@ -170,10 +170,10 @@
         AddMemberViewController *groupContactsMenu=(AddMemberViewController *)[segue destinationViewController];
         groupContactsMenu.groupIndex=_groupIndex; //just delegating the value to the next controller
     }
-    if([[segue identifier] isEqual:@"toNotifications"])
-    {
-        NotificationsTableViewController *notificationsVC=(NotificationsTableViewController *)[segue destinationViewController];
-    }
+//    if([[segue identifier] isEqual:@"toNotifications"])
+//    {
+//        NotificationsTableViewController *notificationsVC=(NotificationsTableViewController *)[segue destinationViewController];
+//    }
     
 }
 

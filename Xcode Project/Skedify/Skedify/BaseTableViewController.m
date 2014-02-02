@@ -95,11 +95,11 @@
 
 -(NSString *) suitableNameWithAddedDotsIfAboveAcceptableSize:(NSString *) name AndAcceptableSize:(NSInteger) acceptableSize
 {
-    int size=[name length];
+    int size=(int)[name length];
     NSMutableString *result = [[NSMutableString alloc]init];
     if (size>acceptableSize)
     {
-        int start = acceptableSize/2;
+        int start = (int)acceptableSize/2;
         for(int i = 0;i < start ;i++)
         {
             [result appendFormat:@"%c",[name characterAtIndex:i]];
@@ -107,7 +107,7 @@
         
         [result appendFormat:@"..."];
         
-        int end = acceptableSize/3;
+        int end = (int)acceptableSize/3;
         for(int i = size-end;i < size;i++)
         {
             [result appendFormat:@"%c",[name characterAtIndex:i]];
@@ -247,7 +247,7 @@
     [self addLocalNotification];
 }
 
--(void)shakeRecieved:(BOOL)firstShaker{
+-(void)shakeRecieved{
     
 }
 
