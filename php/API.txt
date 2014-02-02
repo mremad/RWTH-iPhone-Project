@@ -32,7 +32,7 @@ action=PullData&username=<username>
 -> shake information still missing!!!
 
 
-action=Shake&username=<username>&latitude=<latitude>&longitude=<longitude>&timestamp=<unix_timestamp>
+action=Shake&username=<username>&latitude=<latitude>&longitude=<longitude>
 -> sends the server that one person shaked the phone.
 
 Is this necessary???
