@@ -60,8 +60,9 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     [compEnd setHour:23];
     [compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDate *endingDate =[cal1 dateFromComponents:compEnd];
-    
+
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate];
+
    // [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     //TODO make sure the line above is removed
 }
@@ -105,6 +106,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     if (self)
     {
         [self fetchNeededInformation];
+        _dateOfLastShakeGesture= [NSDate dateWithTimeIntervalSince1970:0];
     }
     
     return self;

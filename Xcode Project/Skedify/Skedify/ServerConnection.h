@@ -56,4 +56,5 @@ enum _acceptRejectNotification {
 @property int notificationsNotReadCounter;
 @property (nonatomic) NSString *accountEmailAddress;
 @property (nonatomic) NSString  *accountNickName;
+@property (nonatomic) NSDate* dateOfLastShakeGesture;
 @end
