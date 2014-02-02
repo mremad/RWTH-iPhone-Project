@@ -14,16 +14,18 @@
 
 @implementation ScheduleScrollView
 {
-    ScheduleSlotView * scheduleArr[7][17]; //TODO: add #define for the constant numbers
-    CGPoint slotOriginalPositions[7][17];
+    ScheduleSlotView * scheduleArr[NUMBER_DAYS][NUMBER_HOURS]; //TODO: add #define for the constant numbers
+    CGPoint slotOriginalPositions[NUMBER_DAYS][NUMBER_HOURS];
     
-    UILabel * dayLabels[7];
-    CGPoint dayLabelOriginalPositions[7];
+    UILabel * dayLabels[NUMBER_DAYS];
+    CGPoint dayLabelOriginalPositions[NUMBER_DAYS];
     
-    UIView * timeLabels[17][2];
-    CGPoint timeOriginalPositions[17][2];
+    UIView * timeLabels[NUMBER_HOURS][2];
+    CGPoint timeOriginalPositions[NUMBER_HOURS][2];
     
     UIView* extraTimeLabels[9];
+    
+    BOOL expanded;
 }
 
 
@@ -32,6 +34,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.userInteractionEnabled = YES;
+        expanded = FALSE;
+        
+        UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(handleSingleCollapseTap:)];
+        [tapRecognizer setNumberOfTapsRequired:1];
+        tapRecognizer.numberOfTouchesRequired = 1;
+        [self addGestureRecognizer:tapRecognizer];
     }
     [self AddSlots];
     return self;
@@ -75,14 +84,14 @@
 -(void)AddSlots
 {
   
-    for(int i=7;i<24;i++)
+    for(int i=STARTING_HOUR;i<ENDING_HOUR;i++)
     {
         UILabel *label =[[UILabel alloc] init];
         label.text=[NSString stringWithFormat:@"%@", [self getTime:i]];
         label.bounds =CGRectMake(0, 0, TIME_WIDTH, TIME_HEIGHT);
         label.layer.borderColor = [UIColor blackColor].CGColor;
         //label.layer.borderWidth = 0;
-        label.center=CGPointMake((TIME_WIDTH/2) + 10,15+((i-7)*TIME_HEIGHT));
+        label.center=CGPointMake((TIME_WIDTH/2) + 10,15+((i-STARTING_HOUR)*TIME_HEIGHT));
         label.backgroundColor=[UIColor clearColor];
         label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
         label.textColor = [UIColor colorWithRed:0.3 green:0.5 blue:0.6 alpha:1];
@@ -90,29 +99,29 @@
         
         CGFloat borderWidth = 0.5;
         UIColor *borderColor = [UIColor colorWithRed:0.5 green:0.6 blue:0.6 alpha:0.7];
-        UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(7,((i-7)*TIME_HEIGHT)+5, self.layer.bounds.size.width-14, borderWidth)];
+        UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(7,((i-STARTING_HOUR)*TIME_HEIGHT)+5, self.layer.bounds.size.width-14, borderWidth)];
         topView.opaque = YES;
         topView.backgroundColor = borderColor;
         
-        timeLabels[i-7][0] = label;
-        timeOriginalPositions[i-7][0] = label.center;
+        timeLabels[i-STARTING_HOUR][0] = label;
+        timeOriginalPositions[i-STARTING_HOUR][0] = label.center;
         
-        timeLabels[i-7][1] = topView;
-        timeOriginalPositions[i-7][1] = topView.center;
+        timeLabels[i-STARTING_HOUR][1] = topView;
+        timeOriginalPositions[i-STARTING_HOUR][1] = topView.center;
         
         [self addSubview:topView];
         [self addSubview:label];
     }
     
     
-    float startingPointX = TIME_WIDTH - 3;
-    for (int i=0; i<7; i++)
+    float startingPointX = TIME_WIDTH;
+    for (int i=0; i<NUMBER_DAYS; i++)
     {
-        for (int j=7; j<24; j++)
+        for (int j=STARTING_HOUR; j<ENDING_HOUR; j++)
         {
-            float startingPointY = TIME_STARTING_CENTER_POINT - (3*TIME_HEIGHT/2)  + ((j-7)*TIME_HEIGHT) + 7;
+            float startingPointY = TIME_STARTING_CENTER_POINT - (3*TIME_HEIGHT/2)  + ((j-STARTING_HOUR)*TIME_HEIGHT);
             
-            CGRect r = CGRectMake(startingPointX + i*DAY_WIDTH + DAY_WIDTH/4,startingPointY + TIME_HEIGHT + TIME_HEIGHT/4, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT);
+            CGRect r = CGRectMake(startingPointX + i*DAY_WIDTH,startingPointY + TIME_HEIGHT + TIME_HEIGHT/4, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT);
             
             ScheduleSlotView *slot =[[ScheduleSlotView alloc] initWithFrame:r withDay:(Day)i withTime:j];
             
@@ -123,14 +132,17 @@
              [slot addGestureRecognizer:doubleTapRecognizer];*/ //TODO: double tap
             
             UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                            action:@selector(handleSingleTap:)];
+                                                                                            action:@selector(handleSingleExpandTap:)];
             [tapRecognizer setNumberOfTapsRequired:1];
             tapRecognizer.numberOfTouchesRequired = 1;
             //[tapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+            
+            
+            
             [slot addGestureRecognizer:tapRecognizer];
             
-            scheduleArr[i][j-7] = slot;
-            slotOriginalPositions[i][j-7] = slot.center;
+            scheduleArr[i][j-STARTING_HOUR] = slot;
+            slotOriginalPositions[i][j-STARTING_HOUR] = slot.center;
             [self addSubview:slot];
             
         }
@@ -138,14 +150,31 @@
 
 }
 
--(void)handleSingleTap:(UITapGestureRecognizer*)sender
+-(void)handleSingleExpandTap:(UITapGestureRecognizer*)sender
 {
-    [self.delegate singleTap:sender];
+    
+    Day day =[(ScheduleSlotView*)sender.view getDay];
+    int time = [(ScheduleSlotView*)sender.view getTime];
+    NSLog(@"Tapped at time:%d and Day:%d!",time,day);
+    
+    int leftDay  = (int)day - 1;
+    int rightDay = (int)day + 1;
+    
+    int topHour = time-1;
+    int bottomHour = time+1;
+    
+    //_scrollView.scrollEnabled = NO;
+    
+    if(!expanded)
+        [self expandScheduleAtLeftDay:leftDay rightDay:rightDay topHour:topHour bottomHour:bottomHour];
+    else [self collapseSchedule];
+    
 }
 
--(void)handleDoubleTap:(UITapGestureRecognizer*)sender
+-(void)handleSingleCollapseTap:(UITapGestureRecognizer*)sender
 {
-    [self.delegate doubleTap:sender];
+    if(expanded)
+        [self collapseSchedule];
 }
 
 -(void) addWeekDays
@@ -156,7 +185,7 @@
     
     
     NSArray *weekDays = @[@"Mo",@"Tu",@"We",@"Th",@"Fr",@"Sa",@"Su"];
-    for(int i=0;i<7;i++)
+    for(int i=0;i<NUMBER_DAYS;i++)
     {
         UILabel *label =[[UILabel alloc] init];
         label.text=[NSString stringWithFormat:@"%@", [weekDays objectAtIndex:i]];
@@ -174,107 +203,105 @@
 
 -(void)collapseSchedule
 {
-    for(int i = 0;i<7;i++)
+    for(int i = 0;i<NUMBER_DAYS;i++)
     {
-        for(int j = 0;j<17;j++)
+        for(int j = 0;j<NUMBER_HOURS;j++)
         {
             ScheduleSlotView* slot = scheduleArr[i][j];
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.5];
-            [UIView setAnimationDelay:0.0];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-            slot.center = slotOriginalPositions[i][j];
-            [UIView commitAnimations];
+            
+            [slot collapseSlot];
+            
+            [UIView animateWithDuration:0.7
+                             animations:^{
+                                 slot.center = slotOriginalPositions[i][j];
+                                    }
+                             completion:^(BOOL finished){expanded = false;}];
+            
+            [UIView animateWithDuration:0.6
+                             animations:^{
+                                 slot.alpha = 1;}
+                             completion:^(BOOL finished){}];
+            
+            
+
         }
     }
     
-    for(int i = 0;i<17;i++)
+    for(int i = 0;i<NUMBER_HOURS;i++)
     {
         for(int j = 0;j<2;j++)
         {
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.5];
-            [UIView setAnimationDelay:0.0];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-            timeLabels[i][j].center = timeOriginalPositions[i][j];
-            [UIView commitAnimations];
+            [UIView animateWithDuration:0.7
+                             animations:^{timeLabels[i][j].center = timeOriginalPositions[i][j];}
+                             completion:^(BOOL finished){expanded = false;}];
+
         }
     }
     
-    for(int i = 0;i<7;i++)
+    for(int i = 0;i<NUMBER_DAYS;i++)
     {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.5];
-        [UIView setAnimationDelay:0.0];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-        dayLabels[i].center = dayLabelOriginalPositions[i];
-        [UIView commitAnimations];
+        [UIView animateWithDuration:0.7
+                         animations:^{dayLabels[i].center = dayLabelOriginalPositions[i];}
+                         completion:^(BOOL finished){expanded = false;}];
+
+        
+
     }
     
     for(int i = 0;i<9;i++)
     {
-        [UIView animateWithDuration:0.4 animations:^{
+        [UIView animateWithDuration:0.7 animations:^{
             extraTimeLabels[i].alpha = 0; } completion:^(BOOL finished){
-            [extraTimeLabels[i] removeFromSuperview];}];
+            [extraTimeLabels[i] removeFromSuperview];
+                expanded = false;}];
         
         
         
     }
 }
 
--(void)toggleExpansionWithLeftDay:(int)leftDay rightDay:(int)rightDay topHour:(int)topHour bottomHour:(int)bottomHour
-{
-    static BOOL expanded = FALSE;
-    
-    if(!expanded)
-    {
-        [self expandScheduleAtLeftDay:leftDay rightDay:rightDay topHour:topHour bottomHour:bottomHour];
-        expanded = TRUE;
-    }
-    else
-    {
-        [self collapseSchedule];
-        expanded = FALSE;
-    }
-}
+
 
 -(void)expandTimeWithTopHour:(int)topHour bottomHour:(int)bottomHour
 {
     int shiftOffset = 0;
     int extraLabelsCounter = 0;
-    for(int i = 7;i<24;i++)
+    for(int i = STARTING_HOUR;i<ENDING_HOUR;i++)
     {
         NSLog(@"%d %d",topHour,bottomHour);
 
-        for(int j = 0;j < 7;j++)
+        for(int j = 0;j < NUMBER_DAYS;j++)
         {
-            ScheduleSlotView* slot = scheduleArr[j][i-7];
+            ScheduleSlotView* slot = scheduleArr[j][i-STARTING_HOUR];
             
             
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationDuration:0.6];
-            [UIView setAnimationDelay:0.0];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-            slot.center = CGPointMake(slot.center.x, slot.center.y+shiftOffset);
-            [UIView commitAnimations];
+            [UIView animateWithDuration:0.35
+                             animations:^{
+                                 slot.center = CGPointMake(slot.center.x, slot.center.y+shiftOffset);}
+                             completion:^(BOOL finished){
+                                 expanded = true;
+                             }];
+            if(i>=topHour && i<= bottomHour)
+                [slot expandSlot];
             
             
         }
         
         
-        UIView* timeLabel = timeLabels[i-7][0];
-        UIView* timeLine = timeLabels[i-7][1];
+        UIView* timeLabel = timeLabels[i-STARTING_HOUR][0];
+        UIView* timeLine = timeLabels[i-STARTING_HOUR][1];
         
         
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.6];
-        [UIView setAnimationDelay:0.0];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        [UIView animateWithDuration:0.35
+                         animations:^{
+                             timeLabel.center = CGPointMake(timeLabel.center.x, timeLabel.center.y+shiftOffset);
+                             timeLine.center = CGPointMake(timeLine.center.x, timeLine.center.y+shiftOffset); }
+                         completion:^(BOOL finished){
+                             expanded = true;
+                         }];
         
-        timeLabel.center = CGPointMake(timeLabel.center.x, timeLabel.center.y+shiftOffset);
-        timeLine.center = CGPointMake(timeLine.center.x, timeLine.center.y+shiftOffset);
         
-        [UIView commitAnimations];
+
         
 
         
@@ -282,20 +309,26 @@
         {
             for(int j = 1;j<4;j++)
             {
+                if(j == 1)
+                    shiftOffset += SCHEDULE_SLOT_QUARTER_HEIGHT;
+                
                 UILabel *label =[[UILabel alloc] init];
                 label.text=[NSString stringWithFormat:@"%@", [self getTime:i withMinutes:15*j]];
                 label.bounds =CGRectMake(0, 0, TIME_WIDTH, TIME_HEIGHT);
-                label.center = CGPointMake(timeLabels[i-7][0].center.x, timeLabels[i-7][0].center.y);
+                label.center = CGPointMake(timeLabels[i-STARTING_HOUR][0].center.x, timeLabels[i-STARTING_HOUR][0].center.y);
                 label.layer.borderColor = [UIColor blackColor].CGColor;
                 label.alpha = 0;
-                //label.layer.borderWidth = 0;
-                [UIView beginAnimations:nil context:nil];
-                [UIView setAnimationDuration:0.6];
-                [UIView setAnimationDelay:0.0];
-                [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-                label.center=CGPointMake((TIME_WIDTH/2) + 10,15+((i-7)*TIME_HEIGHT + (j+1)*10 + shiftOffset));
-                label.alpha = 1;
-                [UIView commitAnimations];
+                
+                [UIView animateWithDuration:0.35
+                                 animations:^{
+                                     label.center=CGPointMake((TIME_WIDTH/2) + 10,
+                                                              SCHEDULE_SLOT_QUARTER_HEIGHT+((i-STARTING_HOUR)*TIME_HEIGHT + (j)*SCHEDULE_SLOT_QUARTER_HEIGHT + shiftOffset));
+                                     label.alpha = 1; }
+                                 completion:^(BOOL finished){
+                                     expanded = true;
+                                 }];
+                
+
                 label.backgroundColor=[UIColor clearColor];
                 label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10];
                 label.textColor = [UIColor colorWithRed:0.3 green:0.5 blue:0.6 alpha:1];
@@ -304,9 +337,9 @@
                 [self addSubview:label];
                 
                 if(j == 3)
-                    shiftOffset += 15;
+                    shiftOffset += SCHEDULE_SLOT_QUARTER_HEIGHT;
                 
-                shiftOffset += 10;
+                shiftOffset += SCHEDULE_SLOT_QUARTER_HEIGHT;
             }
         }
         
@@ -319,44 +352,80 @@
     
     for(int i = leftDay;i>=0;i--)
     {
-        int offset = (((i)*2))*(3*(DAY_WIDTH - SCHEDULES_SLOT_WIDTH)/4);
+        int offset = (((i)*2))*(2*(SCHEDULES_SLOT_WIDTH - SCHEDULES_SLOT_EFFECTIVE_WIDTH)/4);
         
-        for(int j = 7;j<24;j++)
+        for(int j = STARTING_HOUR;j<ENDING_HOUR;j++)
         {
 
             
-            ScheduleSlotView* slot = scheduleArr[i][j-7];
-            slot.center = CGPointMake(slot.center.x-offset, slot.center.y);
+            ScheduleSlotView* slot = scheduleArr[i][j-STARTING_HOUR];
+            
+            [UIView animateWithDuration:0.35
+                             animations:^{ slot.center = CGPointMake(slot.center.x-offset, slot.center.y);
+                                 
+                             }
+                             completion:^(BOOL finished){
+                                 expanded = true;
+                             }];
+            
+            [UIView animateWithDuration:0.6
+                             animations:^{
+                                 
+                                 slot.alpha = 0.3;}
+                             completion:^(BOOL finished){}];
+           
             
         }
         
 
         
+        
         UILabel* dayLabel = dayLabels[i];
-        dayLabel.center = CGPointMake(dayLabel.center.x-offset, dayLabel.center.y);
+        
+        [UIView animateWithDuration:0.35
+                         animations:^{dayLabel.center = CGPointMake(dayLabel.center.x-offset, dayLabel.center.y); }
+                         completion:^(BOOL finished){
+                             expanded = true;
+                         }];
+        
 
         
         
     }
     
-    for(int i = rightDay;i<7;i++)
+    for(int i = rightDay;i<NUMBER_DAYS;i++)
     {
-        int offset = (((6-i)*2))*(3*(DAY_WIDTH - SCHEDULES_SLOT_WIDTH)/4);
-        for(int j = 7;j<24;j++)
+        int offset = (((6-i)*2))*(2*(SCHEDULES_SLOT_WIDTH - SCHEDULES_SLOT_EFFECTIVE_WIDTH)/4);
+        for(int j = STARTING_HOUR;j<ENDING_HOUR;j++)
         {
+            ScheduleSlotView* slot = scheduleArr[i][j-STARTING_HOUR];
             
-
+            [UIView animateWithDuration:0.35
+                             animations:^{
+                                 slot.center = CGPointMake(slot.center.x+offset, slot.center.y);
+                                 }
+                             completion:^(BOOL finished){
+                                 expanded = true;
+                             }];
             
-            ScheduleSlotView* slot = scheduleArr[i][j-7];
-            slot.center = CGPointMake(slot.center.x+offset, slot.center.y);
+            [UIView animateWithDuration:0.6
+                             animations:^{
+                                 
+                                 slot.alpha = 0.3;}
+                             completion:^(BOOL finished){}];
             
-    
+            
         }
         
 
         
         UILabel* dayLabel = dayLabels[i];
-        dayLabel.center = CGPointMake(dayLabel.center.x+offset, dayLabel.center.y);
+        
+        [UIView animateWithDuration:0.35
+                         animations:^{dayLabel.center = CGPointMake(dayLabel.center.x+offset, dayLabel.center.y); }
+                         completion:^(BOOL finished){
+                expanded = true;
+            }];
         
     }
     
@@ -367,22 +436,8 @@
                        topHour:(int)topHour
                     bottomHour:(int)bottomHour
 {
-    [UIView animateWithDuration:0.2 animations:^{ [self expandDaysWithLeft:leftDay withRight:rightDay]; } completion:^(BOOL finished){
-        [self expandTimeWithTopHour:topHour bottomHour:bottomHour];}];
-
-    
-    
-    
+    [self expandDaysWithLeft:leftDay withRight:rightDay];
+    [self expandTimeWithTopHour:topHour bottomHour:bottomHour];
 }
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

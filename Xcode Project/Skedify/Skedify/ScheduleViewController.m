@@ -19,6 +19,9 @@
 @end
 
 @implementation ScheduleViewController
+{
+    BOOL fullSchedule[7][17*4];
+}
 
 
 
@@ -26,7 +29,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -35,7 +38,6 @@
 {
     [super viewDidLoad];
     //set scrollView
-    
     
     
     _scrollView=[[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)];
@@ -53,28 +55,10 @@
 
 -(void)singleTap:(UITapGestureRecognizer*)sender
 {
-    Day day =[(ScheduleSlotView*)sender.view getDay];
-    int time = [(ScheduleSlotView*)sender.view getTime];
-    NSLog(@"Tapped at time:%d and Day:%d!",time,day);
-    
-    int leftDay  = (int)day - 1;
-    int rightDay = (int)day + 1;
-    
-    int topHour = time-1;
-    int bottomHour = time+1;
-    
-    //_scrollView.scrollEnabled = NO;
-    
-    [_scrollView toggleExpansionWithLeftDay:leftDay rightDay:rightDay topHour:topHour bottomHour:bottomHour];
-    
     
     
 }
 
--(void)doubleTap:(UITapGestureRecognizer*)sender
-{
-    NSLog(@"Double Tapped!");
-}
 
 - (void)didReceiveMemoryWarning
 {
