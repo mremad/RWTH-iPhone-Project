@@ -20,6 +20,15 @@
         // Set icon badge number to zero
         application.applicationIconBadgeNumber = 0;
     }
+    //Background Thread to check on the server
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        
+         [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+        
+        [[NSRunLoop currentRunLoop] run];
+        
+    });
     return YES;
 }
 							
@@ -69,6 +78,17 @@
     
     // Set icon badge number to zero
     application.applicationIconBadgeNumber = 0;
+}
+
+- (void)timerFireMethod:(NSTimer *)timer{
+    
+    //TODO: Call checking method
+    if (YES) { //if there is shaking motion
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //TODO: Call Shake received
+        });
+    }
+    
 }
 
 @end
