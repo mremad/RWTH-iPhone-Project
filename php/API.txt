@@ -19,7 +19,7 @@ action=SetAvailable&username=<email_address>&start=<unix_timestamp>&end=<unix_ti
 action=SetBusy&username=<email_address>&start=<unix_timestamp>&end=<unix_timestamp>
 
 action=GetGroupInvitations&username=<username>
-->retrieves senders (the people who added the user to a group)
+->retrieves senders (the people who added the user to a group) //Question: Why people ? isn't  it one user?
 action=AcceptInvitation&username=<username>&groupID=<groupID>
 action=RejectInvitation&username=<username>&groupID=<groupID>
 
@@ -36,7 +36,8 @@ action=Shake&username=<username>&latitude=<latitude>&longitude=<longitude>&times
 -> sends the server that one person shaked the phone.
 
 Is this necessary???
-action=GetAppointmentRequests&username=<username>
+action=GetAppointmentRequests&username=<username>  
+//Answer: if PullData gives me the appointment request, then this is not necessary. 
 
 
 
