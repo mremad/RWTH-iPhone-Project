@@ -13,6 +13,7 @@
 		3436E4AC188C737B00006A53 /* CalendarFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3436E4AB188C737B00006A53 /* CalendarFetcher.m */; };
 		3441F1291899A5CE006DE6D9 /* HttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3441F1281899A5CE006DE6D9 /* HttpRequest.m */; };
 		34498BC2189CDC4D00FA0472 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34498BC1189CDC4D00FA0472 /* EventKit.framework */; };
+		544BC45B189E55750080A9C5 /* notificationIcon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 544BC45A189E55750080A9C5 /* notificationIcon2.png */; };
 		545BB7C31895E58800D4499F /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 545BB7C21895E58800D4499F /* CustomBadge.m */; };
 		545BB7C61895E70300D4499F /* notificationIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 545BB7C51895E70300D4499F /* notificationIcon.png */; };
 		545FA46D189C289900E98B6A /* NotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 545FA46C189C289900E98B6A /* NotificationsTableViewController.m */; };
@@ -73,6 +74,7 @@
 		3441F1271899A5CE006DE6D9 /* HttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequest.h; sourceTree = "<group>"; };
 		3441F1281899A5CE006DE6D9 /* HttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpRequest.m; sourceTree = "<group>"; };
 		34498BC1189CDC4D00FA0472 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		544BC45A189E55750080A9C5 /* notificationIcon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon2.png; sourceTree = "<group>"; };
 		545BB7C11895E58800D4499F /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
 		545BB7C21895E58800D4499F /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		545BB7C51895E70300D4499F /* notificationIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon.png; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 		545BB7C41895E70300D4499F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				544BC45A189E55750080A9C5 /* notificationIcon2.png */,
 				545BB7C51895E70300D4499F /* notificationIcon.png */,
 			);
 			path = Resources;
@@ -456,6 +459,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				544BC45B189E55750080A9C5 /* notificationIcon2.png in Resources */,
 				D97EBB95188469900024CC6E /* Images.xcassets in Resources */,
 				D97EBB87188469900024CC6E /* InfoPlist.strings in Resources */,
 				D97EBB90188469900024CC6E /* Main.storyboard in Resources */,

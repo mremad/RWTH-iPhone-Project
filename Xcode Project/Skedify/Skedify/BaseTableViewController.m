@@ -198,7 +198,7 @@
     }
     
     self.notificationBadge = [CustomBadge customBadgeWithString:string withStringColor:[UIColor whiteColor] withInsetColor:[UIColor redColor] withBadgeFrame:NO withBadgeFrameColor:[UIColor whiteColor]];
-    CGRect badgeFrame = CGRectMake((-self.notificationBadge.frame.size.width) + 11, -1.0f, self.notificationBadge.frame.size.width, self.notificationBadge.frame.size.height);
+    CGRect badgeFrame = CGRectMake((-self.notificationBadge.frame.size.width) + 9, -7.0f, self.notificationBadge.frame.size.width, self.notificationBadge.frame.size.height);
     [self.notificationBadge setFrame:badgeFrame];
     
     [self.badgeButton addSubview:self.notificationBadge];
@@ -216,10 +216,10 @@
 -(void)initNotificationItem{
     
     self.badgeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.badgeButton.frame = CGRectMake(0, 0, 30, 30);
+    self.badgeButton.frame = CGRectMake(0, 0, 25, 20);
     [self.badgeButton addTarget:self action:@selector(buttonNotifications:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.badgeButton setImage:[UIImage imageNamed:@"notificationIcon.png"] forState:UIControlStateNormal];
+    [self.badgeButton setImage:[UIImage imageNamed:@"notificationIcon2.png"] forState:UIControlStateNormal];
     
     testingNotificationCounter = 0;
     
