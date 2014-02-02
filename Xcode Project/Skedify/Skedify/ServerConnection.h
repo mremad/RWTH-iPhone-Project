@@ -12,12 +12,22 @@
 #import "Group.h"
 #import "GlobalVariables.h"
 
-
+enum _acceptRejectNotification {
+    notSet = -1,
+    wikiPage = 0,
+    discussion = 1,
+    announcement = 2,
+    pdf = 3,
+    documents = 4,
+    courseRooms = 5,//KIKO
+    courseDates = 6
+};
 @protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
 @required
 - (void)shakeRecieved;
 @optional
-- (void)notifitcationRecieved;
+- (void) notificationRecieved;
+- (void) memberAcceptRejectinGroupNotification;
 @end
 @interface ServerConnection : NSObject
 {

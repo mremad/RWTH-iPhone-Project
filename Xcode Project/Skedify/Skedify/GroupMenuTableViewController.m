@@ -10,7 +10,6 @@
 #import "GroupContactsTableViewController.h"
 #import "ServerConnection.h"
 #import "Group.h"
-#import "NotificationsTableViewController.h"
 
 @interface GroupMenuTableViewController ()
 
@@ -33,6 +32,7 @@
     [self performSegueWithIdentifier:@"toEditGroupMenu" sender:sender]; 
 }
 
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [self setViewTitle];
@@ -47,11 +47,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
-}
-
--(void)notifitcationRecieved
-{
-    //do something about it
 }
 
 -(void)setViewTitle

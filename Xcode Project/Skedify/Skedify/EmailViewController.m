@@ -28,6 +28,8 @@
 
 -(BOOL)isAllowedToLeaveView
 {
+    return YES;
+
     if(![Member NSStringIsValidRWTHAachenEmail:[_textFieldEmail text]])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please Enter a valid RWTH Aachen Email Address!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];

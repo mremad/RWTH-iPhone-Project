@@ -7,7 +7,7 @@
 //
 
 #import "GroupsTableViewController.h"
-#import "NotificationsTableViewController.h"
+
 @interface GroupsTableViewController ()
 
 @end
@@ -48,10 +48,12 @@
      [self.tableView reloadData];
 }
 
--(void)notifitcationRecieved
+
+-(void)pushGroupMenuController
 {
-    //do something about it
+  
 }
+
 
 - (void)didReceiveMemoryWarning
 {

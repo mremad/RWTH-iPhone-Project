@@ -84,9 +84,9 @@
 
 - (IBAction)loginButtonPressed:(UIButton*)sender
 {
-    [self saveCredentials:[_textFieldUserName text] withPass:[_textFieldPassword text]];
-    [_handler obtainUserCode];
-//     [self userDataWasFetched]; // TODO: remove in RELEASE
+    //[self saveCredentials:[_textFieldUserName text] withPass:[_textFieldPassword text]];
+  //  [_handler obtainUserCode];
+ [self userDataWasFetched]; // TODO: remove in RELEASE
 }
 
 #pragma mark - APIDelegate methods

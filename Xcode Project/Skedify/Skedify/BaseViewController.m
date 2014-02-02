@@ -8,6 +8,8 @@
 
 #import "BaseViewController.h"
 
+#import "GroupsTableViewController.h"
+#import "ScheduleViewController.h"
 @interface BaseViewController ()
 
 @end
@@ -33,9 +35,16 @@
     
 }
 
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
+    [self shakeRecieved];
+    return;
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
@@ -93,6 +102,8 @@
     return currentLocation;
 }
 
+
+
 #pragma mark -
 #pragma mark Local Notification methods
 
@@ -112,13 +123,34 @@
 #pragma mark -
 #pragma mark NotificationsReceivedFromServer methods
 
--(void)notifitcationRecieved
+-(void)notificationRecieved
 {
     [self addLocalNotification];
 }
 
--(void)shakeRecieved{
+-(void)shakeRecieved
+{
+    UINavigationController *baseNC =(UINavigationController *)[self presentingViewController];
+    [self dismissViewControllerAnimated:YES completion:nil];
     
+    NSArray *allVC= [baseNC viewControllers];
+    GroupsTableViewController  *groupMenu;
+    for(int i=0;i<[allVC count];i++)
+    {
+        UIViewController *vc=[allVC objectAtIndex:i];
+        if([vc.title isEqual:@"GroupsList"])
+        {
+            groupMenu= [allVC objectAtIndex:i];
+            break;
+        }
+    }
+    
+    //UINavigationController * baseNC= sked;
+    [baseNC popToViewController:groupMenu animated:NO];
+    GroupMenuTableViewController   *groupsMenu=[[GroupMenuTableViewController alloc]init];
+    [baseNC pushViewController:groupsMenu animated:NO];
+    ScheduleViewController *sced=[[ScheduleViewController alloc]init];
+    [baseNC pushViewController:sced animated:YES];
 }
 
 

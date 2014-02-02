@@ -13,5 +13,5 @@
 #import "Group.h"
 #import "BaseTableViewController.h"
 @interface GroupsTableViewController : BaseTableViewController<UITextFieldDelegate>
-
+-(void)pushGroupMenuController;
 @end

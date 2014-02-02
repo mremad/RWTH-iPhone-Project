@@ -7,6 +7,10 @@
 //
 
 #import "BaseTableViewController.h"
+
+#import "GroupsTableViewController.h"
+#import "ScheduleViewController.h"
+
 @interface BaseTableViewController ()
 
 @end
@@ -75,6 +79,7 @@
     //to be overwritten from sub classes who that want to use the edit button
 }
 
+
 -(void)buttonNotifications:(id)sender{
     
     //Remove badge
@@ -82,7 +87,9 @@
     //Reset notifications not read counter
     [ServerConnection sharedServerConnection].notificationsNotReadCounter = 0;
     //Go to notifications view
+    //  NotificationsViewController *g = [NotificationsViewController alloc]init
     [self performSegueWithIdentifier:@"toNotifications" sender:sender];
+    
     
 }
 
@@ -121,9 +128,16 @@
     }
 }
 
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
+    [self shakeRecieved];
+    return;
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
@@ -241,14 +255,44 @@
 #pragma mark -
 #pragma mark NotificationsReceivedFromServer methods
 
--(void)notifitcationRecieved
+-(void)notificationRecieved
 {
+    
     [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
     [self addLocalNotification];
 }
 
--(void)shakeRecieved{
+-(void)shakeRecieved
+{
     
+    UINavigationController * baseNC;
+    if([self.title isEqual:@"notifications"])
+    {
+        baseNC=(UINavigationController *) [self.navigationController presentingViewController];
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
+    else
+    {
+        baseNC = [self navigationController];
+    }
+    NSArray *allVC=[baseNC viewControllers];
+    
+    GroupsTableViewController  *groupMenu;
+    for(int i=0;i<[allVC count];i++)
+    {
+        UIViewController *vc=[allVC objectAtIndex:i];
+        if([vc.title isEqual:@"GroupsList"])
+        {
+            groupMenu= [allVC objectAtIndex:i];
+        }
+    }
+    
+    
+    [baseNC popToViewController:groupMenu animated:NO];
+    GroupMenuTableViewController   *groupsMenu=[[GroupMenuTableViewController alloc]init];
+    [baseNC pushViewController:groupsMenu animated:NO];
+    ScheduleViewController *sced=[[ScheduleViewController alloc]init];
+    [baseNC pushViewController:sced animated:YES];
 }
 
 @end
