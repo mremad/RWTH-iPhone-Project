@@ -8,7 +8,7 @@ class SetBusyHandler extends ActionHandler
 		$userID = $this->getUserIDIfExists($this->options["username"]);
 		$start = $this->options["start"];
 		$end = $this->options["end"];
-		if ($userID > 0 && $start && $end)
+		if ($userID > 0 && $start && $end && $start < $end)
 		{
 			$query = "DELETE FROM schedules WHERE userID = $userID AND start >= $start AND end <= $end";
 			$res = $this->mysqli->query($query);

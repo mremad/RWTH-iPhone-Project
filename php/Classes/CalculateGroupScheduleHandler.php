@@ -7,11 +7,12 @@ class CalculateGroupScheduleHandler extends GroupHandler
 		if ($this->options["groupID"] > 0)
 		{
 			$groupID = $this->getGroupIDIfExists($this->options["groupID"]);
-			$thisUserID = $this->getUserIDIfExists($this->options["username"]);
+			$start = $this->options["start"];
+			$end = $this->options["end"];
 			
-			if ($groupID && $thisUserID)
+			if ($groupID)
 			{
-				$groupUsers = $this->getGroupUsers($this->options["groupID"]);
+				$groupUsers = $this->getGroupUsers($groupID);
 				
 				$availability = array();
 				
@@ -23,7 +24,7 @@ class CalculateGroupScheduleHandler extends GroupHandler
 					$maxTime = 0;
 					foreach($groupUsers as $userID)
 					{
-						$availability[$userID] = $this->getUserAvailability($userID);
+						$availability[$userID] = $this->getUserAvailability($userID, $start, $end);
 						
 						if (empty($availability[$userID]))
 							continue;
@@ -42,12 +43,12 @@ class CalculateGroupScheduleHandler extends GroupHandler
 							$minTime = $firstkey;
 					}
 
-					$states = array("available", "busy", "user_available", "appointment_fixed");
+					$states = array("available","busy", "appointment_fixed");
 					
 					$counter = 0;
 					for ($i=$minTime; $i <=$maxTime; $i++)
 					{
-						if ($i == 0 || $i == null)
+						if ($i == 0 || $i == null || $i< $start || $i > $end)
 							continue;
 							
 							
@@ -62,11 +63,9 @@ class CalculateGroupScheduleHandler extends GroupHandler
 						$appointmentMade = $this->isGroupAppointmentMadeAtInterval($groupID, $i);
 						
 						if ($appointmentMade)
-							$state = 3;
+							$state = 2;
 						else if ($busy)
 							$state = 1;
-						else if ($userAvailable)
-							$state = 2;	
 						else
 							$state = 0;
 
@@ -88,13 +87,13 @@ class CalculateGroupScheduleHandler extends GroupHandler
 		}	
 	}
 	
-	private function getUserAvailability($userID)
+	private function getUserAvailability($userID, $start, $end)
 	{
 		$availability = array();
 		//$userID = $this->getUserIDIfExists($userID);
 		if ($userID > 0)
 		{
-			$query = "SELECT start, end FROM schedules WHERE userID = $userID";
+			$query = "SELECT start, end FROM schedules WHERE userID = $userID AND start >= $start OR end <= $end";
 			$res = $this->mysqli->query($query);
 			if ($res)
 			{

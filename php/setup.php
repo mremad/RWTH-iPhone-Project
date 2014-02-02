@@ -11,7 +11,7 @@ if ($mysqli->connect_errno)
 else
 {
 	// Users table
-	$query = "CREATE TABLE IF NOT EXISTS users (ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, username VARCHAR(64) NOT NULL, PRIMARY KEY (ID))";
+	$query = "CREATE TABLE IF NOT EXISTS users (ID BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, username VARCHAR(64) NOT NULL, nickname VARCHAR(64) NOT NULL, PRIMARY KEY (ID))";
 	$res = $mysqli->query($query);
 	
 	// Groups table
@@ -19,8 +19,8 @@ else
 	$res = $mysqli->query($query);
 	
 	
-	// Group users table
-	$query = "CREATE TABLE IF NOT EXISTS groupusers (groupID BIGINT UNSIGNED NOT NULL, userID BIGINT UNSIGNED NOT NULL, accepted TINYINT NOT NULL)";
+	// Group Users table
+	$query = "CREATE TABLE IF NOT EXISTS groupusers (groupID BIGINT UNSIGNED NOT NULL, userID BIGINT UNSIGNED NOT NULL, adderID BIGINT UNSIGNED NOT NULL, accepted TINYINT NOT NULL)";
 	$res = $mysqli->query($query);
 	
 	// Personal Schedule table
@@ -29,6 +29,10 @@ else
 	
 	// Group Appointments table
 	$query = "CREATE TABLE IF NOT EXISTS appointments (groupID BIGINT UNSIGNED NOT NULL, start BIGINT UNSIGNED NOT NULL, end BIGINT UNSIGNED NOT NULL)";
+	$res = $mysqli->query($query);
+	
+	// Shakes table
+	$query = "CREATE TABLE IF NOT EXISTS shakes (userID BIGINT UNSIGNED NOT NULL, latitude VARCHAR(24) NOT NULL, longitude VARCHAR(24) NOT NULL, timestamp BIGINT UNSIGNED NOT NULL, createdGroupID BIGINT UNSIGNED NOT NULL)";
 	$res = $mysqli->query($query);
 }
 

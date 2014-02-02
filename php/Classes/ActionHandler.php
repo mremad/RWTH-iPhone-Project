@@ -69,6 +69,40 @@ class ActionHandler
 		}
 		return 0;
 	}
+	
+	protected function getUsername($userID)
+	{
+		if ($userID <= 0)
+			return 0;
+		$query = "SELECT username FROM users WHERE ID = $userID LIMIT 1";
+		$res = $this->mysqli->query($query);
+		if ($res)
+		{
+			$res->data_seek(0);
+			while ($row = $res->fetch_assoc()) 
+			{
+				return $row["username"];
+			}
+		}
+		return null;
+	}
+	
+	protected function getNickname($userID)
+	{
+		if ($userID <= 0)
+			return 0;
+		$query = "SELECT nickname FROM users WHERE ID = $userID LIMIT 1";
+		$res = $this->mysqli->query($query);
+		if ($res)
+		{
+			$res->data_seek(0);
+			while ($row = $res->fetch_assoc()) 
+			{
+				return $row["nickname"];
+			}
+		}
+		return null;
+	}
 		
 }
 

@@ -13,6 +13,6 @@ define ('DB_PASSWORD', 'skedify');
 define('CLASS_DIR', 'Classes');
 define('TIME_INTERVAL', 15 * 60); // in seconds
 
-//error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 
 ?>
