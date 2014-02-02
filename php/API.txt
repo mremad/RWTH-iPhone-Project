@@ -1,7 +1,7 @@
 API actions:
 action=Login&username=<email_address>
 
-action=AddGroup&username=<email_address> 
+action=AddGroup&username=<email_address>&groupname=<groupname>
 -> retrieves the groupID
 
 action=AddGroupUser&username=<email_address>&groupID=<groupID>
@@ -15,3 +15,6 @@ action=CalculateGroupSchedule&username=<email_address>&groupID=<groupID>
 action=SetAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>
 action=SetAvailable&username=<email_address>&start=<unix_timestamp>&end=<unix_timestamp>
 action=SetBusy&username=<email_address>&start=<unix_timestamp>&end=<unix_timestamp>
+
+action=GetGroupInvitations&username=<username>
+action=AcceptInvitation&username=<username>&groupID=<groupID>
