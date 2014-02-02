@@ -16,6 +16,7 @@
 
 @implementation NotificationsTableViewController{
     NSArray *NotificationsTableData;
+    Notification *notificationChosen;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -32,8 +33,9 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-
+//TODO: Uncomment server connection and comment testing data
 //    NotificationsTableData = [[ServerConnection sharedServerConnection] notificationsList];
+    
     //Testing Data
     NSDate *now = [[NSDate alloc] init];
     
@@ -77,7 +79,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Notification *notificationChosen=[NotificationsTableData  objectAtIndex:indexPath.row];
+    notificationChosen = [NotificationsTableData  objectAtIndex:indexPath.row];
     NSString *alertMessage = @"You have received a ";
     
     if (notificationChosen.isGroupInvitationNotification) {
@@ -112,10 +114,22 @@
     else if (buttonIndex == 1){
         NSLog(@"Accept");
         //TODO: Call server here
+        if (notificationChosen.isGroupInvitationNotification) {
+//            [[ServerConnection sharedServerConnection] SendToServerAcceptGroupRequest:<#(Group *)#>];
+        }
+        else{
+//            [[ServerConnection sharedServerConnection] SendToServerAcceptMeeting:<#(Group *)#> fromTimeSlot:<#(NSDate *)#>];
+        }
     }
     else{
          NSLog(@"Decline");
         //TODO: Call server here
+        if (notificationChosen.isGroupInvitationNotification) {
+//            [[ServerConnection sharedServerConnection] SendToServerRejectGroupRequest:<#(Group *)#>];
+        }
+        else{
+//            [[ServerConnection sharedServerConnection] SendToServerRejectMeeting:<#(Group *)#> fromTimeSlot:<#(NSDate *)#>;
+        }
     }
 }
 

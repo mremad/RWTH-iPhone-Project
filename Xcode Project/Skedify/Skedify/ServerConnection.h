@@ -29,7 +29,13 @@
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
 - (Group *) GetGroup:(NSInteger) index;
 - (void) AppStart;
-- (void)SendToServerShakeLocation:(CLLocation *)location;
+- (void) SendToServerShakeLocation:(CLLocation *)location;
+- (void) SendToServerRemoveGroup:(Group *)group;
+- (void) SendToServerAcceptGroupRequest:(Group *) group;
+- (void) SendToServerRejectGroupRequest:(Group *) group;
+- (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
+- (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
+
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
 @property NSMutableArray *notificationsList;
