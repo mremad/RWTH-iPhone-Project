@@ -22,7 +22,6 @@
 
 static ServerConnection *sharedServerConnection = nil;
 static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
-static NSString *useremail;
 
 /*
  * returns the singleton instance of ServerConnection.
@@ -384,11 +383,11 @@ static NSString *useremail;
 
 - (NSString*) getUserEmail
 {
-    if ([useremail length] == 0) {
+    if ([_accountEmailAddress length] == 0) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        useremail = [defaults objectForKey:@"accountEmailAddress"];
+        _accountEmailAddress = [defaults objectForKey:@"accountEmailAddress"];
     }
-    return useremail;
+    return _accountEmailAddress;
 }
 
 - (NSString*) getNickname
