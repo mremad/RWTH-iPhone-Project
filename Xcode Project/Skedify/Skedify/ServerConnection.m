@@ -544,41 +544,73 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSLog(@"Removing group %@", [group name]);    
     NSDictionary* requestDictionary = @{@"action" : @"RemoveGroup",
                                         @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Group removed: %@", dictionary);
     } errorHandler:nil];
 }
 
 -(void) SendToServerAcceptGroupRequest:(Group *) group
 {
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
     NSLog(@"Accepting group request %@", [group name]);
     NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
-                                        @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+                                        @"username" : user,
+                                        @"groupID" : groupIdString};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Invitation accepted: %@", dictionary);
     } errorHandler:nil];
+    //- **action=AcceptInvitation&username=<username>&groupID=<groupID>**
 }
 
 -(void) SendToServerRejectGroupRequest:(Group *) group
 {
-    // TODO:
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"RejectInvitation",
+                                        @"username" : user,
+                                        @"groupID" : groupIdString};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
+    //- **action=RejectInvitation&username=<username>&groupID=<groupID>**
 }
+
+
+//- **action=SetAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
 
 -(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: create meeting with group on server
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
+                                        @"groupID" : groupIdString,
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
 }
 
 
--(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
+-(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: reject the meeting that was created starting in this timeslot
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"DeleteAppointment",
+                                        @"username" : _accountEmailAddress,
+                                        @"groupID" : groupIdString,
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
+    //- **action=DeleteAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
 }
 
--(void)SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
-{
-    // TODO: accept the meeting that was created starting in this timeslot
-}
 
 -(void)SendToServerSendSchedule
 {
