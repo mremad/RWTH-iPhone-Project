@@ -640,15 +640,23 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 
--(void)SendToServerSendSchedule: (Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+-(void)SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (BOOL) available
 {
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
-    NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
+    
+    NSDictionary* requestDictionary;
+    if (available) {
+        requestDictionary = @{@"action" : @"SetAvailable",
                                         @"username" : [self getUserEmail],
-                                        @"groupID" : [NSNumber numberWithInt:[group groupId]],
                                         @"start" : startDate,
                                         @"end" : endDate};
+    } else {
+        requestDictionary = @{@"action" : @"SetBusy",
+                              @"username" : [self getUserEmail],
+                              @"start" : startDate,
+                              @"end" : endDate};
+    }
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Appointment set: %@", dictionary);
     } errorHandler:nil];
