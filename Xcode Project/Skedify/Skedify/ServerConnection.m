@@ -14,6 +14,7 @@
 
 @implementation ServerConnection
 
+@synthesize createdGroupID;
 
 #pragma mark -
 #pragma mark Singleton stuff
@@ -21,6 +22,7 @@
 static ServerConnection *sharedServerConnection = nil;
 static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 static NSString *user = @"yigit"; // TODO: remove later - this is temporary
+
 /*
  * returns the singleton instance of ServerConnection.
  */
@@ -64,8 +66,9 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatusIsBusy:YES];
 
-    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
-    //TODO make sure the line above is removed
+
+    //[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    // TODO: make sure the line above is removed
 }
 
 -(NSDateComponents *)getNSDateComponents :(NSDate *) theDate
@@ -188,8 +191,26 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     
     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
     
-    NSInteger theGroupID =[self SendToServerAddGroup:theGroup WithMembers:members];
-    theGroup.groupId=theGroupID;
+    // add observer
+    [self addObserver:self forKeyPath:@"createdGroupID" options:NSKeyValueObservingOptionNew +
+     NSKeyValueObservingOptionOld context:nil];
+    // send to server
+    [self SendToServerAddGroup:theGroup WithMembers:members];
+    }
+
+// receive KVO notification
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSLog(@"kvo received: %@", keyPath);
+    if([keyPath isEqualToString:@"createdGroupID"])
+    {
+        NSNumber *groupID = [change objectForKey:@"new"];
+        // TODO: do whatever you want to do with this id
+    } else {
+        NSLog(@"unknown kvo received: %@", keyPath);
+        for (id key in change) {
+            NSLog(@"key: %@, value: %@ \n", key, [change objectForKey:key]);
+        }
+    }
 }
 
 
@@ -328,20 +349,27 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 }
 
 
--(NSInteger )SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
+/**
+ this method creates a new group in server.
+ observe @"createdGroupID" for receiving the new group id.
+ */
+-(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
-    // TODO: create group with members on server
     
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
                                         @"username" : user,
                                         @"groupname" : [group name]};
     HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Group created: %@", dictionary);
+        // NSLog(@"Group created: %@", dictionary);
+      
+        for (NSDictionary *dict in dictionary) {
+            NSNumber *groupID = [dict objectForKey:@"groupID"];
+            // NSLog(@"Group id: %@", groupID);
+            [sharedServerConnection setValue:groupID forKey:@"createdGroupID"];
+        }
         
     } errorHandler:nil];
-    //TODO Tobis return me the unique group ID
-    return 0;
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group
