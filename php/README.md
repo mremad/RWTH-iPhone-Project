@@ -44,7 +44,10 @@
 - **action=AcceptInvitation&username=<username>&groupID=<groupID>**
 - **action=RejectInvitation&username=<username>&groupID=<groupID>**
 
+### Retrieves group invitations and appointments
 - **action=PullData&username=<username>**
+### Retrieves shake information
+- **action=PullData&username=<username>&getShakeInfo=1**
 >
 -> checks AppointmentRequests, myGroups, shaking -> sends the client new information. If there’s information about shaking, just let the client know about shaking.
 
