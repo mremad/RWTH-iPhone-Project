@@ -447,27 +447,19 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 -(void)SendToServerShakeLocation:(CLLocation *)location
 {
     NSLog(@"sending shake action to server");
-    /*
+    
+    CLLocationCoordinate2D coord = [location coordinate];
+    
     NSDictionary* requestDictionary = @{@"action" : @"Shake",
                                         @"username" : user,
-                                        @"latitude" : [location]};
+                                        @"latitude" : [NSNumber numberWithDouble:coord.latitude],
+                                        @"longitude" : [NSNumber numberWithDouble:coord.longitude]};
     
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
             {
-                for (NSDictionary *dict in dictionary)
-                {
-                    NSNumber *groupID = [dict objectForKey:@"groupID"];
-                    group.groupId=[groupID intValue];
-                    
-                    // add Members:
-                    for (Member *m in members) {
-                        //
-                        [self SendToServerAddMember:m inGroup:(groupID)];
-                    }
-                }
-                [self SendtoServerInviteGroupMembers:group];
+                NSLog(@"Shake sent: %@", dictionary);
+                // nothing more to do
             } errorHandler:nil];
-     */
 }
 
 -(void)SendToServerAddMember:(Member *)member inGroup:(NSNumber*) group
