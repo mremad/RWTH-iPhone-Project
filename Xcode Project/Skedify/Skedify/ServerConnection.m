@@ -645,7 +645,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 
--(void)SendToServerSendSchedule: (Group *) group: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+-(void)SendToServerSendSlot: (Group *) group fromTimeSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
