@@ -306,7 +306,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     } errorHandler:nil];
     
     
-    //TODO: KIKO change groupIdentifier from array position to group Id
+    // TODO: KIKO change groupIdentifier from array position to group Id
     Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId];
     return [theIdentifierGroup members];
 }
@@ -314,17 +314,24 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 #pragma mark -
 #pragma mark Recieiving Data From Server methods
 
+- (void) fetchGroupSchedule: (Group*) group: fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+{
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
 
-/* Recieve From Server Methods
- TODO: recieve Combin Schedule
- TODO: recieve created Meeting
- TODO: recieve meeting/group request
- TODO: recieve member acceptance in group(wheather he accepted/rejected the group reques)
- TODO: receive member acceptance in meeting(or rejection)
- 
+    NSDictionary* requestDictionary = @{@"action" : @"CalculateGroupSchedule",
+                                        @"username" : user,
+                                        @"groupID" : [NSNumber numberWithInt:[group groupId]],
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+            {
+                NSLog(@"Schedule received: %@", dictionary);
+                // nothing more to do
+            } errorHandler:nil];
+}
 
-
-*/
 
 
 /*
@@ -399,7 +406,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     }
     if(YES) // member declined Group
     {
-            //TODO We need to think of this a little about ... (probelm woth multple group names..)
+            // TODO: We need to think of this a little about ... (probelm woth multple group names..)
             NSString *emailOfMember = @"theDeclinedMembersEmail";
             NSString *theGroupName =@"theGroupName";
             Group *g = [self GetGroupGivenName:theGroupName];
