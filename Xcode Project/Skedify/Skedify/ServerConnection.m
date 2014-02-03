@@ -282,6 +282,18 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator 
 }
 
+- (NSString*) getUserEmail
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return[defaults objectForKey:@"accountEmailAddress"];
+}
+
+- (NSString*) getNickname
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return[defaults objectForKey:@"accountNickName"];
+}
+
 /*
  * handles all notfication messages recieved from the server
  */
@@ -368,7 +380,6 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
             // NSLog(@"Group id: %@", groupID);
             [sharedServerConnection setValue:groupID forKey:@"createdGroupID"];
         }
-        
     } errorHandler:nil];
 }
 
@@ -408,11 +419,15 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     // TODO: Data structure not yet implemented
 }
 
+/**
+ logs in with email.
+ Make shure that account information was stored before!
+ */
 -(void)SendToServerLogin
 {
-    // Example for HttpRequest:
+    NSLog(@"logging in %@", [self getUserEmail]);
     NSDictionary* requestDictionary = @{@"action" : @"Login",
-                                        @"username" : @"yigit.guenay@rwth-aachen.de"};
+                                        @"username" : [self getUserEmail]};
     HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Login completed with dictionary: %@", dictionary);
     
@@ -421,7 +436,14 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 -(void) SendToServerSetNickName :(Member *) member
 {
-    // TODO: setting/changing the nickname of this member(the signed in member)
+    NSLog(@"Sending nickname %@", [self getNickname]);
+    NSDictionary* requestDictionary = @{@"action" : @"SetNickname",
+                                        @"username" : [self getUserEmail],
+                                        @"nickname" : [self getNickname]};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Nickname sent: %@", dictionary);
+        
+    } errorHandler:nil];
 }
 
 -(void) MemberAcceptedGroupInvitation:(Member *) memberThatAcceptedGroupInvitation
