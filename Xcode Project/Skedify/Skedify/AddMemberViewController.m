@@ -50,9 +50,6 @@
     [_textFieldEmail resignFirstResponder];
 }
 
-
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

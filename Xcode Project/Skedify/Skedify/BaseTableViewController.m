@@ -136,7 +136,7 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    [self shakeRecieved];
+    [self shakeGroupCreationActionRecieved];
     return;
     if (event.subtype == UIEventSubtypeMotionShake)
     {
@@ -262,7 +262,7 @@
     [self addLocalNotification];
 }
 
--(void)shakeRecieved
+-(void)shakeGroupCreationActionRecieved
 {
   
     
