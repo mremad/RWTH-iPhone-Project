@@ -67,7 +67,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatusIsBusy:YES];
 
 
-    //[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     // TODO: make sure the line above is removed
 }
 
@@ -317,12 +317,13 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     self.notificationsNotReadCounter ++;
 }
 
-- (void)storeAccountInfoInUserDefaults
+- (void)storeAccountInfoInUserDefaultsAndOnServer
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
     [defaults setObject:_accountNickName forKey:@"accountNickName"];
-    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator 
+    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator
+    [self SendToServerLogin];
 }
 
 - (NSString*) getUserEmail
@@ -406,7 +407,6 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 /**
  this method creates a new group in server.
- observe @"createdGroupID" for receiving the new group id.
  */
 -(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
@@ -415,15 +415,37 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
                                         @"username" : user,
                                         @"groupname" : [group name]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        // NSLog(@"Group created: %@", dictionary);
-      
+    
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+    {
         for (NSDictionary *dict in dictionary)
         {
             NSNumber *groupID = [dict objectForKey:@"groupID"];
             group.groupId=[groupID intValue];
         }
+        [self SendtoServerInviteGroupMembers:group];
     } errorHandler:nil];
+    
+}
+/**
+ this method invites all group members to the group
+ */
+-(void)SendtoServerInviteGroupMembers :(Group *) theGroup
+{
+    for(int i=0;i<[theGroup.members count];i++)
+    {
+        Member *memberToInvite= [theGroup.members objectAtIndex:i];
+        NSString *groupIdString = [NSString stringWithFormat: @"%d", theGroup.groupId];
+        NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
+                                            @"username" : memberToInvite.emailAddress,
+                                            @"groupID" : groupIdString ,
+                                            @"adder" : _accountEmailAddress};
+        
+        (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+                            {
+                                NSLog(@"Member invited: %@", dictionary);
+                            } errorHandler:nil];
+    }
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group
@@ -481,19 +503,20 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSLog(@"logging in %@", [self getUserEmail]);
     NSDictionary* requestDictionary = @{@"action" : @"Login",
                                         @"username" : [self getUserEmail]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Login completed with dictionary: %@", dictionary);
+        [self SendToServerSetNickName];
     
     } errorHandler:nil];
 }
 
--(void) SendToServerSetNickName :(Member *) member
+-(void) SendToServerSetNickName
 {
     NSLog(@"Sending nickname %@", [self getNickname]);
     NSDictionary* requestDictionary = @{@"action" : @"SetNickname",
                                         @"username" : [self getUserEmail],
                                         @"nickname" : [self getNickname]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
         
     } errorHandler:nil];

@@ -40,7 +40,7 @@
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(BOOL) busy;
 
-- (void) storeAccountInfoInUserDefaults;
+- (void) storeAccountInfoInUserDefaultsAndOnServer;
 - (NSString*) getUserEmail;
 - (NSString*) getNickname;
 
