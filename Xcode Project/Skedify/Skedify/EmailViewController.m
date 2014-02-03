@@ -42,7 +42,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [ServerConnection sharedServerConnection].accountEmailAddress = [_textFieldEmail text];
+    [ServerConnection sharedServerConnection].accountEmailAddress = [[_textFieldEmail text] lowercaseString];
     [[ServerConnection sharedServerConnection] storeAccountInfoInUserDefaultsAndOnServer];
 }
 

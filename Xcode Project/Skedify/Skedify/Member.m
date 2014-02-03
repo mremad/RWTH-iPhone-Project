@@ -11,14 +11,10 @@
 @implementation Member
 
 
-- (id)initWithDictionary:(NSDictionary *)dict
-{
-    self = [super init];
-    return self;
-}
 
 - (id)initWithName:(NSString *)theNickName
 {
+    //TODO: REMOVE This method should be never called..
     self = [super init];
     _nickName = theNickName;
     
@@ -28,7 +24,7 @@
 - (id)initWithEmail:(NSString *)theEmail;
 {
     self = [super init];
-    _emailAddress = theEmail;
+    _emailAddress = [theEmail lowercaseString];
     return self;
 }
 
