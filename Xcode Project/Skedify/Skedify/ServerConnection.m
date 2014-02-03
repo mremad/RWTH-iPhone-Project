@@ -22,7 +22,7 @@
 
 static ServerConnection *sharedServerConnection = nil;
 static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
-static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is temporary
+static NSString *useremail;
 
 /*
  * returns the singleton instance of ServerConnection.
@@ -68,7 +68,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatus:SlotStateBusy];
 
 
-    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    // [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     // TODO: make sure the line above is removed
 }
 
@@ -189,7 +189,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     _groupsList = [[NSMutableArray alloc]init];
     NSLog(@"fetching froups");
     NSDictionary* requestDictionary = @{@"action" : @"GetGroups",
-                                        @"username" : user};
+                                        @"username" : [self getUserEmail]};
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         int i = 0;
         for (NSDictionary *dict in dictionary) {
@@ -282,7 +282,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     _groupMembers = [[NSMutableArray alloc]init];
     NSLog(@"fetching members of group %D", groupId);
     NSDictionary* requestDictionary = @{@"action" : @"GetGroupUsers",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupID" : [NSNumber numberWithInt:groupId]};
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         int i = 0;
@@ -320,7 +320,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
 
     NSDictionary* requestDictionary = @{@"action" : @"CalculateGroupSchedule",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupID" : [NSNumber numberWithInt:[group groupId]],
                                         @"start" : startDate,
                                         @"end" : endDate};
@@ -384,8 +384,11 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 
 - (NSString*) getUserEmail
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return[defaults objectForKey:@"accountEmailAddress"];
+    if ([useremail length] == 0) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        useremail = [defaults objectForKey:@"accountEmailAddress"];
+    }
+    return useremail;
 }
 
 - (NSString*) getNickname
@@ -457,7 +460,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     CLLocationCoordinate2D coord = [location coordinate];
     
     NSDictionary* requestDictionary = @{@"action" : @"Shake",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"latitude" : [NSNumber numberWithDouble:coord.latitude],
                                         @"longitude" : [NSNumber numberWithDouble:coord.longitude]};
     
@@ -475,7 +478,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
                                         @"username" : member,
                                         @"groupID" : group,
-                                        @"adder" : user};
+                                        @"adder" : [self getUserEmail]};
     NSLog(@"Request: %@", requestDictionary);
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"User added: %@", dictionary);
@@ -497,7 +500,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupname" : [group name]};
     
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
@@ -542,7 +545,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 {
     NSLog(@"Removing group %@", [group name]);    
     NSDictionary* requestDictionary = @{@"action" : @"RemoveGroup",
-                                        @"username" : user};
+                                        @"username" : [self getUserEmail]};
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Group removed: %@", dictionary);
     } errorHandler:nil];
@@ -553,7 +556,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
     NSLog(@"Accepting group request %@", [group name]);
     NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupID" : groupIdString};
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Invitation accepted: %@", dictionary);
@@ -566,7 +569,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
     NSLog(@"Rejecting group request %@", [group name]);
     NSDictionary* requestDictionary = @{@"action" : @"RejectInvitation",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupID" : groupIdString};
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Invitation accepted: %@", dictionary);
@@ -616,7 +619,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
     NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupID" : [NSNumber numberWithInt:[group groupId]],
                                         @"start" : startDate,
                                         @"end" : endDate};
