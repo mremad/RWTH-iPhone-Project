@@ -604,9 +604,18 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 }
 
 
--(void)SendToServerSendSchedule
+-(void)SendToServerSendSchedule: (Group *) group: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: Data structure not yet implemented
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
+                                        @"username" : user,
+                                        @"groupID" : [NSNumber numberWithInt:[group groupId]],
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Appointment set: %@", dictionary);
+    } errorHandler:nil];
 }
 
 /**
