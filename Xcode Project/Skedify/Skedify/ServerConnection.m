@@ -89,6 +89,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status];
         startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
     }
+    
+    [self SendToServerSendSlot:startDate toTimeSlot:endDate isAvailable:status];
 }
 
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatus:(SlotStatus) status
@@ -111,6 +113,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
     [_userSlotsArray addObject:newSlot];
+    
+    
     
 
 }
@@ -656,18 +660,18 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 
--(void)SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (BOOL) available
+-(void)SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (SlotStatus) slotStatus
 {
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
     
     NSDictionary* requestDictionary;
-    if (available) {
+    if (slotStatus == SlotStateFree) {
         requestDictionary = @{@"action" : @"SetAvailable",
                                         @"username" : [self getUserEmail],
                                         @"start" : startDate,
                                         @"end" : endDate};
-    } else {
+    } else if(slotStatus == SlotStateBusy) {
         requestDictionary = @{@"action" : @"SetBusy",
                               @"username" : [self getUserEmail],
                               @"start" : startDate,

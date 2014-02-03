@@ -8,6 +8,7 @@
 
 #import "GroupMenuTableViewController.h"
 #import "GroupContactsTableViewController.h"
+#import "ScheduleViewController.h"
 #import "ServerConnection.h"
 #import "Group.h"
 
@@ -136,6 +137,11 @@
          GroupViewController *groupVC=(GroupViewController *)[segue destinationViewController];
          groupVC.groupId=_groupId;
          
+     }
+     if([[segue identifier] isEqual:@"toScheduleView"])
+     {
+         ScheduleViewController *scheduleVC=(ScheduleViewController *)[segue destinationViewController];
+         scheduleVC.groupID = _groupId;
      }
  }
 

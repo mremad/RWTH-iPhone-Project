@@ -299,7 +299,7 @@
                                             <accessibilityTraits key="traits" none="YES" staticText="YES"/>
                                         </accessibility>
                                         <connections>
-                                            <segue destination="1h0-Ne-dBg" kind="push" id="Dik-gi-g3b"/>
+                                            <segue destination="1h0-Ne-dBg" kind="push" identifier="toScheduleView" id="Dik-gi-g3b"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GroupMenuCell" textLabel="ug4-3i-bOo" style="IBUITableViewCellStyleDefault" id="AaO-0A-yMt">
