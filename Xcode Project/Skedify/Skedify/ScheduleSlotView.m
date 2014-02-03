@@ -33,24 +33,30 @@
     if ((self = [super initWithFrame:frame])) {
       
         Q1 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      0,
+                                                      0+7,
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
         
         Q2 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      SCHEDULES_SLOT_HEIGHT/4,
+                                                      SCHEDULES_SLOT_HEIGHT/4 +7,
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
         
         Q3 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      SCHEDULES_SLOT_HEIGHT/2,
+                                                      SCHEDULES_SLOT_HEIGHT/2 +7,
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
         
         Q4 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      (3*SCHEDULES_SLOT_HEIGHT/4),
+                                                      (3*SCHEDULES_SLOT_HEIGHT/4 +7),
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
+        
+        Q1.userInteractionEnabled = NO;
+        Q2.userInteractionEnabled = NO;
+        Q3.userInteractionEnabled = NO;
+        Q4.userInteractionEnabled = NO;
+        
         
         quarterArray = [NSArray arrayWithObjects:Q1,Q2,Q3,Q4,nil];
         
@@ -132,22 +138,22 @@
                          animations:^{
                              
                              Q1.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   0,
+                                                   0 + 7,
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              
                              Q2.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   SCHEDULES_SLOT_HEIGHT/4,
+                                                   SCHEDULES_SLOT_HEIGHT/4 + 7,
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              
                              Q3.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   SCHEDULES_SLOT_HEIGHT/2,
+                                                   SCHEDULES_SLOT_HEIGHT/2 + 7,
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              
                              Q4.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   (3*SCHEDULES_SLOT_HEIGHT/4),
+                                                   (3*SCHEDULES_SLOT_HEIGHT/4) + 7,
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              
