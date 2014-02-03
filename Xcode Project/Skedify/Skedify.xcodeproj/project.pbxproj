@@ -14,6 +14,7 @@
 		3441F1291899A5CE006DE6D9 /* HttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3441F1281899A5CE006DE6D9 /* HttpRequest.m */; };
 		34498BC2189CDC4D00FA0472 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34498BC1189CDC4D00FA0472 /* EventKit.framework */; };
 		544BC45B189E55750080A9C5 /* notificationIcon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 544BC45A189E55750080A9C5 /* notificationIcon2.png */; };
+		544BC45D189F06A30080A9C5 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 544BC45C189F06A30080A9C5 /* Settings.bundle */; };
 		545BB7C31895E58800D4499F /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 545BB7C21895E58800D4499F /* CustomBadge.m */; };
 		545BB7C61895E70300D4499F /* notificationIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 545BB7C51895E70300D4499F /* notificationIcon.png */; };
 		545FA46D189C289900E98B6A /* NotificationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 545FA46C189C289900E98B6A /* NotificationsTableViewController.m */; };
@@ -75,6 +76,7 @@
 		3441F1281899A5CE006DE6D9 /* HttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpRequest.m; sourceTree = "<group>"; };
 		34498BC1189CDC4D00FA0472 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		544BC45A189E55750080A9C5 /* notificationIcon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon2.png; sourceTree = "<group>"; };
+		544BC45C189F06A30080A9C5 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		545BB7C11895E58800D4499F /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
 		545BB7C21895E58800D4499F /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		545BB7C51895E70300D4499F /* notificationIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notificationIcon.png; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 		D97EBB70188469900024CC6E = {
 			isa = PBXGroup;
 			children = (
+				544BC45C189F06A30080A9C5 /* Settings.bundle */,
 				D97EBB82188469900024CC6E /* Skedify */,
 				D97EBBA1188469900024CC6E /* SkedifyTests */,
 				D97EBB7B188469900024CC6E /* Frameworks */,
@@ -465,6 +468,7 @@
 				D97EBB90188469900024CC6E /* Main.storyboard in Resources */,
 				545BB7C61895E70300D4499F /* notificationIcon.png in Resources */,
 				3436E4A3188C48ED00006A53 /* WebViewController.xib in Resources */,
+				544BC45D189F06A30080A9C5 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,7 +647,7 @@
 				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
 				INFOPLIST_FILE = "Skedify/Skedify-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B227BA43-F303-47D4-BB89-CBC298EABE64";
+				PROVISIONING_PROFILE = "F80CB483-B4D6-483F-AE73-10B2DA10500A";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -660,7 +664,7 @@
 				GCC_PREFIX_HEADER = "Skedify/Skedify-Prefix.pch";
 				INFOPLIST_FILE = "Skedify/Skedify-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B227BA43-F303-47D4-BB89-CBC298EABE64";
+				PROVISIONING_PROFILE = "F80CB483-B4D6-483F-AE73-10B2DA10500A";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
