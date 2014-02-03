@@ -63,7 +63,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate];
 
-   // [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    //[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     //TODO make sure the line above is removed
 }
 
