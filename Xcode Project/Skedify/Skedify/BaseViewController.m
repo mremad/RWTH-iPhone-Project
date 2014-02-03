@@ -43,10 +43,20 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    [self shakeGroupCreationActionRecieved:0]; // TODO: remove on ServerConnection
-    return; // TODO: remove on ServerConnection
+//    [self shakeGroupCreationActionRecieved:0];
+
     if (event.subtype == UIEventSubtypeMotionShake)
     {
+        NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
+        if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
+        {
+            return;
+        }
+        else
+        {
+            [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
+        }
+        
         // Put in code here to handle shake
         CLLocation *location = [self getLocation];
         if (location != nil) {
@@ -130,16 +140,6 @@
 
 -(void)shakeGroupCreationActionRecieved:(NSInteger ) groupID
 {
-    NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
-    if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
-    {
-        return;
-    }
-    else
-    {
-        [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
-    }
-    
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
                                                              bundle: nil];
     UINavigationController *baseNC =(UINavigationController *)[self presentingViewController];
