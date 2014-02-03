@@ -47,7 +47,7 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame withSchedule:(SlotStates[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
+- (id)initWithFrame:(CGRect)frame withSchedule:(SlotStatus[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -186,7 +186,7 @@
     [self.superview addSubview:topView];
 }
 
--(void)addSlots:(SlotStates[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
+-(void)addSlots:(SlotStatus[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
 {
     
     float startingPointX = TIME_WIDTH;
@@ -198,7 +198,7 @@
             
             CGRect r = CGRectMake(startingPointX + i*DAY_WIDTH,startingPointY + TIME_HEIGHT + TIME_HEIGHT/4, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT);
             
-            SlotStates hourStates[4];
+            SlotStatus hourStates[4];
             
             for(int k = 0;k<4;k++)
             {

@@ -11,6 +11,7 @@
 #import "Member.h"
 #import "HttpRequest.h"
 #import "Notification.h"
+#import "GlobalVariables.h"
 
 @implementation ServerConnection
 
@@ -81,8 +82,8 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 }
 
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(BOOL) busy
-{
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(SlotStatus) busy
+{//SlotStates
     while([endDate compare: startDate] == NSOrderedDescending)
     {
         [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
@@ -90,7 +91,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     }
 }
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatusIsBusy:(BOOL) busy
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatusIsBusy:(SlotStatus) status
 {
         NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
         
@@ -100,17 +101,65 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
             weekday = 6;
         }
         
-        [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatusIsBusy:busy];
+        [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status];
 }
 
 
--(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy
+-(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
 {
-    [self logDate:startingSlot andSlotStatusIsBusy:busy andweekDay:weekDay];
+    [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
+    
+    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    
+    
     //TODO EMAD
 }
 
--(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy andweekDay:(Day) weekDay
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
+                       andEndingAtDate:(NSDate *) endDate
+                  withSlotStatusIsBusy:(SlotStatus) busy
+                           withGroupId:(NSInteger)groupId
+{
+    while([endDate compare: startDate] == NSOrderedDescending)
+    {
+        [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
+        startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
+    }
+}
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
+                  withSlotStatusIsBusy:(SlotStatus) status
+                           withGroupId:(NSInteger)groupId
+{
+    NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
+    
+    int weekday=[startDateComponents weekday]-2;
+    if(weekday==-1)
+    {
+        weekday = 6;
+    }
+    
+    [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status];
+}
+
+
+-(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber
+                                    AndDay:(Day) weekDay
+                           andStartingSlot: (NSDate *) startingSlot
+                            andSlotStatus :(SlotStatus) status
+                                andGroupId:(NSInteger)groupId
+{
+    [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
+    
+    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    
+    
+    //TODO EMAD
+}
+
+
+-(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(SlotStatus) status andweekDay:(Day) weekDay
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
@@ -120,8 +169,8 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSString *theTime = [timeFormat stringFromDate:startingSlot];
     NSLog(@" Adding this slot \n"
           "theDate: |%@| \n"
-          "theStartTime: |%@| \n" "marked as %hhd and the weekday is %d"
-          , theDate, theTime,busy,weekDay);
+          "theStartTime: |%@| \n" "marked as %u and the weekday is %d"
+          , theDate, theTime,status,weekDay);
 }
 
 - (id)init
@@ -495,41 +544,73 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSLog(@"Removing group %@", [group name]);    
     NSDictionary* requestDictionary = @{@"action" : @"RemoveGroup",
                                         @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Group removed: %@", dictionary);
     } errorHandler:nil];
 }
 
 -(void) SendToServerAcceptGroupRequest:(Group *) group
 {
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
     NSLog(@"Accepting group request %@", [group name]);
     NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
-                                        @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+                                        @"username" : user,
+                                        @"groupID" : groupIdString};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Invitation accepted: %@", dictionary);
     } errorHandler:nil];
+    //- **action=AcceptInvitation&username=<username>&groupID=<groupID>**
 }
 
 -(void) SendToServerRejectGroupRequest:(Group *) group
 {
-    // TODO:
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"RejectInvitation",
+                                        @"username" : user,
+                                        @"groupID" : groupIdString};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
+    //- **action=RejectInvitation&username=<username>&groupID=<groupID>**
 }
+
+
+//- **action=SetAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
 
 -(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: create meeting with group on server
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
+                                        @"groupID" : groupIdString,
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
 }
 
 
--(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
+-(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: reject the meeting that was created starting in this timeslot
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"DeleteAppointment",
+                                        @"username" : _accountEmailAddress,
+                                        @"groupID" : groupIdString,
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
+    //- **action=DeleteAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
 }
 
--(void)SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
-{
-    // TODO: accept the meeting that was created starting in this timeslot
-}
 
 -(void)SendToServerSendSchedule
 {

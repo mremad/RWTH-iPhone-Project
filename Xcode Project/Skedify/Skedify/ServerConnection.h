@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Member.h"
 #import "Group.h"
+#import "Slot.h"
 #import "GlobalVariables.h"
 
 //enum _acceptRejectNotification {
@@ -38,13 +39,22 @@
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(BOOL) busy;
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status;
 
 - (void) storeAccountInfoInUserDefaultsAndOnServer;
 - (NSString*) getUserEmail;
 - (NSString*) getNickname;
 
 -(Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
+
+
+/*   Schedule Parameters  */
+
+@property (nonatomic, readonly) NSMutableArray *userSlotsArray;
+@property (nonatomic, readonly) NSMutableDictionary *userSchedules;
+
+/*   Schedule Parameters  */
+
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, readonly) NSMutableArray *groupMembers;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;

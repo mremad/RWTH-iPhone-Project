@@ -23,7 +23,7 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time withStates:(SlotStates[4])hourStates
+- (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time withStates:(SlotStatus[4])hourStates
 {
     day = _day;
     time = _time;

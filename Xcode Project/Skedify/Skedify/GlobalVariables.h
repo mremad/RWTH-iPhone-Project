@@ -40,7 +40,7 @@ typedef enum
     SlotStateFree,
     SlotStateMeeting
 }
-SlotStates;
+SlotStatus;
 
 typedef enum
 {
