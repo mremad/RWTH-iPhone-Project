@@ -20,7 +20,7 @@
 
 @implementation ScheduleViewController
 {
-    SlotStates fullSchedule[NUMBER_DAYS][NUMBER_HOURS*4];
+    SlotStatus fullSchedule[NUMBER_DAYS][NUMBER_HOURS*4];
 }
 
 
@@ -61,7 +61,7 @@
     {
         for(int j = 0;j<NUMBER_HOURS*4;j++)
         {
-            SlotStates rand = (SlotStates)arc4random()%3;
+            SlotStatus rand = (SlotStatus)arc4random()%3;
             fullSchedule[i][j] = rand;
         }
     }
