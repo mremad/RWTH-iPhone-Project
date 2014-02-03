@@ -358,7 +358,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                         }
                         NSLog(@"state %u", slotStaus);
                         
-                        [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus];
+                        [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus withGroupId:[group groupId]];
                         i++;
                     }
                     
