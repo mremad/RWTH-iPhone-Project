@@ -138,28 +138,48 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 - (void) fetchNeededInformation
 {
+    _groupsList = [[NSMutableArray alloc]init];
+    NSLog(@"fetching froups");
+    NSDictionary* requestDictionary = @{@"action" : @"GetGroups",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        int i = 0;
+        for (NSDictionary *dict in dictionary) {
+            NSLog(@"Dict: %@", dict);
+            NSDictionary * groups = [dict objectForKey:@"groups"];
+                NSLog(@"Groups: %@", groups);
+                for (NSDictionary *group in groups) {
+                    NSNumber *groupID = [group objectForKey:@"groupID"];
+                    NSString *groupName = [group objectForKey:@"groupname"];
+                    NSLog(@"Group %@ with id %@", groupName, groupID);
+                    
+                    // create group object and add it to the list
+                    Group* g = [[Group alloc]initWithName:groupName andID:[groupID integerValue]];
+                    [_groupsList insertObject:g atIndex:i];
+                    i++;
+                }
+            
+        }
+        NSLog(@"%d groups received", i);
+    } errorHandler:nil];
+    
     //ServerCode Get Created Groups(If any ) From Server
     //for ex User added that was not there in the system or User just opened the app and
     // recieves his info
     
     //GetGroupsFromPreviouStorage
     
-    _groupsList = [[NSMutableArray alloc]init];
+    /*
     Group* g1 = [[Group alloc]initWithName:@"DIS" andID:0];
     Member *a = [[Member alloc]initWithName:@"Dil"];
     Member *b = [[Member alloc]initWithName:@"Daimon"];
     [g1 insertMember:a];
     [g1 insertMember:b];
     [_groupsList insertObject:g1 atIndex:0];
-    
-    
-    Group* g2 = [[Group alloc]initWithName:@"Artificial Intellegience" andID:1];
-    Member *c = [[Member alloc]initWithName:@"Alex"];
-    Member *d = [[Member alloc]initWithName:@"Andrea"];
-    [g2 insertMember:c];
-    [g2 insertMember:d];
-    [_groupsList insertObject:g2 atIndex:1];
+     */
+
 }
+
 #pragma mark -
 #pragma mark Group Handling methods
 - (NSArray *) GetGroupList
@@ -385,12 +405,22 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 -(void)SendToServerRemoveGroup:(Group *)group
 {
-    // TODO: remove group from server from my list of groups
+    NSLog(@"Removing group %@", [group name]);    
+    NSDictionary* requestDictionary = @{@"action" : @"RemoveGroup",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Group removed: %@", dictionary);
+    } errorHandler:nil];
 }
 
 -(void) SendToServerAcceptGroupRequest:(Group *) group
 {
-    // TODO:
+    NSLog(@"Accepting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
 }
 
 -(void) SendToServerRejectGroupRequest:(Group *) group
