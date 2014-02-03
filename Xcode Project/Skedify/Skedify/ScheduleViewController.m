@@ -68,7 +68,7 @@
     }
     
     ServerConnection* sharedConnection = [ServerConnection sharedServerConnection];
-    NSMutableArray* schedToDisplay = sharedConnection.userSlotsArray;
+    NSMutableArray* schedToDisplay = [sharedConnection getGroupGivenGroupId:_groupID].groupSchedule;
     
     for(Slot* slot in schedToDisplay)
     {
