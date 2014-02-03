@@ -23,7 +23,7 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time
+- (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time withStates:(SlotStates[4])hourStates
 {
     day = _day;
     time = _time;
@@ -33,22 +33,22 @@
     if ((self = [super initWithFrame:frame])) {
       
         Q1 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      0+7,
+                                                      0,
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
         
         Q2 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      SCHEDULES_SLOT_HEIGHT/4 +7,
+                                                      SCHEDULES_SLOT_HEIGHT/4,
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
         
         Q3 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      SCHEDULES_SLOT_HEIGHT/2 +7,
+                                                      SCHEDULES_SLOT_HEIGHT/2,
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
         
         Q4 = [[UIView alloc] initWithFrame:CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                      (3*SCHEDULES_SLOT_HEIGHT/4 +7),
+                                                      (3*SCHEDULES_SLOT_HEIGHT/4),
                                                       SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                       SCHEDULES_SLOT_HEIGHT/4)];
         
@@ -61,10 +61,25 @@
         quarterArray = [NSArray arrayWithObjects:Q1,Q2,Q3,Q4,nil];
         
         
-        Q1.backgroundColor = [UIColor greenColor];
-        Q2.backgroundColor = [UIColor redColor];
-        Q3.backgroundColor = [UIColor blueColor];
-        Q4.backgroundColor = [UIColor blackColor];
+        int counter = 0;
+        for(UIView* quarter in quarterArray)
+        {
+            switch(hourStates[counter])
+            {
+                    case SlotStateBusy:
+                        quarter.backgroundColor = [UIColor redColor];
+                    break;
+                    case SlotStateFree:
+                        quarter.backgroundColor = [UIColor grayColor];
+                        quarter.alpha = 0.2;
+                    break;
+                    case SlotStateMeeting:
+                        quarter.backgroundColor = [UIColor greenColor];
+                    break;
+            }
+            
+            counter++;
+        }
         
         
         self.backgroundColor = [UIColor clearColor];
@@ -138,22 +153,22 @@
                          animations:^{
                              
                              Q1.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   0 + 7,
+                                                   0,
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              
                              Q2.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   SCHEDULES_SLOT_HEIGHT/4 + 7,
+                                                   SCHEDULES_SLOT_HEIGHT/4,
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              
                              Q3.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   SCHEDULES_SLOT_HEIGHT/2 + 7,
+                                                   SCHEDULES_SLOT_HEIGHT/2,
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              
                              Q4.frame = CGRectMake(SCHEDULE_SLOT_DIFFERENCE_WIDTH/2,
-                                                   (3*SCHEDULES_SLOT_HEIGHT/4) + 7,
+                                                   (3*SCHEDULES_SLOT_HEIGHT/4),
                                                    SCHEDULES_SLOT_EFFECTIVE_WIDTH,
                                                    SCHEDULES_SLOT_HEIGHT/4);
                              

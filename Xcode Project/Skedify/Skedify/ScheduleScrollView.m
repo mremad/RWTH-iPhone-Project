@@ -47,7 +47,7 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithFrame:(CGRect)frame withSchedule:(SlotStates[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -64,7 +64,7 @@
         
     }
 
-    [self addSlots];
+    [self addSlots:fullSchedule];
     [self addTimeLabels];
     
     
@@ -186,7 +186,7 @@
     [self.superview addSubview:topView];
 }
 
--(void)addSlots
+-(void)addSlots:(SlotStates[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
 {
     
     float startingPointX = TIME_WIDTH;
@@ -196,11 +196,17 @@
         {
             float startingPointY = TIME_STARTING_CENTER_POINT - (3*TIME_HEIGHT/2)  + ((j-STARTING_HOUR)*TIME_HEIGHT);
             
-            CGRect r = CGRectMake(startingPointX + i*DAY_WIDTH,startingPointY + TIME_HEIGHT + TIME_HEIGHT/4 - 7, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT + 14);
+            CGRect r = CGRectMake(startingPointX + i*DAY_WIDTH,startingPointY + TIME_HEIGHT + TIME_HEIGHT/4, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT);
             
-            ScheduleSlotView *slot =[[ScheduleSlotView alloc] initWithFrame:r withDay:(Day)i withTime:j];
+            SlotStates hourStates[4];
             
-
+            for(int k = 0;k<4;k++)
+            {
+                hourStates[k] = fullSchedule[i][j-STARTING_HOUR + k];
+            }
+            
+            
+            ScheduleSlotView *slot =[[ScheduleSlotView alloc] initWithFrame:r withDay:(Day)i withTime:j withStates:hourStates];
             
             UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                             action:@selector(handleSingleExpandTap:)];
