@@ -14,6 +14,7 @@
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSInteger groupId;
 @property (nonatomic, readonly) NSMutableArray *members;
+@property (nonatomic) NSMutableArray* groupSchedule;
 
 - (id)initWithName:(NSString *)theGroupName;
 - (id)initWithName:(NSString *)theGroupName andID :(NSInteger) theId;

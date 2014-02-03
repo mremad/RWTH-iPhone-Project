@@ -57,14 +57,46 @@
 
 - (void)createSchedule
 {
+    
     for(int i = 0;i<NUMBER_DAYS;i++)
     {
         for(int j = 0;j<NUMBER_HOURS*4;j++)
         {
-            SlotStatus rand = (SlotStatus)arc4random()%3;
-            fullSchedule[i][j] = rand;
+            
+            fullSchedule[i][j] = SlotStateFree;
         }
     }
+    
+    ServerConnection* sharedConnection = [ServerConnection sharedServerConnection];
+    NSMutableArray* schedToDisplay = sharedConnection.userSlotsArray;
+    
+    for(Slot* slot in schedToDisplay)
+    {
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:slot.startTime];
+        
+        int hour = [components hour];
+        int minute = [components minute];
+        
+        
+        
+        int hourIndex = ((hour - STARTING_HOUR)*4) + (minute/15);
+        int dayIndex = (int)slot.day;
+        
+        NSLog(@"Min:%d Hour:%d index:%d",minute,hour,hourIndex);
+        
+        int weekDay = slot.weekNum;
+        
+        SlotStatus slotStatus = slot.slotStatus;
+        
+        fullSchedule[dayIndex][hourIndex] = slotStatus;
+        
+        
+    }
+    
+     
+
 }
 
 - (void) cancelMeetingAtDay:(NSDate*)meetingDate

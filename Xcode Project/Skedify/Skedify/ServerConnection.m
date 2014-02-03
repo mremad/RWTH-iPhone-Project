@@ -65,7 +65,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     //[compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDate *endingDate =[cal1 dateFromComponents:compEnd];
 
-    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatusIsBusy:YES];
+    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatus:SlotStateBusy];
 
 
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
@@ -82,8 +82,9 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 }
 
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(SlotStatus) busy
-{//SlotStates
+/*One time (per user) Schedule functions*/
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) busy
+{
     while([endDate compare: startDate] == NSOrderedDescending)
     {
         [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
@@ -110,12 +111,16 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    [_userSlotsArray addObject:newSlot];
     
-    
-    //TODO EMAD
+
 }
+/*One time (per user) Schedule functions*/
 
 
+
+
+/*Specialized (per group) Schedule functions*/
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
                        andEndingAtDate:(NSDate *) endDate
                   withSlotStatusIsBusy:(SlotStatus) busy
@@ -154,10 +159,13 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
     
+    NSMutableArray* groupSched = [self getGroupGivenGroupId:groupId].groupSchedule;
+    [groupSched addObject:newSlot];
     
-    //TODO EMAD
+    
+    
 }
-
+/*Specialized (per group) Schedule functions*/
 
 -(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(SlotStatus) status andweekDay:(Day) weekDay
 {
@@ -180,6 +188,11 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     {
         [self fetchNeededInformation];
         _dateOfLastShakeGesture= [NSDate dateWithTimeIntervalSince1970:0];
+        
+        _userSlotsArray = [NSMutableArray arrayWithObjects:nil];
+        _userSchedules = [[NSMutableDictionary alloc] initWithObjects:[NSMutableArray arrayWithObjects:nil]
+                                                              forKeys:[NSMutableArray arrayWithObjects:nil]];
+        
     }
     
     return self;

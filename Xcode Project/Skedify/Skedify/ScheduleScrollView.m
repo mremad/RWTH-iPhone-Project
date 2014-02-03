@@ -199,10 +199,11 @@
             CGRect r = CGRectMake(startingPointX + i*DAY_WIDTH,startingPointY + TIME_HEIGHT + TIME_HEIGHT/4, SCHEDULES_SLOT_WIDTH, SCHEDULES_SLOT_HEIGHT);
             
             SlotStatus hourStates[4];
+  
             
             for(int k = 0;k<4;k++)
             {
-                hourStates[k] = fullSchedule[i][j-STARTING_HOUR + k];
+                hourStates[k] = fullSchedule[i][(j-STARTING_HOUR)*4 + k];
             }
             
             
