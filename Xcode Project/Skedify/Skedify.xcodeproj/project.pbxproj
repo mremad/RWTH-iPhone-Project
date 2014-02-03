@@ -43,6 +43,7 @@
 		D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */; };
 		D9B7ABC21886A2CE00883E67 /* AddMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC11886A2CE00883E67 /* AddMemberViewController.m */; };
 		D9B7ABC51886A7C000883E67 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B7ABC41886A7C000883E67 /* Group.m */; };
+		D9B84A8B18A00FFF00821758 /* Slot.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B84A8A18A00FFF00821758 /* Slot.m */; };
 		D9BDF093189D2D5E0043F601 /* EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF090189D2D5E0043F601 /* EmailViewController.m */; };
 		D9BDF094189D2D5E0043F601 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF092189D2D5E0043F601 /* GroupViewController.m */; };
 		D9BDF098189D647A0043F601 /* SkedNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9BDF097189D647A0043F601 /* SkedNavigationController.m */; };
@@ -123,6 +124,8 @@
 		D9B7ABC11886A2CE00883E67 /* AddMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AddMemberViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D9B7ABC31886A7C000883E67 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		D9B7ABC41886A7C000883E67 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
+		D9B84A8918A00FFF00821758 /* Slot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slot.h; sourceTree = "<group>"; };
+		D9B84A8A18A00FFF00821758 /* Slot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slot.m; sourceTree = "<group>"; };
 		D9BDF08F189D2D5E0043F601 /* EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailViewController.h; sourceTree = "<group>"; };
 		D9BDF090189D2D5E0043F601 /* EmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailViewController.m; sourceTree = "<group>"; };
 		D9BDF091189D2D5E0043F601 /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 				D9B7ABC41886A7C000883E67 /* Group.m */,
 				545FA46E189D73B900E98B6A /* Notification.h */,
 				545FA46F189D73B900E98B6A /* Notification.m */,
+				D9B84A8918A00FFF00821758 /* Slot.h */,
+				D9B84A8A18A00FFF00821758 /* Slot.m */,
 			);
 			name = DataTypes;
 			sourceTree = "<group>";
@@ -512,6 +517,7 @@
 				3436E4A9188C510A00006A53 /* L2PHandler.m in Sources */,
 				D97145F118858551008C97AA /* Member.m in Sources */,
 				D97EBB8D188469900024CC6E /* AppDelegate.m in Sources */,
+				D9B84A8B18A00FFF00821758 /* Slot.m in Sources */,
 				D97EBB89188469900024CC6E /* main.m in Sources */,
 				D9F3AAE31892BFC00039D9DA /* ScheduleScrollView.m in Sources */,
 				D97EBBBE1884736F0024CC6E /* GroupsTableViewController.m in Sources */,
