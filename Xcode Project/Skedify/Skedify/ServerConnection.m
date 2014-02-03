@@ -65,7 +65,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     //[compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDate *endingDate =[cal1 dateFromComponents:compEnd];
 
-    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatusIsBusy:YES];
+    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatus:SlotStateBusy];
 
 
     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
@@ -81,8 +81,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     return components;
 }
 
-
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(SlotStatus) busy
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) busy
 {//SlotStates
     while([endDate compare: startDate] == NSOrderedDescending)
     {

@@ -44,7 +44,7 @@
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
 
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status;
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(SlotStatus) busy withGroupId:(NSInteger)groupId;
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) busy withGroupId:(NSInteger)groupId;
 
 
 
@@ -54,6 +54,7 @@
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerRemoveGroup:(Group *)group;
+
 
 
 
