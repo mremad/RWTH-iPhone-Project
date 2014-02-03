@@ -28,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupId];
+    Group *g=[[ServerConnection sharedServerConnection] getGroupGivenGroupId:_groupId];
     NSString *nameOfViewWithDots = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:10];
     self.title= [nameOfViewWithDots stringByAppendingString:@" Members"];
     // Uncomment the following line to preserve selection between presentations.

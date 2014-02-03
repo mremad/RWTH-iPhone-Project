@@ -67,7 +67,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatusIsBusy:YES];
 
 
-    //[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     // TODO: make sure the line above is removed
 }
 
@@ -138,28 +138,43 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 - (void) fetchNeededInformation
 {
-    //ServerCode Get Created Groups(If any ) From Server
-    //for ex User added that was not there in the system or User just opened the app and
-    // recieves his info
-    
-    //GetGroupsFromPreviouStorage
-    
     _groupsList = [[NSMutableArray alloc]init];
-    Group* g1 = [[Group alloc]initWithName:@"DIS" andID:0];
+    NSLog(@"fetching froups");
+    NSDictionary* requestDictionary = @{@"action" : @"GetGroups",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        int i = 0;
+        for (NSDictionary *dict in dictionary) {
+            NSLog(@"Dict: %@", dict);
+            NSDictionary * groups = [dict objectForKey:@"groups"];
+                // NSLog(@"Groups: %@", groups);
+                for (NSDictionary *group in groups) {
+                    NSNumber *groupID = [group objectForKey:@"groupID"];
+                    NSString *groupName = [group objectForKey:@"groupname"];
+                    NSLog(@"Group %@ with id %@", groupName, groupID);
+                    
+                    // create group object and add it to the list
+                    Group* g = [[Group alloc]initWithName:groupName andID:[groupID integerValue]];
+                    [_groupsList insertObject:g atIndex:i];
+                    i++;
+                }
+            
+        }
+        NSLog(@"%d groups received", i);
+    } errorHandler:nil];
+    
+
+    
+/*
     Member *a = [[Member alloc]initWithName:@"Dil"];
     Member *b = [[Member alloc]initWithName:@"Daimon"];
     [g1 insertMember:a];
     [g1 insertMember:b];
     [_groupsList insertObject:g1 atIndex:0];
-    
-    
-    Group* g2 = [[Group alloc]initWithName:@"Artificial Intellegience" andID:1];
-    Member *c = [[Member alloc]initWithName:@"Alex"];
-    Member *d = [[Member alloc]initWithName:@"Andrea"];
-    [g2 insertMember:c];
-    [g2 insertMember:d];
-    [_groupsList insertObject:g2 atIndex:1];
+     */
+
 }
+
 #pragma mark -
 #pragma mark Group Handling methods
 - (NSArray *) GetGroupList
@@ -216,6 +231,33 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 - (NSArray *) GetGroupContacts: (NSInteger) groupId
 {
+    _groupMembers = [[NSMutableArray alloc]init];
+    NSLog(@"fetching members of group %D", groupId);
+    NSDictionary* requestDictionary = @{@"action" : @"GetGroupUsers",
+                                        @"username" : user,
+                                        @"groupID" : [NSNumber numberWithInt:groupId]};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        int i = 0;
+        for (NSDictionary *dict in dictionary) {
+            NSLog(@"Dict: %@", dict);
+            
+            NSDictionary * users = [dict objectForKey:@"users"];
+            NSLog(@"Users of group: %@", users);
+            for (NSDictionary *user in users) {
+                // NSNumber *userID = [user objectForKey:@"groupID"];
+                NSString *name = [user objectForKey:@"username"];
+                
+                // create group object and add it to the list
+                Member *m = [[Member alloc]initWithName: name];
+                [_groupMembers insertObject:m atIndex:i];
+                i++;
+            }
+            
+        }
+        NSLog(@"%d users for group received", i);
+    } errorHandler:nil];
+    
+    
     //TODO: KIKO change groupIdentifier from array position to group Id
     Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId];
     return [theIdentifierGroup members];
@@ -255,6 +297,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
             return g;
         }
     }
+    [NSException raise:@"Unrecognized Id" format:@"should never happen getGroupGivnGroupId"];
     NSLog(@"should never happen getGroupGivnGroupId");
     return nil;
 }
@@ -274,12 +317,13 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     self.notificationsNotReadCounter ++;
 }
 
-- (void)storeAccountInfoInUserDefaults
+- (void)storeAccountInfoInUserDefaultsAndOnServer
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
     [defaults setObject:_accountNickName forKey:@"accountNickName"];
-    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator 
+    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator
+    [self SendToServerLogin];
 }
 
 - (NSString*) getUserEmail
@@ -363,7 +407,6 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 /**
  this method creates a new group in server.
- observe @"createdGroupID" for receiving the new group id.
  */
 -(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
@@ -372,25 +415,57 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
                                         @"username" : user,
                                         @"groupname" : [group name]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        // NSLog(@"Group created: %@", dictionary);
-      
-        for (NSDictionary *dict in dictionary) {
+    
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+    {
+        for (NSDictionary *dict in dictionary)
+        {
             NSNumber *groupID = [dict objectForKey:@"groupID"];
-            // NSLog(@"Group id: %@", groupID);
-            [sharedServerConnection setValue:groupID forKey:@"createdGroupID"];
+            group.groupId=[groupID intValue];
         }
+        [self SendtoServerInviteGroupMembers:group];
     } errorHandler:nil];
+    
+}
+/**
+ this method invites all group members to the group
+ */
+-(void)SendtoServerInviteGroupMembers :(Group *) theGroup
+{
+    for(int i=0;i<[theGroup.members count];i++)
+    {
+        Member *memberToInvite= [theGroup.members objectAtIndex:i];
+        NSString *groupIdString = [NSString stringWithFormat: @"%d", theGroup.groupId];
+        NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
+                                            @"username" : memberToInvite.emailAddress,
+                                            @"groupID" : groupIdString ,
+                                            @"adder" : _accountEmailAddress};
+        
+        (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+                            {
+                                NSLog(@"Member invited: %@", dictionary);
+                            } errorHandler:nil];
+    }
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group
 {
-    // TODO: remove group from server from my list of groups
+    NSLog(@"Removing group %@", [group name]);    
+    NSDictionary* requestDictionary = @{@"action" : @"RemoveGroup",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Group removed: %@", dictionary);
+    } errorHandler:nil];
 }
 
 -(void) SendToServerAcceptGroupRequest:(Group *) group
 {
-    // TODO:
+    NSLog(@"Accepting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
+                                        @"username" : user};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
 }
 
 -(void) SendToServerRejectGroupRequest:(Group *) group
@@ -428,19 +503,20 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSLog(@"logging in %@", [self getUserEmail]);
     NSDictionary* requestDictionary = @{@"action" : @"Login",
                                         @"username" : [self getUserEmail]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Login completed with dictionary: %@", dictionary);
+        [self SendToServerSetNickName];
     
     } errorHandler:nil];
 }
 
--(void) SendToServerSetNickName :(Member *) member
+-(void) SendToServerSetNickName
 {
     NSLog(@"Sending nickname %@", [self getNickname]);
     NSDictionary* requestDictionary = @{@"action" : @"SetNickname",
                                         @"username" : [self getUserEmail],
                                         @"nickname" : [self getNickname]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:@"https://www.gcmskit.com/skedify/ajax.php" dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
         
     } errorHandler:nil];

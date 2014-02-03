@@ -40,12 +40,13 @@
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(BOOL) busy;
 
-- (void) storeAccountInfoInUserDefaults;
+- (void) storeAccountInfoInUserDefaultsAndOnServer;
 - (NSString*) getUserEmail;
 - (NSString*) getNickname;
 
 -(Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
+@property (nonatomic, readonly) NSMutableArray *groupMembers;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
 @property NSMutableArray *notificationsList;
 @property int notificationsNotReadCounter;
