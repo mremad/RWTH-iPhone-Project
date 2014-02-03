@@ -54,6 +54,7 @@
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerRemoveGroup:(Group *)group;
+- (void) SendToServerSendSlot: (Group *) group fromTimeSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
 
 
 
