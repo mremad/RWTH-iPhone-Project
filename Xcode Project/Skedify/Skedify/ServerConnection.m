@@ -191,7 +191,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSLog(@"fetching froups");
     NSDictionary* requestDictionary = @{@"action" : @"GetGroups",
                                         @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         int i = 0;
         for (NSDictionary *dict in dictionary) {
             NSLog(@"Dict: %@", dict);
@@ -285,7 +285,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSDictionary* requestDictionary = @{@"action" : @"GetGroupUsers",
                                         @"username" : user,
                                         @"groupID" : [NSNumber numberWithInt:groupId]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         int i = 0;
         for (NSDictionary *dict in dictionary) {
             NSLog(@"Dict: %@", dict);
@@ -478,7 +478,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
                                         @"groupID" : group,
                                         @"adder" : user};
     NSLog(@"Request: %@", requestDictionary);
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"User added: %@", dictionary);
         
         for (NSDictionary *dict in dictionary)
@@ -626,7 +626,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSLog(@"logging in %@", [self getUserEmail]);
     NSDictionary* requestDictionary = @{@"action" : @"Login",
                                         @"username" : [self getUserEmail]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Login completed with dictionary: %@", dictionary);
         [self SendToServerSetNickName];
     
@@ -639,7 +639,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSDictionary* requestDictionary = @{@"action" : @"SetNickname",
                                         @"username" : [self getUserEmail],
                                         @"nickname" : [self getNickname]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
         
     } errorHandler:nil];
