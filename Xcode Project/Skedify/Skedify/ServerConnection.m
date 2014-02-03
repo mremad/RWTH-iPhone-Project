@@ -313,7 +313,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 #pragma mark -
 #pragma mark Recieiving Data From Server methods
 
-- (void) fetchGroupSchedule: (Group*) group: fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+- (void) fetchGroupSchedule: (Group*) group: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
@@ -327,7 +327,34 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
             {
                 NSLog(@"Schedule received: %@", dictionary);
-                // nothing more to do
+                int i = 0;
+                for (NSDictionary *dict in dictionary) {
+                    NSLog(@"Dict: %@", dict);
+                    for (NSDictionary *slot in dict) {
+
+                        NSTimeInterval intStart=[[slot objectForKey:@"start"] doubleValue];
+                        NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
+                        
+                        NSTimeInterval intEnd=[[slot objectForKey:@"end"] doubleValue];
+                        NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
+                        
+                        SlotStatus slotStaus;
+                        NSString *state = [slot objectForKey:@"state"];
+                        if ([state isEqualToString:@"appointment_fixed"]) {
+                            slotStaus = SlotStateMeeting;
+                        } else if ([state isEqualToString:@"busy"]) {
+                            slotStaus = SlotStateBusy;
+                        } else {
+                            slotStaus = SlotStateFree;
+                        }
+                        NSLog(@"state %u", slotStaus);
+                        
+                        [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus];
+                        i++;
+                    }
+                    
+                }
+                NSLog(@"%d groups received", i);
             } errorHandler:nil];
 }
 
