@@ -145,7 +145,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     //GetGroupsFromPreviouStorage
     
     _groupsList = [[NSMutableArray alloc]init];
-    Group* g1 = [[Group alloc]initWithName:@"DIS" andID:0];
+    Group* g1 = [[Group alloc]initWithName:@"DIS" andID:200];
     Member *a = [[Member alloc]initWithName:@"Dil"];
     Member *b = [[Member alloc]initWithName:@"Daimon"];
     [g1 insertMember:a];
@@ -153,7 +153,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     [_groupsList insertObject:g1 atIndex:0];
     
     
-    Group* g2 = [[Group alloc]initWithName:@"Artificial Intellegience" andID:1];
+    Group* g2 = [[Group alloc]initWithName:@"Artificial Intellegience" andID:304];
     Member *c = [[Member alloc]initWithName:@"Alex"];
     Member *d = [[Member alloc]initWithName:@"Andrea"];
     [g2 insertMember:c];
@@ -255,6 +255,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
             return g;
         }
     }
+    [NSException raise:@"Unrecognized Id" format:@"should never happen getGroupGivnGroupId"];
     NSLog(@"should never happen getGroupGivnGroupId");
     return nil;
 }

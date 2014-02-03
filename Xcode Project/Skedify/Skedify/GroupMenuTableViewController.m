@@ -51,7 +51,7 @@
 
 -(void)setViewTitle
 {
-    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupId];
+    Group *g=[[ServerConnection sharedServerConnection] getGroupGivenGroupId:_groupId];
     self.title = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:18];
 }
 - (void)viewDidLoad
