@@ -402,7 +402,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
  else if meeting invitation: group name, meeting beginning time and meeting ending time
  **/
 
--(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation name:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
+-(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
 {
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
@@ -707,6 +707,46 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
         [self fetchNeededInformation];
+    } errorHandler:nil];
+}
+
+- (void) SendToServerPullData {
+    NSLog(@"Pulling data from server");
+    NSDictionary* requestDictionary = @{@"action" : @"PullData",
+                                        @"username" : [self getUserEmail],
+                                        @"getShakeInfo" : @1};
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Pull Result: %@", dictionary);
+        
+        for (NSDictionary *dict in dictionary)
+        {
+            NSDictionary * invites = [dict objectForKey:@"invites"];
+            for (NSDictionary *invite in invites) {
+                NSLog(@"Got invite");
+                NSNumber *groupID = [dict objectForKey:@"groupID"];
+                NSString *senderName = [dict objectForKey:@"senderUsername"];
+                
+                NSDate *date;
+                [self didReceiveFromServerRequestNotificationWithType:YES group:[groupID integerValue] sender:senderName beginsAt:date endsAt:date];
+            }
+            
+            NSDictionary * appointments = [dict objectForKey:@"invites"];
+            for (NSDictionary *app in appointments) {
+                NSLog(@"Got appointment");
+                NSNumber *groupID = [dict objectForKey:@"groupID"];
+                NSString *senderName = [dict objectForKey:@"senderUsername"];
+                
+                NSTimeInterval intStart=[[app objectForKey:@"start"] doubleValue];
+                NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
+
+                NSTimeInterval intEnd =[[app objectForKey:@"end"] doubleValue];
+                NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
+                
+                [self didReceiveFromServerRequestNotificationWithType:NO group:[groupID integerValue] sender:senderName beginsAt:startDate endsAt:endDate];
+            }
+        }
+
+        
     } errorHandler:nil];
 }
 
