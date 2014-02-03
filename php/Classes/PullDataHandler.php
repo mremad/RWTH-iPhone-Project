@@ -4,7 +4,10 @@ class PullDataHandler extends GroupHandler
 {
 	public function trigger()
 	{	
-		return array("invites" => $this->getInvitations(), "appointments" => $this->getAppointments(), "shakeInfo" => $this->getShakeInfo());
+		if ($this->options["getShakeInfo"])
+			return array("shakeInfo" => $this->getShakeInfo());
+		else
+			return array("invites" => $this->getInvitations(), "appointments" => $this->getAppointments());
 	}
 	
 	private function getInvitations()

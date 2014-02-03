@@ -436,7 +436,7 @@
 				ORGANIZATIONNAME = SkedifyGroup;
 				TargetAttributes = {
 					D97EBB78188469900024CC6E = {
-						DevelopmentTeam = W88773838E;
+						DevelopmentTeam = 3729QWU9EA;
 					};
 					D97EBB99188469900024CC6E = {
 						TestTargetID = D97EBB78188469900024CC6E;

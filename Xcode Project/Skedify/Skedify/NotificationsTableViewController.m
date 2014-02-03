@@ -113,9 +113,9 @@
     }
     else if (buttonIndex == 1){
         NSLog(@"Accept");
-        //TODO: Call server here
+
         if (notificationChosen.isGroupInvitationNotification) {
-//            [[ServerConnection sharedServerConnection] SendToServerAcceptGroupRequest:<#(Group *)#>];
+            [[ServerConnection sharedServerConnection] SendToServerAcceptGroupRequest:notificationChosen.group];
         }
         else{
 //            [[ServerConnection sharedServerConnection] SendToServerAcceptMeeting:<#(Group *)#> fromTimeSlot:<#(NSDate *)#>];
@@ -123,12 +123,12 @@
     }
     else{
          NSLog(@"Decline");
-        //TODO: Call server here
+
         if (notificationChosen.isGroupInvitationNotification) {
-//            [[ServerConnection sharedServerConnection] SendToServerRejectGroupRequest:<#(Group *)#>];
+            [[ServerConnection sharedServerConnection] SendToServerRejectGroupRequest:notificationChosen.group];
         }
         else{
-//            [[ServerConnection sharedServerConnection] SendToServerRejectMeeting:<#(Group *)#> fromTimeSlot:<#(NSDate *)#>;
+//           [[ServerConnection sharedServerConnection] SendToServerRejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime];
         }
     }
 }

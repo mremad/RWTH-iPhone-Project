@@ -28,24 +28,38 @@
 }
 @property NSInteger createdGroupID;
 
+
 + (ServerConnection *) sharedServerConnection;
+
+//method called minimal times in the start of the App
+- (void) AppStart;
+- (NSString*) getUserEmail;
+- (NSString*) getNickname;
+- (void) storeAccountInfoInUserDefaultsAndOnServer;
+
+//Group related
+- (Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
 - (NSArray *) GetGroupList;
 - (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier;
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
-- (void) AppStart;
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status;
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) busy withGroupId:(NSInteger)groupId;
+
+
+
 - (void) SendToServerShakeLocation:(CLLocation *)location;
-- (void) SendToServerRemoveGroup:(Group *)group;
 - (void) SendToServerAcceptGroupRequest:(Group *) group;
+- (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
-- (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status;
+- (void) SendToServerRemoveGroup:(Group *)group;
 
-- (void) storeAccountInfoInUserDefaultsAndOnServer;
-- (NSString*) getUserEmail;
-- (NSString*) getNickname;
 
--(Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
+
+
+
+
 
 
 /*   Schedule Parameters  */

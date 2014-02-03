@@ -22,7 +22,6 @@
 
 static ServerConnection *sharedServerConnection = nil;
 static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
-static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is temporary
 
 /*
  * returns the singleton instance of ServerConnection.
@@ -68,7 +67,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatus:SlotStateBusy];
 
 
-    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    // [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     // TODO: make sure the line above is removed
 }
 
@@ -81,10 +80,10 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     return components;
 }
 
-
 /*One time (per user) Schedule functions*/
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) busy
 {
+
     while([endDate compare: startDate] == NSOrderedDescending)
     {
         [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
@@ -203,8 +202,8 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     _groupsList = [[NSMutableArray alloc]init];
     NSLog(@"fetching froups");
     NSDictionary* requestDictionary = @{@"action" : @"GetGroups",
-                                        @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+                                        @"username" : [self getUserEmail]};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         int i = 0;
         for (NSDictionary *dict in dictionary) {
             NSLog(@"Dict: %@", dict);
@@ -296,9 +295,9 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     _groupMembers = [[NSMutableArray alloc]init];
     NSLog(@"fetching members of group %D", groupId);
     NSDictionary* requestDictionary = @{@"action" : @"GetGroupUsers",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupID" : [NSNumber numberWithInt:groupId]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         int i = 0;
         for (NSDictionary *dict in dictionary) {
             NSLog(@"Dict: %@", dict);
@@ -320,7 +319,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     } errorHandler:nil];
     
     
-    //TODO: KIKO change groupIdentifier from array position to group Id
+    // TODO: KIKO change groupIdentifier from array position to group Id
     Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId];
     return [theIdentifierGroup members];
 }
@@ -328,17 +327,24 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 #pragma mark -
 #pragma mark Recieiving Data From Server methods
 
+- (void) fetchGroupSchedule: (Group*) group: fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+{
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
 
-/* Recieve From Server Methods
- TODO: recieve Combin Schedule
- TODO: recieve created Meeting
- TODO: recieve meeting/group request
- TODO: recieve member acceptance in group(wheather he accepted/rejected the group reques)
- TODO: receive member acceptance in meeting(or rejection)
- 
+    NSDictionary* requestDictionary = @{@"action" : @"CalculateGroupSchedule",
+                                        @"username" : [self getUserEmail],
+                                        @"groupID" : [NSNumber numberWithInt:[group groupId]],
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+            {
+                NSLog(@"Schedule received: %@", dictionary);
+                // nothing more to do
+            } errorHandler:nil];
+}
 
-
-*/
 
 
 /*
@@ -370,6 +376,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
     Group *g=[self getGroupGivenGroupId:groupId];
+    fetechedNotification.groupName = g;
     fetechedNotification.groupName = g.name;
     fetechedNotification.senderName = senderName;
     fetechedNotification.meetingBeginningTime = beginTime;
@@ -390,8 +397,11 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 
 - (NSString*) getUserEmail
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return[defaults objectForKey:@"accountEmailAddress"];
+    if ([_accountEmailAddress length] == 0) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        _accountEmailAddress = [defaults objectForKey:@"accountEmailAddress"];
+    }
+    return _accountEmailAddress;
 }
 
 - (NSString*) getNickname
@@ -412,7 +422,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     }
     if(YES) // member declined Group
     {
-            //TODO We need to think of this a little about ... (probelm woth multple group names..)
+            // TODO: We need to think of this a little about ... (probelm woth multple group names..)
             NSString *emailOfMember = @"theDeclinedMembersEmail";
             NSString *theGroupName =@"theGroupName";
             Group *g = [self GetGroupGivenName:theGroupName];
@@ -459,27 +469,19 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 -(void)SendToServerShakeLocation:(CLLocation *)location
 {
     NSLog(@"sending shake action to server");
-    /*
+    
+    CLLocationCoordinate2D coord = [location coordinate];
+    
     NSDictionary* requestDictionary = @{@"action" : @"Shake",
-                                        @"username" : user,
-                                        @"latitude" : [location]};
+                                        @"username" : [self getUserEmail],
+                                        @"latitude" : [NSNumber numberWithDouble:coord.latitude],
+                                        @"longitude" : [NSNumber numberWithDouble:coord.longitude]};
     
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
             {
-                for (NSDictionary *dict in dictionary)
-                {
-                    NSNumber *groupID = [dict objectForKey:@"groupID"];
-                    group.groupId=[groupID intValue];
-                    
-                    // add Members:
-                    for (Member *m in members) {
-                        //
-                        [self SendToServerAddMember:m inGroup:(groupID)];
-                    }
-                }
-                [self SendtoServerInviteGroupMembers:group];
+                NSLog(@"Shake sent: %@", dictionary);
+                // nothing more to do
             } errorHandler:nil];
-     */
 }
 
 -(void)SendToServerAddMember:(Member *)member inGroup:(NSNumber*) group
@@ -489,9 +491,9 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
                                         @"username" : member,
                                         @"groupID" : group,
-                                        @"adder" : user};
+                                        @"adder" : [self getUserEmail]};
     NSLog(@"Request: %@", requestDictionary);
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"User added: %@", dictionary);
         
         for (NSDictionary *dict in dictionary)
@@ -511,7 +513,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
-                                        @"username" : user,
+                                        @"username" : [self getUserEmail],
                                         @"groupname" : [group name]};
     
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
@@ -556,46 +558,87 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 {
     NSLog(@"Removing group %@", [group name]);    
     NSDictionary* requestDictionary = @{@"action" : @"RemoveGroup",
-                                        @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+                                        @"username" : [self getUserEmail]};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Group removed: %@", dictionary);
     } errorHandler:nil];
 }
 
 -(void) SendToServerAcceptGroupRequest:(Group *) group
 {
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
     NSLog(@"Accepting group request %@", [group name]);
     NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
-                                        @"username" : user};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+                                        @"username" : [self getUserEmail],
+                                        @"groupID" : groupIdString};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Invitation accepted: %@", dictionary);
     } errorHandler:nil];
+    //- **action=AcceptInvitation&username=<username>&groupID=<groupID>**
 }
 
 -(void) SendToServerRejectGroupRequest:(Group *) group
 {
-    // TODO:
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"RejectInvitation",
+                                        @"username" : [self getUserEmail],
+                                        @"groupID" : groupIdString};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
+    //- **action=RejectInvitation&username=<username>&groupID=<groupID>**
 }
+
+
+//- **action=SetAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
 
 -(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: create meeting with group on server
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
+                                        @"groupID" : groupIdString,
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
 }
 
 
--(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
+-(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: reject the meeting that was created starting in this timeslot
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
+    NSLog(@"Rejecting group request %@", [group name]);
+    NSDictionary* requestDictionary = @{@"action" : @"DeleteAppointment",
+                                        @"username" : _accountEmailAddress,
+                                        @"groupID" : groupIdString,
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Invitation accepted: %@", dictionary);
+    } errorHandler:nil];
+    //- **action=DeleteAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
 }
 
--(void)SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot
-{
-    // TODO: accept the meeting that was created starting in this timeslot
-}
 
--(void)SendToServerSendSchedule
+-(void)SendToServerSendSchedule: (Group *) group: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    // TODO: Data structure not yet implemented
+    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
+    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
+    NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
+                                        @"username" : [self getUserEmail],
+                                        @"groupID" : [NSNumber numberWithInt:[group groupId]],
+                                        @"start" : startDate,
+                                        @"end" : endDate};
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Appointment set: %@", dictionary);
+    } errorHandler:nil];
 }
 
 /**
@@ -607,7 +650,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSLog(@"logging in %@", [self getUserEmail]);
     NSDictionary* requestDictionary = @{@"action" : @"Login",
                                         @"username" : [self getUserEmail]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Login completed with dictionary: %@", dictionary);
         [self SendToServerSetNickName];
     
@@ -620,7 +663,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSDictionary* requestDictionary = @{@"action" : @"SetNickname",
                                         @"username" : [self getUserEmail],
                                         @"nickname" : [self getNickname]};
-    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
         
     } errorHandler:nil];
