@@ -22,8 +22,6 @@
 @interface ScheduleScrollView : UIScrollView
 
 @property (nonatomic, weak) id<ScheduleTapRecognizerProtocol> delegate;
-
--(void)expandScheduleAtLeftDay:(int)leftDay rightDay:(int)rightDay topHour:(int)topHour bottomHour:(int)bottomHour;
--(void) addWeekDays;
+-(void)addWeekLabels;
 
 @end

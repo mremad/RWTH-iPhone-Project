@@ -45,17 +45,17 @@
     _scrollView.delegate = (id)self;
     _scrollView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:_scrollView];
-    [_scrollView addWeekDays];
-    
-   
-    
-	// Do any additional setup after loading the view.
+    [_scrollView addWeekLabels];
+
 }
 
-
--(void)singleTap:(UITapGestureRecognizer*)sender
+- (void)reserveMeetingAtStartingDay:(NSDate*)startingDate endingDate:(NSDate*)endingDate
 {
     
+}
+
+- (void) cancelMeetingAtDay:(NSDate*)meetingDate
+{
     
 }
 
