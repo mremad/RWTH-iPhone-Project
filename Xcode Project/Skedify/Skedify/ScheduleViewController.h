@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ScheduleScrollView.h"
 #import "GlobalVariables.h"
+#import "ServerConnection.h"
 
 
 @interface ScheduleViewController : UIViewController<UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet ScheduleScrollView *scrollView;
-
+@property NSInteger groupID;
 
 @end

@@ -80,8 +80,10 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return components;
 }
 
+/*One time (per user) Schedule functions*/
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) busy
-{//SlotStates
+{
+
     while([endDate compare: startDate] == NSOrderedDescending)
     {
         [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
@@ -108,12 +110,16 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    [_userSlotsArray addObject:newSlot];
     
-    
-    //TODO EMAD
+
 }
+/*One time (per user) Schedule functions*/
 
 
+
+
+/*Specialized (per group) Schedule functions*/
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
                        andEndingAtDate:(NSDate *) endDate
                   withSlotStatusIsBusy:(SlotStatus) busy
@@ -152,10 +158,13 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
     
+    NSMutableArray* groupSched = [self getGroupGivenGroupId:groupId].groupSchedule;
+    [groupSched addObject:newSlot];
     
-    //TODO EMAD
+    
+    
 }
-
+/*Specialized (per group) Schedule functions*/
 
 -(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(SlotStatus) status andweekDay:(Day) weekDay
 {
@@ -178,6 +187,11 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     {
         [self fetchNeededInformation];
         _dateOfLastShakeGesture= [NSDate dateWithTimeIntervalSince1970:0];
+        
+        _userSlotsArray = [NSMutableArray arrayWithObjects:nil];
+        _userSchedules = [[NSMutableDictionary alloc] initWithObjects:[NSMutableArray arrayWithObjects:nil]
+                                                              forKeys:[NSMutableArray arrayWithObjects:nil]];
+        
     }
     
     return self;
@@ -383,20 +397,28 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return nil;
 }
 
+/**Receive Notification from server and concatinate it in the notifications list
+ Expected from server isGroupInvitation = Yes => GroupInvitation, NO => MeetingInvitation
+ if group invitation: group name and group creator name
+ else if meeting invitation: group name, meeting beginning time and meeting ending time
+ **/
 
 -(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation name:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
 {
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
     Group *g=[self getGroupGivenGroupId:groupId];
-    fetechedNotification.groupName = g;
+    fetechedNotification.group = g;
     fetechedNotification.groupName = g.name;
     fetechedNotification.senderName = senderName;
     fetechedNotification.meetingBeginningTime = beginTime;
     fetechedNotification.meetingEndingTime = endTime;
     
-    [self.notificationsList addObject:fetechedNotification];
-    self.notificationsNotReadCounter ++;
+    if (![self.notificationsList containsObject: fetechedNotification])
+    {
+        [self.notificationsList addObject:fetechedNotification];
+        self.notificationsNotReadCounter ++;
+    }
 }
 
 - (void)storeAccountInfoInUserDefaultsAndOnServer
@@ -457,23 +479,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
    // [_notificationsViewDelegate shakeRecieved:NO];
 }
 
-/**Receive Notification from server and concatinate it in the notifications list
- Expected from server isGroupInvitation = Yes => GroupInvitation, NO => MeetingInvitation
- if group invitation: group name and group creator name
- else if meeting invitation: group name, meeting beginning time and meeting ending time
- **/
--(void)receiveFromServerNotificationWithType: (BOOL)isGroupInvitation name:(NSString*)groupName sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
-{
-    Notification *fetechedNotification = [[Notification alloc] init];
-    fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
-    fetechedNotification.groupName = groupName;
-    fetechedNotification.senderName = senderName;
-    fetechedNotification.meetingBeginningTime = beginTime;
-    fetechedNotification.meetingEndingTime = endTime;
-    
-    [self.notificationsList addObject:fetechedNotification];
-    self.notificationsNotReadCounter ++;
-}
 
 #pragma mark -
 #pragma mark Sending Data From Server methods
