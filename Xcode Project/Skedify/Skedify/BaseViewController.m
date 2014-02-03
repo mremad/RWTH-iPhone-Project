@@ -140,6 +140,8 @@
         [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
     }
     
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle: nil];
     UINavigationController *baseNC =(UINavigationController *)[self presentingViewController];
     [self dismissViewControllerAnimated:YES completion:nil];
     
@@ -155,11 +157,13 @@
         }
     }
     
-    //UINavigationController * baseNC= sked;
+    GroupMenuTableViewController *groupsMenu = (GroupMenuTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"GroupMenuIdentifier"];
+    
+    ScheduleViewController *sced = (ScheduleViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"ScheduleIdentifier"];
+    
+    
     [baseNC popToViewController:groupMenu animated:NO];
-    GroupMenuTableViewController   *groupsMenu=[[GroupMenuTableViewController alloc]init];
     [baseNC pushViewController:groupsMenu animated:NO];
-    ScheduleViewController *sced=[[ScheduleViewController alloc]init];
     [baseNC pushViewController:sced animated:YES];
 }
 
