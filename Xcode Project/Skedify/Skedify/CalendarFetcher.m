@@ -172,7 +172,7 @@ typedef enum _requestState requestState;
         for(int i=0;i<[events count];i++)
         {
             EKEvent *ev = [events objectAtIndex:i];
-            [[ServerConnection sharedServerConnection] addScheduleSlotStartingAtDate:ev.startDate andEndingAtDate:ev.endDate withSlotStatusIsBusy:YES];
+            [[ServerConnection sharedServerConnection] addScheduleSlotStartingAtDate:ev.startDate andEndingAtDate:ev.endDate withSlotStatus:SlotStateBusy];
         }
         
     }];
@@ -232,7 +232,7 @@ typedef enum _requestState requestState;
         NSDate *endDate = [[NSDate alloc] init];
         endDate = [dateFormatter dateFromString:endDateString];
         
-        [[ServerConnection sharedServerConnection] addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatusIsBusy:YES];
+        [[ServerConnection sharedServerConnection] addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:SlotStateBusy];
     }
 }
 

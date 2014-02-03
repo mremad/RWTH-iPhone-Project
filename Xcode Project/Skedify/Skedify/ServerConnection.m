@@ -11,6 +11,7 @@
 #import "Member.h"
 #import "HttpRequest.h"
 #import "Notification.h"
+#import "GlobalVariables.h"
 
 @implementation ServerConnection
 
@@ -81,8 +82,8 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 }
 
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(BOOL) busy
-{
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(SlotStatus) busy
+{//SlotStates
     while([endDate compare: startDate] == NSOrderedDescending)
     {
         [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
@@ -90,7 +91,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     }
 }
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatusIsBusy:(BOOL) busy
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatusIsBusy:(SlotStatus) status
 {
         NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
         
@@ -100,17 +101,17 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
             weekday = 6;
         }
         
-        [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatusIsBusy:busy];
+        [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status];
 }
 
 
--(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy
+-(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
 {
-    [self logDate:startingSlot andSlotStatusIsBusy:busy andweekDay:weekDay];
+    [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
     //TODO EMAD
 }
 
--(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy andweekDay:(Day) weekDay
+-(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(SlotStatus) status andweekDay:(Day) weekDay
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
@@ -120,8 +121,8 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     NSString *theTime = [timeFormat stringFromDate:startingSlot];
     NSLog(@" Adding this slot \n"
           "theDate: |%@| \n"
-          "theStartTime: |%@| \n" "marked as %hhd and the weekday is %d"
-          , theDate, theTime,busy,weekDay);
+          "theStartTime: |%@| \n" "marked as %u and the weekday is %d"
+          , theDate, theTime,status,weekDay);
 }
 
 - (id)init
