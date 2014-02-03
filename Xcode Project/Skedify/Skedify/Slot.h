@@ -15,5 +15,6 @@
 @property (nonatomic) NSDate* startTime;
 @property (nonatomic) int weekNum;
 @property (nonatomic) SlotStatus slotStatus;
+- (id)initWithStartTime:(NSDate *)startTime withWeekNum:(int)weekNum withDay:(Day)day withSlotStatus:(SlotStatus)slotStatus;
 
 @end

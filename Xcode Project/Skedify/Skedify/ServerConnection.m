@@ -108,8 +108,56 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 -(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
 {
     [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
+    
+    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    
+    
     //TODO EMAD
 }
+
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
+                       andEndingAtDate:(NSDate *) endDate
+                  withSlotStatusIsBusy:(SlotStatus) busy
+                           withGroupId:(NSInteger)groupId
+{
+    while([endDate compare: startDate] == NSOrderedDescending)
+    {
+        [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
+        startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
+    }
+}
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
+                  withSlotStatusIsBusy:(SlotStatus) status
+                           withGroupId:(NSInteger)groupId
+{
+    NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
+    
+    int weekday=[startDateComponents weekday]-2;
+    if(weekday==-1)
+    {
+        weekday = 6;
+    }
+    
+    [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status];
+}
+
+
+-(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber
+                                    AndDay:(Day) weekDay
+                           andStartingSlot: (NSDate *) startingSlot
+                            andSlotStatus :(SlotStatus) status
+                                andGroupId:(NSInteger)groupId
+{
+    [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
+    
+    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    
+    
+    //TODO EMAD
+}
+
 
 -(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(SlotStatus) status andweekDay:(Day) weekDay
 {
