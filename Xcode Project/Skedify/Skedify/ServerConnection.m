@@ -21,7 +21,7 @@
 
 static ServerConnection *sharedServerConnection = nil;
 static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
-static NSString *user = @"yigit"; // TODO: remove later - this is temporary
+static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is temporary
 
 /*
  * returns the singleton instance of ServerConnection.
@@ -399,9 +399,24 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     // TODO: send location to Server
 }
 
--(void)SendToServerAddMember:(Member *)member inGroup:(Group *) group
+-(void)SendToServerAddMember:(Member *)member inGroup:(NSNumber*) group
 {
-    // TODO: add member to group on server
+    NSLog(@"Adding user %@ to group %@", member, group);
+
+    NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
+                                        @"username" : member,
+                                        @"groupID" : group,
+                                        @"adder" : user};
+    NSLog(@"Request: %@", requestDictionary);
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"User added: %@", dictionary);
+        
+        for (NSDictionary *dict in dictionary)
+        {
+            
+        }
+    } errorHandler:nil];
+
 }
 
 
@@ -422,6 +437,12 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
         {
             NSNumber *groupID = [dict objectForKey:@"groupID"];
             group.groupId=[groupID intValue];
+            
+            // add Members:
+            for (Member *m in members) {
+                //
+                [self SendToServerAddMember:m inGroup:(groupID)];
+            }
         }
         [self SendtoServerInviteGroupMembers:group];
     } errorHandler:nil];
