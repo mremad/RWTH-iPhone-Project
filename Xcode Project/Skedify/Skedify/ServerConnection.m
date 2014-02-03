@@ -147,7 +147,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
         for (NSDictionary *dict in dictionary) {
             NSLog(@"Dict: %@", dict);
             NSDictionary * groups = [dict objectForKey:@"groups"];
-                NSLog(@"Groups: %@", groups);
+                // NSLog(@"Groups: %@", groups);
                 for (NSDictionary *group in groups) {
                     NSNumber *groupID = [group objectForKey:@"groupID"];
                     NSString *groupName = [group objectForKey:@"groupname"];
@@ -163,11 +163,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
         NSLog(@"%d groups received", i);
     } errorHandler:nil];
     
-    //ServerCode Get Created Groups(If any ) From Server
-    //for ex User added that was not there in the system or User just opened the app and
-    // recieves his info
-    
-    //GetGroupsFromPreviouStorage
+
     
 /*
     Member *a = [[Member alloc]initWithName:@"Dil"];
@@ -235,6 +231,33 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
 - (NSArray *) GetGroupContacts: (NSInteger) groupId
 {
+    _groupMembers = [[NSMutableArray alloc]init];
+    NSLog(@"fetching members of group %D", groupId);
+    NSDictionary* requestDictionary = @{@"action" : @"GetGroupUsers",
+                                        @"username" : user,
+                                        @"groupID" : [NSNumber numberWithInt:groupId]};
+    HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        int i = 0;
+        for (NSDictionary *dict in dictionary) {
+            NSLog(@"Dict: %@", dict);
+            
+            NSDictionary * users = [dict objectForKey:@"users"];
+            NSLog(@"Users of group: %@", users);
+            for (NSDictionary *user in users) {
+                // NSNumber *userID = [user objectForKey:@"groupID"];
+                NSString *name = [user objectForKey:@"username"];
+                
+                // create group object and add it to the list
+                Member *m = [[Member alloc]initWithName: name];
+                [_groupMembers insertObject:m atIndex:i];
+                i++;
+            }
+            
+        }
+        NSLog(@"%d users for group received", i);
+    } errorHandler:nil];
+    
+    
     //TODO: KIKO change groupIdentifier from array position to group Id
     Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId];
     return [theIdentifierGroup members];
