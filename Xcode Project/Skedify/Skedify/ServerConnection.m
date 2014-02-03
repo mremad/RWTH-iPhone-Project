@@ -396,7 +396,28 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
 
 -(void)SendToServerShakeLocation:(CLLocation *)location
 {
-    // TODO: send location to Server
+    NSLog(@"sending shake action to server");
+    /*
+    NSDictionary* requestDictionary = @{@"action" : @"Shake",
+                                        @"username" : user,
+                                        @"latitude" : [location]};
+    
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+            {
+                for (NSDictionary *dict in dictionary)
+                {
+                    NSNumber *groupID = [dict objectForKey:@"groupID"];
+                    group.groupId=[groupID intValue];
+                    
+                    // add Members:
+                    for (Member *m in members) {
+                        //
+                        [self SendToServerAddMember:m inGroup:(groupID)];
+                    }
+                }
+                [self SendtoServerInviteGroupMembers:group];
+            } errorHandler:nil];
+     */
 }
 
 -(void)SendToServerAddMember:(Member *)member inGroup:(NSNumber*) group
@@ -413,7 +434,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
         
         for (NSDictionary *dict in dictionary)
         {
-            
+            // TODO: do anything with the response...
         }
     } errorHandler:nil];
 
