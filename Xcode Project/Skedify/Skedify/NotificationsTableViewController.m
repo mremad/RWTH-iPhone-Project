@@ -33,25 +33,24 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-//TODO: Uncomment server connection and comment testing data
-//    NotificationsTableData = [[ServerConnection sharedServerConnection] notificationsList];
-    
-    //Testing Data
-    NSDate *now = [[NSDate alloc] init];
-    
-    Notification *notification1 = [[Notification alloc] init];
-    notification1.isGroupInvitationNotification = YES;
-    notification1.groupName = @"DIS";
-    notification1.senderName = @"Dil";
-
-    
-    Notification *notification2 = [[Notification alloc] init];
-    notification2.isGroupInvitationNotification = NO;
-    notification2.groupName = @"AI";
-    notification2.meetingBeginningTime = now;
-    notification2.meetingEndingTime = now;
-    
-    NotificationsTableData =  [NSArray arrayWithObjects:notification1, notification2, nil];
+    NotificationsTableData = [[ServerConnection sharedServerConnection] notificationsList];
+//    
+//    //Testing Data
+//    NSDate *now = [[NSDate alloc] init];
+//    
+//    Notification *notification1 = [[Notification alloc] init];
+//    notification1.isGroupInvitationNotification = YES;
+//    notification1.groupName = @"DIS";
+//    notification1.senderName = @"Dil";
+//
+//    
+//    Notification *notification2 = [[Notification alloc] init];
+//    notification2.isGroupInvitationNotification = NO;
+//    notification2.groupName = @"AI";
+//    notification2.meetingBeginningTime = now;
+//    notification2.meetingEndingTime = now;
+//    
+//    NotificationsTableData =  [NSArray arrayWithObjects:notification1, notification2, nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,7 +127,7 @@
             [[ServerConnection sharedServerConnection] SendToServerRejectGroupRequest:notificationChosen.group];
         }
         else{
-//           [[ServerConnection sharedServerConnection] SendToServerRejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime];
+           [[ServerConnection sharedServerConnection] SendToServerRejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
         }
     }
 }
