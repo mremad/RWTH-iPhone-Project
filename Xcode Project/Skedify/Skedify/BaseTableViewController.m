@@ -134,10 +134,19 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    [self shakeGroupCreationActionRecieved:1]; // TODO: remove on ServerConnection
-    return; // TODO: remove on ServerConnection
+ //   [self shakeGroupCreationActionRecieved:1];
     if (event.subtype == UIEventSubtypeMotionShake)
     {
+        NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
+        if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
+        {
+            return;
+        }
+        else
+        {
+            [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
+        }
+
         // Put in code here to handle shake
         CLLocation *location = [self getLocation];
         if (location != nil) {
@@ -147,12 +156,12 @@
         //Testing Location
         NSLog(@"didUpdateToLocation: %@", [self getLocation]); 
         
-        //Testing Notification Badge
-        testingNotificationCounter ++;
-        [self addNotificationBadgeWithNumber:testingNotificationCounter];
-        
-        //Testing Local Notification
-        [self addLocalNotification];
+//        //Testing Notification Badge
+//        testingNotificationCounter ++;
+//        [self addNotificationBadgeWithNumber:testingNotificationCounter];
+//        
+//        //Testing Local Notification
+//        [self addLocalNotification];
         
     }
     
@@ -262,17 +271,7 @@
 
 -(void)shakeGroupCreationActionRecieved:(NSInteger) groupID
 {
-  
     
-    NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
-    if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
-    {
-        return;
-    }
-    else
-    {
-        [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
-    }
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
                                                              bundle: nil];
     UINavigationController * baseNC;
