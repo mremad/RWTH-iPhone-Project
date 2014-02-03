@@ -19,7 +19,7 @@ action=SetAvailable&username=<email_address>&start=<unix_timestamp>&end=<unix_ti
 action=SetBusy&username=<email_address>&start=<unix_timestamp>&end=<unix_timestamp>
 
 action=GetGroupInvitations&username=<username>
-->retrieves senders (the people who added the user to a group) //Question: Why people ? isn't  it one user?
+->retrieves senders (the people who added the user to a group)
 action=AcceptInvitation&username=<username>&groupID=<groupID>
 action=RejectInvitation&username=<username>&groupID=<groupID>
 
@@ -29,15 +29,15 @@ action=SetNickname&username=<username>&nickname=<nickname>
 
 action=PullData&username=<username>
 -> checks AppointmentRequests, myGroups, shaking -> sends the client new information. If there’s information about shaking, just let the client know about shaking.
--> shake information still missing!!!
+-> shake information returns the last group that the user’s assigned to by a shake event in the last 15 seconds.
 
+action=RenameGroup&groupID=<groupID>&groupname=<new_groupname>
 
-action=Shake&username=<username>&latitude=<latitude>&longitude=<longitude>&timestamp=<unix_timestamp>
+action=Shake&username=<username>&latitude=<latitude>&longitude=<longitude>
 -> sends the server that one person shaked the phone.
 
 Is this necessary???
-action=GetAppointmentRequests&username=<username>  
-//Answer: if PullData gives me the appointment request, then this is not necessary. 
+action=GetAppointmentRequests&username=<username>
 
 
 
