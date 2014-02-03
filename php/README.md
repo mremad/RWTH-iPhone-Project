@@ -47,12 +47,13 @@
 - **action=PullData&username=<username>**
 >
 -> checks AppointmentRequests, myGroups, shaking -> sends the client new information. If there’s information about shaking, just let the client know about shaking.
-> 
+
 -> shake information returns the last group that the user’s assigned to by a shake event in the last 15 seconds.
 
+### misc
 
-
-action=Shake&username=<username>&latitude=<latitude>&longitude=<longitude>
+- **action=Shake&username=<username>&latitude=<latitude>&longitude=<longitude>**
+>
 -> sends the server that one person shaked the phone.
 
 ###Is this necessary???
