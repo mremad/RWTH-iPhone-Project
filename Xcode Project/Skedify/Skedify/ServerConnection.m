@@ -180,7 +180,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     self = [super init];
     if (self)
     {
-        [self fetchNeededInformation];
+        
         _dateOfLastShakeGesture= [NSDate dateWithTimeIntervalSince1970:0];
         
         _userSlotsArray = [NSMutableArray arrayWithObjects:nil];
@@ -423,6 +423,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [defaults setObject:_accountNickName forKey:@"accountNickName"];
     [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator
     [self SendToServerLogin];
+    
 }
 
 - (NSString*) getUserEmail
@@ -686,7 +687,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"nickname" : [self getNickname]};
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
-        
+        [self fetchNeededInformation];
     } errorHandler:nil];
 }
 
