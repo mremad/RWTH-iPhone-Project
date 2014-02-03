@@ -24,7 +24,7 @@ enum _acceptRejectNotification {
 };
 @protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
 @required
-- (void)shakeRecieved;
+- (void)shakeGroupCreationActionRecieved;
 @optional
 - (void) notificationRecieved;
 - (void) memberAcceptRejectinGroupNotification;
