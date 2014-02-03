@@ -29,7 +29,7 @@ class ShakeHandler extends ActionHandler
 				
 				if ($groupID > 0)
 				{
-					$query = "INSERT INTO groupusers (groupID, userID) VALUES ($groupID, $userID)";
+					$query = "INSERT INTO groupusers (groupID, userID,accepted) VALUES ($groupID, $userID,1)";
 					$res = $this->mysqli->query($query);
 				}
 				else
