@@ -376,10 +376,10 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         // NSLog(@"Group created: %@", dictionary);
       
-        for (NSDictionary *dict in dictionary) {
+        for (NSDictionary *dict in dictionary)
+        {
             NSNumber *groupID = [dict objectForKey:@"groupID"];
-            // NSLog(@"Group id: %@", groupID);
-            [sharedServerConnection setValue:groupID forKey:@"createdGroupID"];
+            group.groupId=[groupID intValue];
         }
     } errorHandler:nil];
 }
