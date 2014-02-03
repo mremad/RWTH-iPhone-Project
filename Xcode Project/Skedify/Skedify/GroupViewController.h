@@ -12,5 +12,5 @@
 #import "BaseViewController.h"
 @interface GroupViewController : BaseViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textFieldGroupName;
-@property (nonatomic) NSInteger groupIndex;
+@property (nonatomic) NSInteger groupId;
 @end

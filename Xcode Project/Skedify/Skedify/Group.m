@@ -29,6 +29,19 @@
     return self;
 }
 
+- (id)initWithName:(NSString *)theGroupName andID :(NSInteger) theId
+{
+    self = [super init];
+    if(self)
+    {
+        _name = theGroupName;
+        _members = [[NSMutableArray alloc]init];
+        _groupId=theId;
+    }
+    
+    return self;
+}
+
 - (id)initWithName:(NSString *)theGroupName WithId:(NSInteger *) groupid
 {
     self = [super init];

@@ -12,7 +12,7 @@
 
 - (IBAction)buttonDonePressed:(id)sender
 {
-    [[ServerConnection sharedServerConnection] GetGroup:_groupIndex].name=[_textFieldGroupName text];
+    [[ServerConnection sharedServerConnection] getGroupGivenGroupId:_groupId].name=[_textFieldGroupName text];
      [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
     _textFieldGroupName.delegate=self;
-    _textFieldGroupName.text=[[ServerConnection sharedServerConnection] GetGroup:_groupIndex].name;
+    _textFieldGroupName.text=[[ServerConnection sharedServerConnection] getGroupGivenGroupId:_groupId].name;
     
     //  _textFieldNickName.delegate=self;
 	// Do any additional setup after loading the view.

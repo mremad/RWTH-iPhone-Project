@@ -37,7 +37,7 @@
         return;
     }
     
-    Group *groupToHaveAnExtraMember = [[ServerConnection sharedServerConnection] GetGroup:_groupIndex];
+    Group *groupToHaveAnExtraMember = [[ServerConnection sharedServerConnection] getGroupGivenGroupId:_groupId];
     
     [groupToHaveAnExtraMember insertMember:[[Member alloc] initWithEmail:[_textFieldEmail text]]];
     

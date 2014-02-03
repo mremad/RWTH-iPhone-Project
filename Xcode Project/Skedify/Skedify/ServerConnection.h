@@ -24,21 +24,18 @@ enum _acceptRejectNotification {
 };
 @protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
 @required
-- (void)shakeGroupCreationActionRecieved;
+- (void)shakeGroupCreationActionRecieved:(NSInteger) groupID;
 @optional
 - (void) notificationRecieved;
 - (void) memberAcceptRejectinGroupNotification;
 @end
 @interface ServerConnection : NSObject
-{
-    NSInteger * userIdentifier;
-}
+
 
 + (ServerConnection *) sharedServerConnection;
 - (NSArray *) GetGroupList;
 - (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier;
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
-- (Group *) GetGroup:(NSInteger) index;
 - (void) AppStart;
 - (void) SendToServerShakeLocation:(CLLocation *)location;
 - (void) SendToServerRemoveGroup:(Group *)group;
@@ -49,7 +46,7 @@ enum _acceptRejectNotification {
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate;
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate;
 - (void) storeAccountInfoInUserDefaults;
-
+-(Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
 @property NSMutableArray *notificationsList;

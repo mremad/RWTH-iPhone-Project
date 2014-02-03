@@ -14,5 +14,5 @@
 @interface GroupMenuTableViewController : BaseTableViewController
 {
 }
-@property (nonatomic) NSInteger groupIndex;
+@property (nonatomic) NSInteger groupId;
 @end

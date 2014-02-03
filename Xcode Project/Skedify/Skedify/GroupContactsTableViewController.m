@@ -28,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
+    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupId];
     NSString *nameOfViewWithDots = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:10];
     self.title= [nameOfViewWithDots stringByAppendingString:@" Members"];
     // Uncomment the following line to preserve selection between presentations.
@@ -60,12 +60,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex] count ];
+    return [[[ServerConnection sharedServerConnection] GetGroupContacts:_groupId] count ];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex]  objectAtIndex:indexPath.row];
+    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupId]  objectAtIndex:indexPath.row];
     theContact.hasAcceptedGroupInvitation=YES;
     
   [_membersTableView reloadData]; //TODO remove the complete method ..leave it for now..
@@ -76,7 +76,7 @@
 {
     NSString *CellIdentifier = @"GroupContactsCell"; //also written in StoryBoard
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupIndex]  objectAtIndex:indexPath.row];
+    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupId]  objectAtIndex:indexPath.row];
     NSString *contactName =[theContact getStrongestIdentifier];
    if (cell == nil||[cell.contentView.subviews count]==0) //[cell.contentView.subviews count]==0) solving weird bug where executution find a cell with this identifier which does not own a nameLabel
    {
@@ -167,7 +167,7 @@
     if([[segue identifier] isEqual:@"toAddMember"])
     {
         AddMemberViewController *groupContactsMenu=(AddMemberViewController *)[segue destinationViewController];
-        groupContactsMenu.groupIndex=_groupIndex; //just delegating the value to the next controller
+        groupContactsMenu.groupId=_groupId; //just delegating the value to the next controller
     }
 //    if([[segue identifier] isEqual:@"toNotifications"])
 //    {

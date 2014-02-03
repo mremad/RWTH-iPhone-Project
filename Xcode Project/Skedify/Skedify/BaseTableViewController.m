@@ -89,8 +89,6 @@
     //Go to notifications view
     //  NotificationsViewController *g = [NotificationsViewController alloc]init
     [self performSegueWithIdentifier:@"toNotifications" sender:sender];
-    
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -136,8 +134,8 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    [self shakeGroupCreationActionRecieved];
-    return;
+    [self shakeGroupCreationActionRecieved:1]; // TODO: remove on ServerConnection
+    return; // TODO: remove on ServerConnection
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         // Put in code here to handle shake
@@ -262,7 +260,7 @@
     [self addLocalNotification];
 }
 
--(void)shakeGroupCreationActionRecieved
+-(void)shakeGroupCreationActionRecieved:(NSInteger) groupID
 {
   
     
@@ -300,7 +298,7 @@
     }
     
     GroupMenuTableViewController *groupsMenu = (GroupMenuTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"GroupMenuIdentifier"];
-    
+    groupsMenu.groupId=groupID;
     ScheduleViewController *sced = (ScheduleViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"ScheduleIdentifier"];
     
     

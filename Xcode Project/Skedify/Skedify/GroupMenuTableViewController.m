@@ -51,7 +51,7 @@
 
 -(void)setViewTitle
 {
-    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupIndex];
+    Group *g=[[[ServerConnection sharedServerConnection] GetGroupList] objectAtIndex:_groupId];
     self.title = [self suitableNameWithAddedDotsIfAboveAcceptableSize:g.name AndAcceptableSize:18];
 }
 - (void)viewDidLoad
@@ -125,7 +125,7 @@
      if([[segue identifier] isEqual:@"toGroupContacts"])
      {
          GroupContactsTableViewController *groupContactsMenu=(GroupContactsTableViewController *)[segue destinationViewController];
-         groupContactsMenu.groupIndex=_groupIndex; //just delegating the value to the next controller
+         groupContactsMenu.groupId=_groupId; //just delegating the value to the next controller
      }
 //     if([[segue identifier] isEqual:@"toNotifications"])
 //     {
@@ -134,7 +134,7 @@
      if([[segue identifier] isEqual:@"toEditGroupMenu"])
      {
          GroupViewController *groupVC=(GroupViewController *)[segue destinationViewController];
-         groupVC.groupIndex=_groupIndex;
+         groupVC.groupId=_groupId;
          
      }
  }

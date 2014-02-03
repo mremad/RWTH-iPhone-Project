@@ -12,10 +12,11 @@
 @interface Group : NSObject
 
 @property (nonatomic) NSString *name;
-@property (nonatomic) NSInteger *groupId;
+@property (nonatomic) NSInteger groupId;
 @property (nonatomic, readonly) NSMutableArray *members;
 
 - (id)initWithName:(NSString *)theGroupName;
+- (id)initWithName:(NSString *)theGroupName andID :(NSInteger) theId;
 -(void)insertMember :(Member *)theMember;
 -(void)removeMemberWithEmail :(NSString *)theEmail;
 @end

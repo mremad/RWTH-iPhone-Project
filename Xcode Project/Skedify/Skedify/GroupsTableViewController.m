@@ -146,7 +146,7 @@
     {
         GroupMenuTableViewController *groupMenu=(GroupMenuTableViewController *)[segue destinationViewController];
         NSInteger row = ((NSIndexPath *)[self.tableView indexPathForSelectedRow]).row;
-        groupMenu.groupIndex=row;
+        groupMenu.groupId=row;
     }
     if([[segue identifier] isEqual:@"toAddGroup"])
     {

@@ -121,7 +121,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     //GetGroupsFromPreviouStorage
     
     _groupsList = [[NSMutableArray alloc]init];
-    Group* g1 = [[Group alloc]initWithName:@"DIS"];
+    Group* g1 = [[Group alloc]initWithName:@"DIS" andID:0];
     Member *a = [[Member alloc]initWithName:@"Dil"];
     Member *b = [[Member alloc]initWithName:@"Daimon"];
     [g1 insertMember:a];
@@ -129,7 +129,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     [_groupsList insertObject:g1 atIndex:0];
     
     
-    Group* g2 = [[Group alloc]initWithName:@"Artificial Intellegience" ];
+    Group* g2 = [[Group alloc]initWithName:@"Artificial Intellegience" andID:1];
     Member *c = [[Member alloc]initWithName:@"Alex"];
     Member *d = [[Member alloc]initWithName:@"Andrea"];
     [g2 insertMember:c];
@@ -143,10 +143,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     return _groupsList; //we do not have an instance of this class thats why we retrive properties this way
 }
 
-- (Group *) GetGroup:(NSInteger) index
-{
-    return (Group *)[_groupsList objectAtIndex:index];
-}
+
 
 - (Group *) GetGroupGivenName:(NSString *) groupName
 {
@@ -170,15 +167,15 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     
     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
     
-    NSInteger *theGroupID =[self SendToServerAddGroup:theGroup WithMembers:members];
+    NSInteger theGroupID =[self SendToServerAddGroup:theGroup WithMembers:members];
     theGroup.groupId=theGroupID;
 }
 
 
-- (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier
+- (NSArray *) GetGroupContacts: (NSInteger) groupId
 {
     //TODO: KIKO change groupIdentifier from array position to group Id
-    Group *theIdentifierGroup = (Group *)[_groupsList objectAtIndex:groupIdentifier];
+    Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId];
     return [theIdentifierGroup members];
 }
 
@@ -206,7 +203,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
  
  */
 
--(Group *) getGroupGivenGroupId:(NSInteger *) theGroupId
+-(Group *) getGroupGivenGroupId:(NSInteger) theGroupId
 {
     for(int i =0;i<[_groupsList count];i++)
     {
@@ -221,7 +218,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 }
 
 
--(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation name:(NSInteger*)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
+-(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation name:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
 {
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
@@ -310,7 +307,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 }
 
 
--(NSInteger *)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
+-(NSInteger )SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
 {
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     // TODO: create group with members on server
