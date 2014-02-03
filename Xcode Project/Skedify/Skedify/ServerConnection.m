@@ -169,8 +169,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     
     //GetGroupsFromPreviouStorage
     
-    /*
-    Group* g1 = [[Group alloc]initWithName:@"DIS" andID:0];
+/*
     Member *a = [[Member alloc]initWithName:@"Dil"];
     Member *b = [[Member alloc]initWithName:@"Daimon"];
     [g1 insertMember:a];
@@ -275,6 +274,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
             return g;
         }
     }
+    [NSException raise:@"Unrecognized Id" format:@"should never happen getGroupGivnGroupId"];
     NSLog(@"should never happen getGroupGivnGroupId");
     return nil;
 }
@@ -395,10 +395,10 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     HttpRequest* req = [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         // NSLog(@"Group created: %@", dictionary);
       
-        for (NSDictionary *dict in dictionary) {
+        for (NSDictionary *dict in dictionary)
+        {
             NSNumber *groupID = [dict objectForKey:@"groupID"];
-            // NSLog(@"Group id: %@", groupID);
-            [sharedServerConnection setValue:groupID forKey:@"createdGroupID"];
+            group.groupId=[groupID intValue];
         }
     } errorHandler:nil];
 }

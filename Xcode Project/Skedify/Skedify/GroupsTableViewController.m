@@ -146,7 +146,8 @@
     {
         GroupMenuTableViewController *groupMenu=(GroupMenuTableViewController *)[segue destinationViewController];
         NSInteger row = ((NSIndexPath *)[self.tableView indexPathForSelectedRow]).row;
-        groupMenu.groupId=row;
+        Group *group =[[ServerConnection sharedServerConnection].GetGroupList objectAtIndex:row];
+        groupMenu.groupId=group.groupId;
     }
     if([[segue identifier] isEqual:@"toAddGroup"])
     {

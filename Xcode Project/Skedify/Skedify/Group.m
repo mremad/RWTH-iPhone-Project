@@ -42,7 +42,7 @@
     return self;
 }
 
-- (id)initWithName:(NSString *)theGroupName WithId:(NSInteger *) groupid
+- (id)initWithName:(NSString *)theGroupName WithId:(NSInteger) groupid
 {
     self = [super init];
     if(self)
