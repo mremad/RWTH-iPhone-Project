@@ -42,6 +42,20 @@ class PullDataHandler extends GroupHandler
 	
 	private function getShakeInfo()
 	{
+		$userID = $this->getUserIDIfExists($this->options["username"]);
+		$query = "SELECT groupID FROM shakes WHERE userID = $userID AND timestamp >= UNIX_TIMESTAMP() - 15 ORDER BY timestamp DESC LIMIT 1";
+		$res = $this->mysqli->query($query);
+		if ($res)
+		{
+			$res->data_seek(0);
+			while ($row = $res->fetch_assoc()) 
+			{
+				$groupName = $this->getGroupName($row["groupID"]); 
+				if ($groupName)
+					return array("groupID" => $row["groupID"], "groupname" => $groupName);
+			}
+		}
+		
 		return array();
 	}
 }

@@ -32,7 +32,7 @@ else
 	$res = $mysqli->query($query);
 	
 	// Shakes table
-	$query = "CREATE TABLE IF NOT EXISTS shakes (userID BIGINT UNSIGNED NOT NULL, latitude VARCHAR(24) NOT NULL, longitude VARCHAR(24) NOT NULL, timestamp BIGINT UNSIGNED NOT NULL, createdGroupID BIGINT UNSIGNED NOT NULL)";
+	$query = "CREATE TABLE IF NOT EXISTS shakes (userID BIGINT UNSIGNED NOT NULL, latitude VARCHAR(24) NOT NULL, longitude VARCHAR(24) NOT NULL, timestamp BIGINT UNSIGNED NOT NULL, groupID BIGINT UNSIGNED NOT NULL)";
 	$res = $mysqli->query($query);
 }
 
