@@ -357,6 +357,7 @@ static NSString *user = @"test@rwth-aachen.de"; // TODO: remove later - this is 
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
     Group *g=[self getGroupGivenGroupId:groupId];
+    fetechedNotification.groupName = g;
     fetechedNotification.groupName = g.name;
     fetechedNotification.senderName = senderName;
     fetechedNotification.meetingBeginningTime = beginTime;

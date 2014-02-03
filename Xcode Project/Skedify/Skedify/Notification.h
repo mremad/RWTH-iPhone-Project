@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Group.h"
 
 @interface Notification : NSObject
 
 @property BOOL isGroupInvitationNotification; // else meeting invitation notification
+@property Group *group;
 @property NSString *groupName;
 @property NSString *senderName;
 @property NSDate *meetingBeginningTime;
