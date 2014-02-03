@@ -30,7 +30,10 @@ enum _acceptRejectNotification {
 - (void) memberAcceptRejectinGroupNotification;
 @end
 @interface ServerConnection : NSObject
-
+{
+  NSInteger createdGroupID;
+}
+@property NSInteger createdGroupID;
 
 + (ServerConnection *) sharedServerConnection;
 - (NSArray *) GetGroupList;
@@ -53,4 +56,6 @@ enum _acceptRejectNotification {
 @property (nonatomic) NSString *accountEmailAddress;
 @property (nonatomic) NSString  *accountNickName;
 @property (nonatomic) NSDate* dateOfLastShakeGesture;
+
 @end
+
