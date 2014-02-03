@@ -409,12 +409,27 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     fetechedNotification.meetingBeginningTime = beginTime;
     fetechedNotification.meetingEndingTime = endTime;
     
-    if (![self.notificationsList containsObject: fetechedNotification])
+    for (Notification *notification in self.notificationsList){
+    if (![self compareNotification:notification isEqualNotification:fetechedNotification])
     {
         [self.notificationsList addObject:fetechedNotification];
         self.notificationsNotReadCounter ++;
+        
+        if ([_delegatenotificationsView respondsToSelector:@selector(notifitcationRecieved)]){
+            [_delegatenotificationsView notificationRecieved];
+        }
+    }
     }
 }
+-(BOOL) compareNotification:(Notification *)firstNotification isEqualNotification:(Notification *)secondNotification{
+    
+    if ((firstNotification.isGroupInvitationNotification == secondNotification.isGroupInvitationNotification) && (firstNotification.group.groupId== secondNotification.group.groupId) && ([firstNotification.senderName isEqualToString:secondNotification.senderName]) && ([firstNotification.meetingBeginningTime isEqual:secondNotification.meetingBeginningTime]) && ([firstNotification.meetingEndingTime isEqual:secondNotification.meetingEndingTime])) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+ }
 
 - (void)storeAccountInfoInUserDefaultsAndOnServer
 {
