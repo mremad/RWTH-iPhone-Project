@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 SkedifyGroup. All rights reserved.
 //
 
+
 #import "ServerConnection.h"
 #import "Member.h"
 #import "HttpRequest.h"
@@ -47,57 +48,73 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     [comp setYear:2014];
     [comp setMonth:1];
     [comp setDay:5];
-    [comp setMinute:30];
-    [comp setHour:17];
-    [comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    [comp setHour:23];
+    [comp setMinute:15];
+   // [comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDate *startingDate =[cal dateFromComponents:comp];
     
     NSDateComponents *compEnd =[[NSDateComponents alloc] init];
     [compEnd setYear:2014];
     [compEnd setMonth:1];
     [compEnd setDay:5];
-    [compEnd setMinute:45];
     [compEnd setHour:23];
-    [compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    [compEnd setMinute:45];
+    //[compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDate *endingDate =[cal1 dateFromComponents:compEnd];
 
-    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate];
+    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatusIsBusy:YES];
 
     //[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     //TODO make sure the line above is removed
 }
 
-
-
-//more than one slot
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate
+-(NSDateComponents *)getNSDateComponents :(NSDate *) theDate
 {
-  /*  NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    unsigned int unitFlags = NSHourCalendarUnit|NSMinuteCalendarUnit;
-    NSDateComponents *comp = [calendar components:unitFlags fromDate:startDate];
-    
-    NSInteger hour = [comp hour];
-    NSInteger minute = [comp minute];*/
-    
-    //this method calles the AddDateToMutableArrayWithWeekNumber
-    //KIKO
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSGregorianCalendar];
+    unsigned unitFlags = NSCalendarUnitHour |NSCalendarUnitMinute|NSCalendarUnitWeekday|NSCalendarUnitWeekOfYear;
+    NSDateComponents *components = [gregorian components:unitFlags fromDate:theDate];
+    return components;
 }
 
-//only one slot
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(BOOL) busy
 {
-   
-    //this method calles the AddDateToMutableArrayWithWeekNumber
-    //KIKO
-    
+    while([endDate compare: startDate] == NSOrderedDescending)
+    {
+        NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
+        
+        int weekday=[startDateComponents weekday]-1;//TODO change sun/mon
+        if(weekday==-1)
+        {
+            weekday=6;
+        }
+        
+        [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatusIsBusy:busy];
+        
+        startDate = [startDate dateByAddingTimeInterval:+900];
+    }
 }
 
-//for now this method only works in the year 2014
--(void)AddDateToMutableArrayWithWeekNumber:(NSInteger *)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot
+
+-(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy
 {
-    //this method should be implemented for the adding in the Schedule
-    //EMAD
+    [self logDate:startingSlot andSlotStatusIsBusy:busy];
+    //TODO EMAD
+}
+
+-(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"yyyy-MM-dd"];
+    NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+    [timeFormat setDateFormat:@"HH:mm:ss"];
+    NSString *theDate = [dateFormat stringFromDate:startingSlot];
+    NSString *theTime = [timeFormat stringFromDate:startingSlot];
+    NSLog(@" Adding this slot \n"
+          "theDate: |%@| \n"
+          "theStartTime: |%@| \n" "marked as %hhd"
+          , theDate, theTime,busy);
 }
 
 - (id)init

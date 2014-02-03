@@ -43,8 +43,7 @@ enum _acceptRejectNotification {
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate;
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate;
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatusIsBusy:(BOOL) busy;
 - (void) storeAccountInfoInUserDefaults;
 -(Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
 @property (nonatomic, readonly) NSMutableArray *groupsList;
