@@ -14,7 +14,9 @@
 #import "GlobalVariables.h"
 
 @implementation ServerConnection
-
+{
+    
+}
 @synthesize createdGroupID;
 
 #pragma mark -
@@ -67,7 +69,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatus:SlotStateBusy];
 
 
-    // [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     // TODO: make sure the line above is removed
 }
 
@@ -83,28 +85,33 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 /*One time (per user) Schedule functions*/
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status
 {
-
-    while([endDate compare: startDate] == NSOrderedDescending)
-    {
-        [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status];
-        startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
-    }
+    NSMutableArray *startDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
+    NSMutableArray *endDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
+    NSMutableArray *statuses=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
+    [startDates addObject:startDate];
+    [endDates addObject:endDate];
+    [statuses addObject:[NSString stringWithFormat: @"%d", status]];
     
-    [self SendToServerSendSlot:startDate toTimeSlot:endDate isAvailable:status];
 }
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatus:(SlotStatus) status
+
+
+-(void) SendScheduleToOurServerOnlyCalledOnce
 {
-        NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
-        
-        int weekday=[startDateComponents weekday]-2;
-        if(weekday==-1)
-        {
-            weekday = 6;
-        }
-        
-        [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status];
+    NSMutableArray *startDates = (NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
+    NSMutableArray *endDates = [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
+    NSMutableArray *statuses = [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
+
+    for(int i=0;i<[startDates count];i++)
+    {
+        NSDate *startDate = (NSDate *) [startDates objectAtIndex:i ];
+        NSDate *endDate = (NSDate *) [endDates objectAtIndex:i ];
+        int status = [(NSString *) [statuses objectAtIndex:i ] intValue];
+        [self SendToServerSendSlot:startDate toTimeSlot:endDate isAvailable:status];
+    }
 }
+
+
 
 
 -(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
@@ -113,6 +120,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
     [_userSlotsArray addObject:newSlot];
+    
     
     
     
@@ -128,10 +136,11 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 {
     while([endDate compare: startDate] == NSOrderedDescending)
     {
-        [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status];
+        [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status withGroupId:groupId];
         startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
     }
 }
+
 
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId
 {
@@ -190,6 +199,13 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         _userSlotsArray = [NSMutableArray arrayWithObjects:nil];
         _userSchedules = [[NSMutableDictionary alloc] initWithObjects:[NSMutableArray arrayWithObjects:nil]
                                                               forKeys:[NSMutableArray arrayWithObjects:nil]];
+     
+        _savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer =[[NSMutableArray alloc] init];
+        
+        [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer addObject:[[NSMutableArray alloc]init]];
+        [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer addObject:[[NSMutableArray alloc]init]];
+        [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer addObject:[[NSMutableArray alloc]init]];
+        
         
     }
     
@@ -706,6 +722,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"nickname" : [self getNickname]};
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
+        [self SendScheduleToOurServerOnlyCalledOnce];
         [self fetchNeededInformation];
     } errorHandler:nil];
 }

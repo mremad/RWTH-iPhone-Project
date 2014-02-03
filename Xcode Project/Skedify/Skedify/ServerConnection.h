@@ -61,9 +61,7 @@
 
 
 
-
-
-
+@property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer;
 
 
 /*   Schedule Parameters  */
