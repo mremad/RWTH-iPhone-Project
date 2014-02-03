@@ -81,17 +81,17 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 /*One time (per user) Schedule functions*/
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) busy
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status
 {
 
     while([endDate compare: startDate] == NSOrderedDescending)
     {
-        [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
+        [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status];
         startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
     }
 }
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatusIsBusy:(SlotStatus) status
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatus:(SlotStatus) status
 {
         NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
         
@@ -107,7 +107,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
 {
-    [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
+    [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
     [_userSlotsArray addObject:newSlot];
@@ -120,21 +120,16 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 
 /*Specialized (per group) Schedule functions*/
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
-                       andEndingAtDate:(NSDate *) endDate
-                  withSlotStatusIsBusy:(SlotStatus) busy
-                           withGroupId:(NSInteger)groupId
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId
 {
     while([endDate compare: startDate] == NSOrderedDescending)
     {
-        [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
+        [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status];
         startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
     }
 }
 
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate
-                  withSlotStatusIsBusy:(SlotStatus) status
-                           withGroupId:(NSInteger)groupId
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId
 {
     NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
     
@@ -154,7 +149,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                             andSlotStatus :(SlotStatus) status
                                 andGroupId:(NSInteger)groupId
 {
-    [self logDate:startingSlot andSlotStatusIsBusy:status andweekDay:weekDay];
+    [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
     
@@ -166,7 +161,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 /*Specialized (per group) Schedule functions*/
 
--(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(SlotStatus) status andweekDay:(Day) weekDay
+-(void)logDate:(NSDate *) startingSlot andSlotStatus :(SlotStatus) status andweekDay:(Day) weekDay
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
@@ -645,7 +640,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 
--(void)SendToServerSendSchedule: (Group *) group: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+-(void)SendToServerSendSchedule: (Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
