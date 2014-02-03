@@ -22,6 +22,7 @@
 @interface ScheduleScrollView : UIScrollView
 
 @property (nonatomic, weak) id<ScheduleTapRecognizerProtocol> delegate;
+- (id)initWithFrame:(CGRect)frame withSchedule:(SlotStates[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule;
 -(void)addWeekLabels;
 
 @end

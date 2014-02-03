@@ -20,7 +20,7 @@
 
 @implementation ScheduleViewController
 {
-    BOOL fullSchedule[7][17*4];
+    SlotStates fullSchedule[NUMBER_DAYS][NUMBER_HOURS*4];
 }
 
 
@@ -39,8 +39,9 @@
     [super viewDidLoad];
     //set scrollView
     
+    [self createSchedule];
     
-    _scrollView=[[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)];
+    _scrollView=[[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480) withSchedule:fullSchedule];
     _scrollView.contentSize = CGSizeMake(320, ViewContentHeight);
     _scrollView.delegate = (id)self;
     _scrollView.backgroundColor=[UIColor whiteColor];
@@ -52,6 +53,18 @@
 - (void)reserveMeetingAtStartingDay:(NSDate*)startingDate endingDate:(NSDate*)endingDate
 {
     
+}
+
+- (void)createSchedule
+{
+    for(int i = 0;i<NUMBER_DAYS;i++)
+    {
+        for(int j = 0;j<NUMBER_HOURS*4;j++)
+        {
+            SlotStates rand = (SlotStates)arc4random()%3;
+            fullSchedule[i][j] = rand;
+        }
+    }
 }
 
 - (void) cancelMeetingAtDay:(NSDate*)meetingDate

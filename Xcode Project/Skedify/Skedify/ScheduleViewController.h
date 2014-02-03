@@ -9,15 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "ScheduleScrollView.h"
 #import "GlobalVariables.h"
-typedef enum SlotState {SlotStateEmpty,
-    SlotStateOccupied,
-    SlotState,
-    refillButtonGotPressed} SlotStates;
+
 
 @interface ScheduleViewController : UIViewController<UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet ScheduleScrollView *scrollView;
-@property BOOL* fullSchedule;
 
--(void)singleTap:(UITapGestureRecognizer*)sender;
 
 @end

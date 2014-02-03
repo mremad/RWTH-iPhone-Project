@@ -14,7 +14,7 @@
 -(Day)getDay;
 -(int)getTime;
 
-- (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time;
+- (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time withStates:(SlotStates[4])hourStates;
 - (void)expandSlot;
 - (void)collapseSlot;
 @end

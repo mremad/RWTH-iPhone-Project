@@ -36,6 +36,14 @@
 
 typedef enum
 {
+    SlotStateBusy,
+    SlotStateFree,
+    SlotStateMeeting
+}
+SlotStates;
+
+typedef enum
+{
     Mo = 0,
     Tu,
     We,
