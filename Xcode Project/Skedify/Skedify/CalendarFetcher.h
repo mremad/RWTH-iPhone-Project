@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "ServerConnection.h"
 @interface CalendarFetcher : NSObject  <NSURLConnectionDataDelegate, NSXMLParserDelegate>
 
 @property(retain) NSString  *accessToken;

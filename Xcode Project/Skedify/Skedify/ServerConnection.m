@@ -47,7 +47,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSDateComponents *comp =[[NSDateComponents alloc] init];
     [comp setYear:2014];
     [comp setMonth:1];
-    [comp setDay:5];
+    [comp setDay:13];
     [comp setHour:23];
     [comp setMinute:15];
    // [comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
@@ -56,7 +56,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSDateComponents *compEnd =[[NSDateComponents alloc] init];
     [compEnd setYear:2014];
     [compEnd setMonth:1];
-    [compEnd setDay:5];
+    [compEnd setDay:13];
     [compEnd setHour:23];
     [compEnd setMinute:45];
     //[compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
@@ -64,7 +64,7 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 
     [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatusIsBusy:YES];
 
-    //[[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+    [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
     //TODO make sure the line above is removed
 }
 
@@ -82,28 +82,32 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
 {
     while([endDate compare: startDate] == NSOrderedDescending)
     {
+        [self addScheduleSlotStartingAtDate:startDate withSlotStatusIsBusy:busy];
+        startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
+    }
+}
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatusIsBusy:(BOOL) busy
+{
         NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
         
-        int weekday=[startDateComponents weekday]-1;//TODO change sun/mon
+        int weekday=[startDateComponents weekday]-2;
         if(weekday==-1)
         {
-            weekday=6;
+            weekday = 6;
         }
         
         [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatusIsBusy:busy];
-        
-        startDate = [startDate dateByAddingTimeInterval:+900];
-    }
 }
 
 
 -(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy
 {
-    [self logDate:startingSlot andSlotStatusIsBusy:busy];
+    [self logDate:startingSlot andSlotStatusIsBusy:busy andweekDay:weekDay];
     //TODO EMAD
 }
 
--(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy
+-(void)logDate:(NSDate *) startingSlot andSlotStatusIsBusy :(BOOL) busy andweekDay:(Day) weekDay
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
@@ -113,8 +117,8 @@ static NSString *user = @"yigit"; // TODO: remove later - this is temporary
     NSString *theTime = [timeFormat stringFromDate:startingSlot];
     NSLog(@" Adding this slot \n"
           "theDate: |%@| \n"
-          "theStartTime: |%@| \n" "marked as %hhd"
-          , theDate, theTime,busy);
+          "theStartTime: |%@| \n" "marked as %hhd and the weekday is %d"
+          , theDate, theTime,busy,weekDay);
 }
 
 - (id)init

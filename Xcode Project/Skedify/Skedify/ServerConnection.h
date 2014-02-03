@@ -12,16 +12,8 @@
 #import "Group.h"
 #import "GlobalVariables.h"
 
-enum _acceptRejectNotification {
-    notSet = -1,
-    wikiPage = 0,
-    discussion = 1,
-    announcement = 2,
-    pdf = 3,
-    documents = 4,
-    courseRooms = 5,//KIKO
-    courseDates = 6
-};
+//enum _acceptRejectNotification {
+  //Kiko
 @protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
 @required
 - (void)shakeGroupCreationActionRecieved:(NSInteger) groupID;

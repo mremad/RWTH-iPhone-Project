@@ -169,7 +169,11 @@ typedef enum _requestState requestState;
         // Fetch all events that match the predicate
         NSArray *events = [store eventsMatchingPredicate:predicate];
         
-        NSLog(@"Events: %@", events);
+        for(int i=0;i<[events count];i++)
+        {
+            EKEvent *ev = [events objectAtIndex:i];
+            [[ServerConnection sharedServerConnection] addScheduleSlotStartingAtDate:ev.startDate andEndingAtDate:ev.endDate withSlotStatusIsBusy:YES];
+        }
         
     }];
 }
@@ -219,9 +223,16 @@ typedef enum _requestState requestState;
         NSDictionary* dateDict = @{@"start": attributeDict[@"start"],
                                    @"end": attributeDict[@"end"]
                                    };
+        NSString *startDateString=[dateDict objectForKey:@"start"];
+        NSString *endDateString=[dateDict objectForKey:@"end"];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+        NSDate *startDate = [[NSDate alloc] init];
+        startDate = [dateFormatter dateFromString:startDateString];
+        NSDate *endDate = [[NSDate alloc] init];
+        endDate = [dateFormatter dateFromString:endDateString];
         
-        //[dates addObject:dateDict];
-        NSLog(@"dates: %@", dateDict);
+        [[ServerConnection sharedServerConnection] addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatusIsBusy:YES];
     }
 }
 
