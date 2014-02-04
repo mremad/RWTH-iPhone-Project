@@ -217,7 +217,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         
         _counterOfSentDatesFromIPhoneAndL2pToServer=0;
         
-     
+        _notificationsList = [[NSMutableArray alloc]init];
     
   
         
@@ -520,7 +520,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         
         self.notificationsNotReadCounter ++;
         
-        if ([_delegatenotificationsView respondsToSelector:@selector(notificationRecieved:)])
+        if ([_delegatenotificationsView respondsToSelector:@selector(notificationRecieved)])
         {
             [_delegatenotificationsView notificationRecieved];
         }
@@ -651,7 +651,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     
                     
-                    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(askServerForAnyGroupsCreatedByShake:) userInfo:nil repeats:NO];
+                    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(askServerForAnyGroupsCreatedByShake) userInfo:nil repeats:NO];
                     
                     [[NSRunLoop currentRunLoop] run];
                     

@@ -114,6 +114,7 @@
         NSLog(@"Accept");
 
         if (notificationChosen.isGroupInvitationNotification) {
+            
             [[ServerConnection sharedServerConnection] SendToServerAcceptGroupRequest:notificationChosen.group];
         }
         else{
