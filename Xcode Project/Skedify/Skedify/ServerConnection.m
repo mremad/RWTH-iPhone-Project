@@ -217,7 +217,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             
         });
         
-        
+        _counterOfSentDatesFromIPhoneAndL2pToServer=0;
         
      
     
@@ -789,7 +789,16 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                               @"start" : startDate,
                               @"end" : endDate};
     }
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+    {
+        _counterOfSentDatesFromIPhoneAndL2pToServer++;
+        NSMutableArray *startDatesOfIphoneAndL2p = [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
+        if(_counterOfSentDatesFromIPhoneAndL2pToServer == [startDatesOfIphoneAndL2p count] )
+        {
+            [self fetchNeededInformation];
+            _alreadySignedIn=YES;
+            [self timerFireMethod:Nil];
+        }
         NSLog(@"Appointment set: %@", dictionary);
     } errorHandler:nil];
 }
@@ -819,9 +828,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Nickname sent: %@", dictionary);
         [self SendScheduleToOurServerOnlyCalledOnce];
-        [self fetchNeededInformation];
-        _alreadySignedIn=YES;
-        [self timerFireMethod:Nil];
+        
     } errorHandler:nil];
 }
 
