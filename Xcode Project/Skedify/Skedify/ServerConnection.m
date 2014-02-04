@@ -210,7 +210,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
             
-            [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+            [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
             
             [[NSRunLoop currentRunLoop] run];
             
@@ -560,7 +560,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         // views(Views containg the notification icon)
 }
 
--(void)didRecieveShakeMessageFromServer
+-(void)didRecieveShakeMessageFromServer:(NSInteger) groupId
 {
    // [_notificationsViewDelegate shakeRecieved:NO];
 }
