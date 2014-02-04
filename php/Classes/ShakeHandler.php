@@ -1,7 +1,7 @@
 <?php
 
 define('RADIUS', 0.01);
-define('TIMEWINDOW', 5); // in seconds
+define('TIMEWINDOW', 50); // in seconds
 
 class ShakeHandler extends ActionHandler
 {

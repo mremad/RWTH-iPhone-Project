@@ -11,7 +11,7 @@ class GetGroupUsersHandler extends GroupHandler
 		if ($userID > 0 && $groupID)
 		{
 			
-			$query = "SELECT userID FROM groupusers WHERE groupID = $groupID AND userID != $userID AND accepted = 1";
+			$query = "SELECT userID FROM groupusers WHERE groupID = $groupID AND accepted = 1";
 			$res = $this->mysqli->query($query);
 			if ($res)
 			{
