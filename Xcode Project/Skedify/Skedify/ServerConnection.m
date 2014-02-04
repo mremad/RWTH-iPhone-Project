@@ -562,7 +562,26 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void)didRecieveShakeMessageFromServer:(NSInteger) groupId
 {
-   // [_notificationsViewDelegate shakeRecieved:NO];
+    NSLog(@"Pulling data from server");
+    NSDictionary* requestDictionary = @{@"action" : @"PullData",
+                                        @"username" : [self getUserEmail],
+                                        @"getShakeInfo" : @1};
+    
+    // add observer
+    [self addObserver:self forKeyPath:@"createdGroupID" options:NSKeyValueObservingOptionNew +
+     NSKeyValueObservingOptionOld context:nil];
+    
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"Pull Result: %@", dictionary);
+        
+        for (NSDictionary *dict in dictionary)
+        {
+            // will be something like
+            // [{"shakeInfo":{"groupID":"66","groupname":"New Group"}}]
+            NSDictionary * info = [dict objectForKey:@"shakeInfo"];
+            createdGroupID = [[info objectForKey:@"groupID"] integerValue];
+        }
+    } errorHandler:nil];
 }
 
 
@@ -806,8 +825,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 - (void) GetFromServerPullData {
     NSLog(@"Pulling data from server");
     NSDictionary* requestDictionary = @{@"action" : @"PullData",
-                                        @"username" : [self getUserEmail],
-                                        @"getShakeInfo" : @1};
+                                        @"username" : [self getUserEmail]};
+    
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
         NSLog(@"Pull Result: %@", dictionary);
         
