@@ -186,6 +186,26 @@
     [self.superview addSubview:topView];
 }
 
+-(void)updateViewForNewMeeting
+{
+    if(startingHour == endingHour)
+    {
+        [scheduleArr[meetingDay][startingHour-STARTING_HOUR] fillSelectedQuartersMeeting:startingMin endingMin:endingMin];
+    }
+    else
+    {
+        [scheduleArr[meetingDay][startingHour-STARTING_HOUR] fillSelectedQuartersMeeting:startingMin endingMin:45];
+        [scheduleArr[meetingDay][endingHour-STARTING_HOUR] fillSelectedQuartersMeeting:0 endingMin:endingMin];
+        
+        for(int i = startingHour+1;i<endingHour;i++)
+        {
+            [scheduleArr[meetingDay][i-STARTING_HOUR] fillFullHourMeeting];
+        }
+    }
+    
+    [self collapseSchedule];
+}
+
 -(void)addSlots:(SlotStatus[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
 {
     
@@ -390,6 +410,15 @@
             NSLog(@"Ending Time: %d:%d",endingHour,endingMin);
             
             beganDragging = FALSE;
+            
+            
+            
+            [self.delegate reserveMeetingAtStartingHour:startingHour
+                                            startingMin:startingMin
+                                             endingHour:endingHour
+                                              endingMin:endingMin
+                                                    day:meetingDay];
+            
         }
         
     }
@@ -556,7 +585,7 @@
                 [UIView animateWithDuration:0.35
                                  animations:^{
                                      label.center=CGPointMake((TIME_WIDTH/2) + 10,
-                                                              SCHEDULE_SLOT_QUARTER_HEIGHT+((i-STARTING_HOUR)*TIME_HEIGHT + (j)*SCHEDULE_SLOT_QUARTER_HEIGHT + shiftOffset));
+                                                              SCHEDULE_SLOT_QUARTER_HEIGHT+((i-STARTING_HOUR)*TIME_HEIGHT + (j)*10 + shiftOffset));
                                      label.alpha = 1; }
                                  completion:^(BOOL finished){
                                      expanded = true;
