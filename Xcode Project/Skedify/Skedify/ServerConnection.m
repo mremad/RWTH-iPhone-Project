@@ -150,7 +150,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         weekday = 6;
     }
     
-    [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status];
+    [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status andGroupId:groupId];
 }
 
 
