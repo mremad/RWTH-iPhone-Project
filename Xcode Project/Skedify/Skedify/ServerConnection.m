@@ -260,7 +260,10 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     for(int i=0;i<[_groupsList count];i++)
     {
         Group* g = [_groupsList objectAtIndex:i];
-        [self fetchGroupSchedule:g fromTimeSlot:startingDate toTimeSlot:endingDate];
+        if(g.groupId!=0) //some groups are added in the grouplist but did not yet retieve their id
+        {
+            [self fetchGroupSchedule:g fromTimeSlot:startingDate toTimeSlot:endingDate];
+        }
     }
     
 }
@@ -333,13 +336,13 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         [theGroup insertMember: [[Member alloc] initWithEmail:[members objectAtIndex:i]]];
     }
     
-    [_groupsList insertObject:theGroup atIndex:[_groupsList count]];
+    [_groupsList insertObject:theGroup atIndex:[_groupsList count]];//insert in last slot
     
     // add observer
     [self addObserver:self forKeyPath:@"createdGroupID" options:NSKeyValueObservingOptionNew +
      NSKeyValueObservingOptionOld context:nil];
     // send to server
-    [self SendToServerAddGroup:theGroup WithMembers:members];
+    [self SendToServerAddGroup:theGroup WithMembersEmails:members];
     }
 
 // receive KVO notification
@@ -498,29 +501,44 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
  else if meeting invitation: group name, meeting beginning time and meeting ending time
  **/
 
--(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime
+-(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime groupName:(NSString *) groupName senderNickName:(NSString *) theSenderNick
 {
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
-    Group *g=[self getGroupGivenGroupId:groupId];
+   // Group *g=[self getGroupGivenGroupId:groupId]; group not yet here
+    Group *g=nil;
     fetechedNotification.group = g;
-    fetechedNotification.groupName = g.name;
-    fetechedNotification.senderName = senderName;
+    fetechedNotification.groupName = groupName;
+    fetechedNotification.senderName = theSenderNick;
     fetechedNotification.meetingBeginningTime = beginTime;
     fetechedNotification.meetingEndingTime = endTime;
     
-    for (Notification *notification in self.notificationsList){
-    if (![self compareNotification:notification isEqualNotification:fetechedNotification])
+    
+    if (![self existsEquivalentNotification:fetechedNotification])
     {
         [self.notificationsList addObject:fetechedNotification];
+        
         self.notificationsNotReadCounter ++;
         
-        if ([_delegatenotificationsView respondsToSelector:@selector(notifitcationRecieved:)]){
+        if ([_delegatenotificationsView respondsToSelector:@selector(notificationRecieved:)])
+        {
             [_delegatenotificationsView notificationRecieved];
         }
     }
-    }
 }
+
+-(BOOL) existsEquivalentNotification :(Notification*)fetchedNotification
+{
+    for (Notification *notification in self.notificationsList)
+    {
+        if ([self compareNotification:notification isEqualNotification:fetchedNotification])
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 -(BOOL) compareNotification:(Notification *)firstNotification isEqualNotification:(Notification *)secondNotification{
     
     if ((firstNotification.isGroupInvitationNotification == secondNotification.isGroupInvitationNotification) && (firstNotification.group.groupId== secondNotification.group.groupId) && ([firstNotification.senderName isEqualToString:secondNotification.senderName]) && ([firstNotification.meetingBeginningTime isEqual:secondNotification.meetingBeginningTime]) && ([firstNotification.meetingEndingTime isEqual:secondNotification.meetingEndingTime])) {
@@ -653,31 +671,12 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [_delegatenotificationsView shakeGroupCreationActionRecieved:thegroupId];
 }
 
--(void)SendToServerAddMember:(Member *)member inGroup:(NSNumber*) group
-{
-    NSLog(@"Adding user %@ to group %@", member, group);
-
-    NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
-                                        @"username" : member,
-                                        @"groupID" : group,
-                                        @"adder" : [self getUserEmail]};
-    NSLog(@"Request: %@", requestDictionary);
-    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"User added: %@", dictionary);
-        
-        for (NSDictionary *dict in dictionary)
-        {
-            // TODO: do anything with the response...
-        }
-    } errorHandler:nil];
-
-}
 
 
 /**
  this method creates a new group in server.
  */
--(void)SendToServerAddGroup:(Group *)group WithMembers:(NSArray *) members
+-(void)SendToServerAddGroup:(Group *)group WithMembersEmails:(NSArray *) members
 {
     NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
     
@@ -693,34 +692,35 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             group.groupId=[groupID intValue];
             
             // add Members:
-            for (Member *m in members) {
+            for (NSString *email in members) {
                 //
-                [self SendToServerAddMember:m inGroup:(groupID)];
+                [self SendToServerAddMemberEmail:email inGroup:[groupID intValue]];
             }
         }
-        [self SendtoServerInviteGroupMembers:group];
     } errorHandler:nil];
     
 }
-/**
- this method invites all group members to the group
- */
--(void)SendtoServerInviteGroupMembers :(Group *) theGroup
+
+
+-(void)SendToServerAddMemberEmail:(NSString *)memberEmail inGroup:(NSInteger) theGroupId
 {
-    for(int i=0;i<[theGroup.members count];i++)
-    {
-        Member *memberToInvite= [theGroup.members objectAtIndex:i];
-        NSString *groupIdString = [NSString stringWithFormat: @"%d", theGroup.groupId];
-        NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
-                                            @"username" : memberToInvite.emailAddress,
-                                            @"groupID" : groupIdString ,
-                                            @"adder" : _accountEmailAddress};
+    NSLog(@"Adding user %@ to group %ld", memberEmail, (long)theGroupId);
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", theGroupId];
+    NSString *myEmail = [self getUserEmail];
+    NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
+                                        @"username" : memberEmail,
+                                        @"groupID" : groupIdString,
+                                        @"adder" :myEmail };
+    NSLog(@"Request: %@", requestDictionary);
+    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
+        NSLog(@"User added: %@", dictionary);
         
-        (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
-                            {
-                                NSLog(@"Member invited: %@", dictionary);
-                            } errorHandler:nil];
-    }
+        for (NSDictionary *dict in dictionary)
+        {
+            // TODO: do anything with the response...
+        }
+    } errorHandler:nil];
+    
 }
 
 -(void)SendToServerRemoveGroup:(Group *)group
@@ -869,18 +869,19 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             NSDictionary * invites = [dict objectForKey:@"invites"];
             for (NSDictionary *invite in invites) {
                 NSLog(@"Got invite");
-                NSNumber *groupID = [dict objectForKey:@"groupID"];
-                NSString *senderName = [dict objectForKey:@"senderUsername"];
+                NSNumber *groupID = [invite objectForKey:@"groupID"];
+                NSString *senderName = [invite objectForKey:@"senderUsername"];
+                NSString *groupName = [invite objectForKey:@"groupname"];
                 
                 NSDate *date;
-                [self didReceiveFromServerRequestNotificationWithType:YES group:[groupID integerValue] sender:senderName beginsAt:date endsAt:date];
+                [self didReceiveFromServerRequestNotificationWithType:YES group:[groupID integerValue] sender:senderName beginsAt:date endsAt:date groupName:groupName senderNickName:senderName];
             }
             
             NSDictionary * appointments = [dict objectForKey:@"invites"];
             for (NSDictionary *app in appointments) {
                 NSLog(@"Got appointment");
-                NSNumber *groupID = [dict objectForKey:@"groupID"];
-                NSString *senderName = [dict objectForKey:@"senderUsername"];
+                NSNumber *groupID = [app objectForKey:@"groupID"];
+                NSString *senderName = [app objectForKey:@"senderUsername"];
                 
                 NSTimeInterval intStart=[[app objectForKey:@"start"] doubleValue];
                 NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
@@ -888,7 +889,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 NSTimeInterval intEnd =[[app objectForKey:@"end"] doubleValue];
                 NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
                 
-                [self didReceiveFromServerRequestNotificationWithType:NO group:[groupID integerValue] sender:senderName beginsAt:startDate endsAt:endDate];
+                [self didReceiveFromServerRequestNotificationWithType:NO group:[groupID integerValue] sender:senderName beginsAt:startDate endsAt:endDate groupName:@"" senderNickName:@""];
             }
         }
 
