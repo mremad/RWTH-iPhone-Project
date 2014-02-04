@@ -67,12 +67,13 @@
 
 
 /*   Schedule Parameters  */
-
 @property (nonatomic) NSInteger counterOfSentDatesFromIPhoneAndL2pToServer;
 @property (nonatomic, readonly) NSMutableArray *userSlotsArray;
 @property (nonatomic, readonly) NSMutableDictionary *userSchedules;
 @property (nonatomic) BOOL alreadySignedIn;
 /*   Schedule Parameters  */
+
+
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, readonly) NSMutableArray *groupMembers;

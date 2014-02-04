@@ -14,9 +14,7 @@
 #import "GlobalVariables.h"
 
 @implementation ServerConnection
-{
-    
-}
+
 @synthesize createdGroupID;
 
 #pragma mark -
@@ -399,6 +397,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 - (void) fetchGroupSchedule: (Group*) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
+    
+    return;//TODO: REMOVE
+    
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
 
