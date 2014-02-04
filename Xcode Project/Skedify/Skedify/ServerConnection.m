@@ -398,7 +398,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 - (void) fetchGroupSchedule: (Group*) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
     
-    return;//TODO: REMOVE
+    
     
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
@@ -408,6 +408,29 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"groupID" : [NSNumber numberWithInt:[group groupId]],
                                         @"start" : startDate,
                                         @"end" : endDate};
+    
+    
+    
+    
+    
+    
+    NSMutableArray *startDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
+    NSMutableArray *endDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
+    NSMutableArray *statuses=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
+    int size = [startDates count];
+    for(int i=0;i<100;i++)
+    {
+        int random=(i*group.groupId)%size;
+        NSDate *startDate = (NSDate *) [startDates objectAtIndex:random ];
+        NSDate *endDate = (NSDate *) [endDates objectAtIndex:random ];
+        int status = [(NSString *) [statuses objectAtIndex:random ] intValue];
+        [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:status withGroupId:[group groupId]];
+    }
+    return;//TODO: REMOVE all this
+    
+    
+    
+    
     
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
             {
