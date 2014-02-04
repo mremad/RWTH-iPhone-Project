@@ -26,6 +26,8 @@
     
     UIView* extraTimeLabels[9];
     
+    CGPoint latestContentOffset;
+    
     BOOL expanded;
     
     /* Pan Gesture Detection Parameters */
@@ -494,11 +496,25 @@
         [UIView animateWithDuration:0.7 animations:^{
             extraTimeLabels[i].alpha = 0; } completion:^(BOOL finished){
             [extraTimeLabels[i] removeFromSuperview];
-                expanded = false;}];
+                expanded = false;
+            
+                
+            }];
         
         
         
     }
+    
+    [UIView animateWithDuration:0.7
+                     animations:^{
+                         [self setContentOffset:latestContentOffset animated:NO];
+                     }
+     
+                     completion:^(BOOL finished){
+                         
+                     }];
+    
+    
 }
 
 -(void)expandScheduleAtLeftDay:(int)leftDay
@@ -506,6 +522,8 @@
                        topHour:(int)topHour
                     bottomHour:(int)bottomHour
 {
+    latestContentOffset = self.contentOffset;
+    
     [self expandDaysWithLeft:leftDay withRight:rightDay];
     [self expandTimeWithTopHour:topHour bottomHour:bottomHour];
 }
@@ -532,7 +550,7 @@
                                      [UIView animateWithDuration:0.7
                                                       animations:^{
                                                           if(i == topHour)
-                                                              [self setContentOffset:CGPointMake(0, slot.frame.origin.y - 6) animated:NO];
+                                                              [self setContentOffset:CGPointMake(0, slot.frame.origin.y - 2) animated:NO];
                                                       }
                                                           
                                                       completion:^(BOOL finished){
