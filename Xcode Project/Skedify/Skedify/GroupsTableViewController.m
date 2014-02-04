@@ -54,6 +54,12 @@
   
 }
 
+-(void)notificationRecieved
+{
+    [super notificationRecieved];
+    [self.tableView reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

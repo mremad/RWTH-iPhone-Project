@@ -52,13 +52,14 @@
 
 
 - (void) SendToServerShakeLocation:(CLLocation *)location;
-- (void) SendToServerAcceptGroupRequest:(Group *) group;
+- (void) SendToServerAcceptGroupRequestGivenGroupId:(NSInteger) groupId;
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
 - (void) SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
 - (void) SendToServerRemoveGroup:(Group *)group;
 - (void) SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (SlotStatus) slotStatus;
+
 - (void) GetFromServerPullData;
 
 

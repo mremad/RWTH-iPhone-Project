@@ -512,6 +512,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     fetechedNotification.senderName = theSenderNick;
     fetechedNotification.meetingBeginningTime = beginTime;
     fetechedNotification.meetingEndingTime = endTime;
+    fetechedNotification.groupId=groupId;
     
     
     if (![self existsEquivalentNotification:fetechedNotification])
@@ -728,10 +729,10 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     } errorHandler:nil];
 }
 
--(void) SendToServerAcceptGroupRequest:(Group *) group
+- (void) SendToServerAcceptGroupRequestGivenGroupId:(NSInteger) groupId;
 {
-    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
-    NSLog(@"Accepting group request %@", [group name]);
+    NSString *groupIdString = [NSString stringWithFormat: @"%d", groupId];
+    NSLog(@"Accepting group request %ld", (long)groupId);
     NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
                                         @"username" : [self getUserEmail],
                                         @"groupID" : groupIdString};
