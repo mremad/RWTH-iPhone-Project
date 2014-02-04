@@ -651,7 +651,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     
                     
-                    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(askServerForAnyGroupsCreatedByShake) userInfo:nil repeats:NO];
+                    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(GetRecieveShakeMessageFromServer) userInfo:nil repeats:NO];
                     
                     [[NSRunLoop currentRunLoop] run];
                     
@@ -660,11 +660,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             } errorHandler:nil];
 }
 
-
--(void)askServerForAnyGroupsCreatedByShake
-{
-    [self GetRecieveShakeMessageFromServer];
-}
 
 -(void)navigateToScheduleView:(NSInteger) thegroupId andGroupName:(NSString*) groupName
 {
