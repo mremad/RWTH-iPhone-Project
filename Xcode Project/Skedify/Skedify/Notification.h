@@ -14,6 +14,7 @@
 @property BOOL isGroupInvitationNotification; // else meeting invitation notification
 @property Group *group;
 @property NSString *groupName;
+@property NSInteger groupId;
 @property NSString *senderName;
 @property NSDate *meetingBeginningTime;
 @property NSDate *meetingEndingTime;

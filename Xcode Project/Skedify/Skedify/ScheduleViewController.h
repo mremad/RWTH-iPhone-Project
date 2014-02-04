@@ -16,4 +16,6 @@
 @property (strong, nonatomic) IBOutlet ScheduleScrollView *scrollView;
 @property NSInteger groupID;
 
+- (void)reserveMeetingAtStartingHour:(int)startingHour startingMin:(int)startingMin endingHour:(int)endingHour endingMin:(int)endingMin day:(Day)meetingDay;
+
 @end

@@ -114,7 +114,8 @@
         NSLog(@"Accept");
 
         if (notificationChosen.isGroupInvitationNotification) {
-            [[ServerConnection sharedServerConnection] SendToServerAcceptGroupRequest:notificationChosen.group];
+            
+            [[ServerConnection sharedServerConnection] SendToServerAcceptGroupRequestGivenGroupId:notificationChosen.groupId];
         }
         else{
 //            [[ServerConnection sharedServerConnection] SendToServerAcceptMeeting:<#(Group *)#> fromTimeSlot:<#(NSDate *)#>];

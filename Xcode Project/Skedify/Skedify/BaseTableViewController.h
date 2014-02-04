@@ -19,4 +19,5 @@
 @property UIButton *badgeButton;
 -(NSString *) suitableNameWithAddedDotsIfAboveAcceptableSize:(NSString *) name AndAcceptableSize:(NSInteger) acceptableSize;
 -(void)buttonNotifications:(id)sender;
+-(void)notificationRecieved;
 @end
