@@ -584,8 +584,27 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
             {
                 NSLog(@"Shake sent: %@", dictionary);
-                // nothing more to do
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    
+                    
+                    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(askServerForAnyGroupsCreatedByShake:) userInfo:nil repeats:NO];
+                    
+                    [[NSRunLoop currentRunLoop] run];
+                    
+                    
+                });
             } errorHandler:nil];
+}
+
+
+-(void)askServerForAnyGroupsCreatedByShake
+{
+    
+}
+
+-(void)navigateToScheduleView:(NSInteger) thegroupId
+{
+    [_delegatenotificationsView shakeGroupCreationActionRecieved:thegroupId];
 }
 
 -(void)SendToServerAddMember:(Member *)member inGroup:(NSNumber*) group
