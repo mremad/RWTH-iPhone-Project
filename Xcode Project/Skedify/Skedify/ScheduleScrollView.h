@@ -10,11 +10,10 @@
 #import "ScheduleSlotView.h"
 #import "GlobalVariables.h"
 
-@protocol ScheduleControllerProtocol<NSObject,UIScrollViewDelegate>
+@protocol ScheduleTapRecognizerProtocol<NSObject,UIScrollViewDelegate>
 
 - (void)singleTap:(UITapGestureRecognizer *)gestureRecognizer;
 - (void)doubleTap:(UITapGestureRecognizer *)gestureRecognizer;
-- (void)reserveMeetingAtStartingHour:(int)startingHour startingMin:(int)startingMin endingHour:(int)endingHour endingMin:(int)endingMin day:(Day)meetingDay;
 
 @end
 
@@ -22,9 +21,8 @@
 
 @interface ScheduleScrollView : UIScrollView
 
-@property (nonatomic, weak) id<ScheduleControllerProtocol> delegate;
+@property (nonatomic, weak) id<ScheduleTapRecognizerProtocol> delegate;
 - (id)initWithFrame:(CGRect)frame withSchedule:(SlotStatus[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule;
--(void)updateViewForNewMeeting;
 -(void)addWeekLabels;
 
 @end

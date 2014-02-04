@@ -47,19 +47,17 @@
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status;
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId;
 
--(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime groupName:(NSString *) groupName senderNickName:(NSString *) theSenderNick;
+-(void) didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime;
 
 
 
 - (void) SendToServerShakeLocation:(CLLocation *)location;
-- (void) SendToServerAcceptGroupRequestGivenGroupId:(NSInteger) groupId;
+- (void) SendToServerAcceptGroupRequest:(Group *) group;
 - (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
 - (void) SendToServerRejectGroupRequest:(Group *) group;
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
-- (void) SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
 - (void) SendToServerRemoveGroup:(Group *)group;
 - (void) SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (SlotStatus) slotStatus;
-
 - (void) GetFromServerPullData;
 
 
@@ -69,13 +67,11 @@
 
 
 /*   Schedule Parameters  */
-@property (nonatomic) NSInteger counterOfSentDatesFromIPhoneAndL2pToServer;
+
 @property (nonatomic, readonly) NSMutableArray *userSlotsArray;
 @property (nonatomic, readonly) NSMutableDictionary *userSchedules;
 @property (nonatomic) BOOL alreadySignedIn;
 /*   Schedule Parameters  */
-
-
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, readonly) NSMutableArray *groupMembers;

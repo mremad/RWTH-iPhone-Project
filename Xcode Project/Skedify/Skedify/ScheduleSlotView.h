@@ -15,8 +15,6 @@
 -(int)getTime;
 
 - (id)initWithFrame:(CGRect)frame withDay:(Day)_day withTime:(int)_time withStates:(SlotStatus[4])hourStates;
-- (void)fillSelectedQuartersMeeting:(int)startingMin endingMin:(int)endMin;
-- (void)fillFullHourMeeting;
 - (void)expandSlot;
 - (void)collapseSlot;
 @end

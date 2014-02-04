@@ -137,9 +137,6 @@
  //   [self shakeGroupCreationActionRecieved:1];
     if (event.subtype == UIEventSubtypeMotionShake)
     {
-        CLLocation *location = [self getLocation];
-        if (location != nil) {
-        
         NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
         if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
         {
@@ -151,13 +148,13 @@
         }
 
         // Put in code here to handle shake
-        location = [self getLocation];
+        CLLocation *location = [self getLocation];
         if (location != nil) {
-            [[ServerConnection sharedServerConnection] SendToServerShakeLocation:location];
+            [[ServerConnection sharedServerConnection] SendToServerShakeLocation:currentLocation];
         }
         
         //Testing Location
-        NSLog(@"didUpdateToLocation: %@", location);
+        NSLog(@"didUpdateToLocation: %@", [self getLocation]); 
         
 //        //Testing Notification Badge
 //        testingNotificationCounter ++;
@@ -167,7 +164,7 @@
 //        [self addLocalNotification];
         
     }
-    }
+    
     if ( [super respondsToSelector:@selector(motionEnded:withEvent:)] )
         [super motionEnded:motion withEvent:event];
 }

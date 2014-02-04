@@ -43,40 +43,30 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    //   [self shakeGroupCreationActionRecieved:1];
+//    [self shakeGroupCreationActionRecieved:0];
+
     if (event.subtype == UIEventSubtypeMotionShake)
     {
+        NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
+        if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
+        {
+            return;
+        }
+        else
+        {
+            [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
+        }
+        
+        // Put in code here to handle shake
         CLLocation *location = [self getLocation];
         if (location != nil) {
-            
-            NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
-            if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
-            {
-                return;
-            }
-            else
-            {
-                [ServerConnection sharedServerConnection].dateOfLastShakeGesture=[NSDate date];
-            }
-            
-            // Put in code here to handle shake
-            location = [self getLocation];
-            if (location != nil) {
-                [[ServerConnection sharedServerConnection] SendToServerShakeLocation:location];
-            }
-            
-            //Testing Location
-            NSLog(@"didUpdateToLocation: %@", location);
-            
-            //        //Testing Notification Badge
-            //        testingNotificationCounter ++;
-            //        [self addNotificationBadgeWithNumber:testingNotificationCounter];
-            //
-            //        //Testing Local Notification
-            //        [self addLocalNotification];
-            
+            [[ServerConnection sharedServerConnection] SendToServerShakeLocation:currentLocation];
         }
+        
+        //Testing Location
+        NSLog(@"didUpdateToLocation: %@", [self getLocation]); // TODO: This call should be changed to send to the server        
     }
+    
     if ( [super respondsToSelector:@selector(motionEnded:withEvent:)] )
         [super motionEnded:motion withEvent:event];
 }

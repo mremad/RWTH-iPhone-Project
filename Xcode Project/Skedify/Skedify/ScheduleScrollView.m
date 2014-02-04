@@ -26,8 +26,6 @@
     
     UIView* extraTimeLabels[9];
     
-    CGPoint latestContentOffset;
-    
     BOOL expanded;
     
     /* Pan Gesture Detection Parameters */
@@ -188,26 +186,6 @@
     [self.superview addSubview:topView];
 }
 
--(void)updateViewForNewMeeting
-{
-    if(startingHour == endingHour)
-    {
-        [scheduleArr[meetingDay][startingHour-STARTING_HOUR] fillSelectedQuartersMeeting:startingMin endingMin:endingMin];
-    }
-    else
-    {
-        [scheduleArr[meetingDay][startingHour-STARTING_HOUR] fillSelectedQuartersMeeting:startingMin endingMin:45];
-        [scheduleArr[meetingDay][endingHour-STARTING_HOUR] fillSelectedQuartersMeeting:0 endingMin:endingMin];
-        
-        for(int i = startingHour+1;i<endingHour;i++)
-        {
-            [scheduleArr[meetingDay][i-STARTING_HOUR] fillFullHourMeeting];
-        }
-    }
-    
-    [self collapseSchedule];
-}
-
 -(void)addSlots:(SlotStatus[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule
 {
     
@@ -290,14 +268,6 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
-    if(!expanded)
-    {
-        beganDragging = FALSE;
-        [selectorView removeFromSuperview];
-        return;
-    }
-    
     CGPoint tappedPt = [[touches anyObject] locationInView: self];
     
     tappedPt.x = hitView.center.x;
@@ -307,10 +277,7 @@
          hitView = (ScheduleSlotView*)[self hitTest:tappedPt withEvent:nil];
         
         if(![hitView respondsToSelector:@selector(getTime)])
-        {
-            beganDragging = FALSE;
-            return;
-        }
+            [NSException raise:@"Unrecognized Selector" format:@"Hit view is not a ScheduleSlotView"];
         
         selectorView.frame = CGRectMake(hitView.frame.origin.x, tappedPt.y, hitView.frame.size.width, tappedPt.y - hitView.frame.origin.y);
         
@@ -367,13 +334,6 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(!expanded)
-    {
-        beganDragging = FALSE;
-        [selectorView removeFromSuperview];
-        return;
-    }
-    
     CGPoint tappedPt = [[touches anyObject] locationInView: self];
     [selectorView removeFromSuperview];
     
@@ -387,10 +347,7 @@
             ScheduleSlotView * hitFinalView = (ScheduleSlotView*)[self hitTest:tappedPt withEvent:nil];
             
             if(![hitFinalView respondsToSelector:@selector(getTime)])
-            {
-                beganDragging = FALSE;
-                return;
-            }
+                [NSException raise:@"Unrecognized Selector" format:@"Hit view is not a ScheduleSlotView"];
             
             NSLog(@"%d    %d",[hitFinalView getDay],[hitFinalView getTime]);
             
@@ -412,15 +369,6 @@
             NSLog(@"Ending Time: %d:%d",endingHour,endingMin);
             
             beganDragging = FALSE;
-            
-            
-            
-            [self.delegate reserveMeetingAtStartingHour:startingHour
-                                            startingMin:startingMin
-                                             endingHour:endingHour
-                                              endingMin:endingMin
-                                                    day:meetingDay];
-            
         }
         
     }
@@ -496,25 +444,11 @@
         [UIView animateWithDuration:0.7 animations:^{
             extraTimeLabels[i].alpha = 0; } completion:^(BOOL finished){
             [extraTimeLabels[i] removeFromSuperview];
-                expanded = false;
-            
-                
-            }];
+                expanded = false;}];
         
         
         
     }
-    
-    [UIView animateWithDuration:0.7
-                     animations:^{
-                         [self setContentOffset:latestContentOffset animated:NO];
-                     }
-     
-                     completion:^(BOOL finished){
-                         
-                     }];
-    
-    
 }
 
 -(void)expandScheduleAtLeftDay:(int)leftDay
@@ -522,8 +456,6 @@
                        topHour:(int)topHour
                     bottomHour:(int)bottomHour
 {
-    latestContentOffset = self.contentOffset;
-    
     [self expandDaysWithLeft:leftDay withRight:rightDay];
     [self expandTimeWithTopHour:topHour bottomHour:bottomHour];
 }
@@ -550,7 +482,7 @@
                                      [UIView animateWithDuration:0.7
                                                       animations:^{
                                                           if(i == topHour)
-                                                              [self setContentOffset:CGPointMake(0, slot.frame.origin.y - 2) animated:NO];
+                                                              [self setContentOffset:CGPointMake(0, slot.frame.origin.y - 6) animated:NO];
                                                       }
                                                           
                                                       completion:^(BOOL finished){
@@ -603,7 +535,7 @@
                 [UIView animateWithDuration:0.35
                                  animations:^{
                                      label.center=CGPointMake((TIME_WIDTH/2) + 10,
-                                                              SCHEDULE_SLOT_QUARTER_HEIGHT+((i-STARTING_HOUR)*TIME_HEIGHT + (j)*10 + shiftOffset));
+                                                              SCHEDULE_SLOT_QUARTER_HEIGHT+((i-STARTING_HOUR)*TIME_HEIGHT + (j)*SCHEDULE_SLOT_QUARTER_HEIGHT + shiftOffset));
                                      label.alpha = 1; }
                                  completion:^(BOOL finished){
                                      expanded = true;

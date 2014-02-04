@@ -101,27 +101,6 @@
     return self;
 }
 
--(void)fillSelectedQuartersMeeting:(int)startingMin endingMin:(int)endMin
-{
-    int startQ = startingMin/15;
-    int endQ = endMin/15;
-    
-    for(int i = startQ;i<=endQ;i++)
-    {
-        ((UIView*)[quarterArray objectAtIndex:i]).backgroundColor = [UIColor greenColor];
-        ((UIView*)[quarterArray objectAtIndex:i]).alpha = 1;
-    }
-}
-
--(void)fillFullHourMeeting
-{
-    for(UIView* quarter in quarterArray)
-    {
-        quarter.backgroundColor = [UIColor greenColor];
-        quarter.alpha = 1;
-    }
-}
-
 -(void)expandSlot
 {
     if(!expanded)
@@ -211,5 +190,18 @@
 {
     return time;
 }
+
+- (void)drawRect:(CGRect)rect
+{
+   
+   /* CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, 4.0);
+    CGContextSetStrokeColorWithColor(context,
+                                     [UIColor blueColor].CGColor);
+    CGRect rectangle = CGRectMake(0,0,10,10);
+    CGContextAddRect(context, rectangle);
+    CGContextStrokePath(context);*/
+}
+
 
 @end

@@ -50,59 +50,8 @@
 
 }
 
-- (void)reserveMeetingAtStartingHour:(int)startingHour
-                         startingMin:(int)startingMin
-                          endingHour:(int)endingHour
-                           endingMin:(int)endingMin
-                                 day:(Day)meetingDay
+- (void)reserveMeetingAtStartingDay:(NSDate*)startingDate endingDate:(NSDate*)endingDate
 {
-    
-    BOOL selectedFreeArea = TRUE;
-    
-    int startIndex = ((startingHour - STARTING_HOUR)*4) + (startingMin/15);
-    int endIndex = ((endingHour - STARTING_HOUR)*4) + (endingMin/15);
-    
-    for(int i = startIndex;i<=endIndex;i++)
-    {
-        if(fullSchedule[(int)meetingDay][i] == SlotStateBusy || fullSchedule[(int)meetingDay][i] == SlotStateMeeting)
-        {
-            selectedFreeArea = FALSE;
-            break;
-        }
-    }
-    
-    if(!selectedFreeArea)
-        return;
-    
-    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSCalendar *cal1 = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *comp =[[NSDateComponents alloc] init];
-    [comp setYear:2015];
-    [comp setMonth:1];
-    [comp setDay:meetingDay];
-    [comp setHour:startingHour];
-    [comp setMinute:startingMin];
-    // [comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    NSDate *startingDate =[cal dateFromComponents:comp];
-    
-    NSDateComponents *compEnd =[[NSDateComponents alloc] init];
-    [compEnd setYear:2015];
-    [compEnd setMonth:1];
-    [compEnd setDay:meetingDay];
-    [compEnd setHour:endingHour];
-    [compEnd setMinute:endingMin];
-    //[compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    NSDate *endingDate =[cal1 dateFromComponents:compEnd];
-    
-    ServerConnection* sharedConnection = [ServerConnection sharedServerConnection];
-    [sharedConnection SendToServerCreateMeeting:[sharedConnection getGroupGivenGroupId:_groupID] fromTimeSlot:startingDate toTimeSlot:endingDate];
-    
-    for(int i = startIndex;i<=endIndex;i++)
-    {
-        fullSchedule[(int)meetingDay][i] = SlotStateMeeting;
-    }
-    
-    [_scrollView updateViewForNewMeeting];
     
 }
 

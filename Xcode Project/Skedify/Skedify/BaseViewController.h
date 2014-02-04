@@ -12,5 +12,4 @@
 
 @interface BaseViewController : UIViewController <CLLocationManagerDelegate, ServerConnectionCurrentNotifiableShakableViewDelegate>
 
--(void)notificationRecieved;
 @end
