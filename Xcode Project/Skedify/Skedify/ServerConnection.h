@@ -25,6 +25,7 @@
 @interface ServerConnection : NSObject
 {
   NSInteger createdGroupID;
+    
 }
 @property NSInteger createdGroupID;
 
@@ -57,7 +58,8 @@
 - (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
 - (void) SendToServerRemoveGroup:(Group *)group;
 - (void) SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (SlotStatus) slotStatus;
-- (void) SendToServerPullData;
+- (void) GetFromServerPullData;
+
 
 
 
@@ -68,7 +70,7 @@
 
 @property (nonatomic, readonly) NSMutableArray *userSlotsArray;
 @property (nonatomic, readonly) NSMutableDictionary *userSchedules;
-
+@property (nonatomic) BOOL alreadySignedIn;
 /*   Schedule Parameters  */
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;

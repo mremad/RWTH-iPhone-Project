@@ -207,9 +207,64 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer addObject:[[NSMutableArray alloc]init]];
         
         
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            
+            [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
+            
+            [[NSRunLoop currentRunLoop] run];
+            
+            
+        });
+        
+        
+        
+     
+    
+  
+        
     }
     
     return self;
+}
+
+- (void)timerFireMethod:(NSTimer *)timer{
+    
+    if(!_alreadySignedIn)
+    {
+        return;
+    }
+    
+    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *cal1 = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    if (YES) { //if there is shaking motion
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self GetFromServerPullData];
+        });
+    }
+    NSDateComponents *comp =[[NSDateComponents alloc] init];
+    [comp setYear:2010];
+    [comp setMonth:1];
+    [comp setDay:1];
+    [comp setHour:2];
+    [comp setMinute:15];
+    NSDate *startingDate =[cal dateFromComponents:comp];
+    
+    NSDateComponents *compEnd =[[NSDateComponents alloc] init];
+    [compEnd setYear:2015];
+    [compEnd setMonth:1];
+    [compEnd setDay:1];
+    [compEnd setHour:2];
+    [compEnd setMinute:15];
+    NSDate *endingDate =[cal1 dateFromComponents:compEnd];
+    
+    for(int i=0;i<[_groupsList count];i++)
+    {
+        Group* g = [_groupsList objectAtIndex:i];
+        [self fetchGroupSchedule:g fromTimeSlot:startingDate toTimeSlot:endingDate];
+    }
+    
 }
 
 - (void) fetchNeededInformation
@@ -342,7 +397,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 #pragma mark -
 #pragma mark Recieiving Data From Server methods
 
-- (void) fetchGroupSchedule: (Group*) group: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+- (void) fetchGroupSchedule: (Group*) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
@@ -435,7 +490,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         [self.notificationsList addObject:fetechedNotification];
         self.notificationsNotReadCounter ++;
         
-        if ([_delegatenotificationsView respondsToSelector:@selector(notifitcationRecieved)]){
+        if ([_delegatenotificationsView respondsToSelector:@selector(notifitcationRecieved:)]){
             [_delegatenotificationsView notificationRecieved];
         }
     }
@@ -724,10 +779,12 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         NSLog(@"Nickname sent: %@", dictionary);
         [self SendScheduleToOurServerOnlyCalledOnce];
         [self fetchNeededInformation];
+        _alreadySignedIn=YES;
+        [self timerFireMethod:Nil];
     } errorHandler:nil];
 }
 
-- (void) SendToServerPullData {
+- (void) GetFromServerPullData {
     NSLog(@"Pulling data from server");
     NSDictionary* requestDictionary = @{@"action" : @"PullData",
                                         @"username" : [self getUserEmail],
