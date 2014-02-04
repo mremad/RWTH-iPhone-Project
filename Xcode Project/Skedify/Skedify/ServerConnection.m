@@ -603,7 +603,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         // views(Views containg the notification icon)
 }
 
--(void)didRecieveShakeMessageFromServer:(NSInteger) groupId
+-(void)GetRecieveShakeMessageFromServer
 {
     NSLog(@"Pulling data from server");
     NSDictionary* requestDictionary = @{@"action" : @"PullData",
@@ -623,8 +623,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             // [{"shakeInfo":{"groupID":"66","groupname":"New Group"}}]
             NSDictionary * info = [dict objectForKey:@"shakeInfo"];
             createdGroupID = [[info objectForKey:@"groupID"] integerValue];
-            
-            [self navigateToScheduleView:createdGroupID];
+            NSString *groupName = [info objectForKey:@"groupname"];
+            [self navigateToScheduleView:createdGroupID andGroupName:groupName];
         }
     } errorHandler:nil];
 }
@@ -663,10 +663,10 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void)askServerForAnyGroupsCreatedByShake
 {
-    
+    [self GetRecieveShakeMessageFromServer];
 }
 
--(void)navigateToScheduleView:(NSInteger) thegroupId
+-(void)navigateToScheduleView:(NSInteger) thegroupId andGroupName:(NSString*) groupName
 {
     [_delegatenotificationsView shakeGroupCreationActionRecieved:thegroupId];
 }
