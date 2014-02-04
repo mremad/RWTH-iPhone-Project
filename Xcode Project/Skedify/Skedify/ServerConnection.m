@@ -572,7 +572,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
      NSKeyValueObservingOptionOld context:nil];
     
     (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Pull Result: %@", dictionary);
+        NSLog(@"Pulles shake result: %@", dictionary);
         
         for (NSDictionary *dict in dictionary)
         {
@@ -580,6 +580,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             // [{"shakeInfo":{"groupID":"66","groupname":"New Group"}}]
             NSDictionary * info = [dict objectForKey:@"shakeInfo"];
             createdGroupID = [[info objectForKey:@"groupID"] integerValue];
+            
+            [self navigateToScheduleView:createdGroupID];
         }
     } errorHandler:nil];
 }
