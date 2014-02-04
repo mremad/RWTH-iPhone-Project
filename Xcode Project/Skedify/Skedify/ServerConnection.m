@@ -415,7 +415,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 for (NSDictionary *dict in dictionary) {
                     NSLog(@"Dict: %@", dict);
                     for (NSDictionary *slot in dict) {
-
+                        if ([[slot allKeys] containsObject:@"start"]) {
                         NSTimeInterval intStart=[[slot objectForKey:@"start"] doubleValue];
                         NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
                         
@@ -435,6 +435,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                         
                         [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus withGroupId:[group groupId]];
                         i++;
+                        }
                     }
                     
                 }
