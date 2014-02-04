@@ -268,6 +268,14 @@
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    
+    if(!expanded)
+    {
+        beganDragging = FALSE;
+        [selectorView removeFromSuperview];
+        return;
+    }
+    
     CGPoint tappedPt = [[touches anyObject] locationInView: self];
     
     tappedPt.x = hitView.center.x;
@@ -277,7 +285,10 @@
          hitView = (ScheduleSlotView*)[self hitTest:tappedPt withEvent:nil];
         
         if(![hitView respondsToSelector:@selector(getTime)])
-            [NSException raise:@"Unrecognized Selector" format:@"Hit view is not a ScheduleSlotView"];
+        {
+            beganDragging = FALSE;
+            return;
+        }
         
         selectorView.frame = CGRectMake(hitView.frame.origin.x, tappedPt.y, hitView.frame.size.width, tappedPt.y - hitView.frame.origin.y);
         
@@ -334,6 +345,13 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if(!expanded)
+    {
+        beganDragging = FALSE;
+        [selectorView removeFromSuperview];
+        return;
+    }
+    
     CGPoint tappedPt = [[touches anyObject] locationInView: self];
     [selectorView removeFromSuperview];
     
@@ -347,7 +365,10 @@
             ScheduleSlotView * hitFinalView = (ScheduleSlotView*)[self hitTest:tappedPt withEvent:nil];
             
             if(![hitFinalView respondsToSelector:@selector(getTime)])
-                [NSException raise:@"Unrecognized Selector" format:@"Hit view is not a ScheduleSlotView"];
+            {
+                beganDragging = FALSE;
+                return;
+            }
             
             NSLog(@"%d    %d",[hitFinalView getDay],[hitFinalView getTime]);
             
