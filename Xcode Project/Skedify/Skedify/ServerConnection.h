@@ -33,15 +33,15 @@
 + (ServerConnection *) sharedServerConnection;
 
 //method called minimal times in the start of the App
-- (void) AppStart;
+- (void) appStart;
 - (NSString*) getUserEmail;
 - (NSString*) getNickname;
 - (void) storeAccountInfoInUserDefaultsAndOnServer;
 
 //Group related
 - (Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
-- (NSArray *) GetGroupList;
-- (NSArray *) GetGroupContacts: (NSInteger) groupIdentifier;
+- (NSArray *) getGroupList;
+- (NSArray *) getGroupContacts: (NSInteger) groupIdentifier;
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
 
 - (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status;
@@ -51,21 +51,17 @@
 
 
 
-- (void) SendToServerShakeLocation:(CLLocation *)location;
-- (void) SendToServerAcceptGroupRequestGivenGroupId:(NSInteger) groupId;
-- (void) SendToServerAcceptMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot;
-- (void) SendToServerRejectGroupRequest:(Group *) group;
-- (void) SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
-- (void) SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
-- (void) SendToServerRemoveGroup:(Group *)group;
-- (void) SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (SlotStatus) slotStatus;
-
-- (void) GetFromServerPullData;
+- (void) setShakelocation:(CLLocation *)location;
+- (void) acceptGroupRequest:(NSInteger) groupId;
+- (void) rejectGroupRequest:(Group *) group;
+- (void) rejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
+- (void) createMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
+- (void) removeGroup:(Group *)group;
+- (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus;
+- (void) getFromServerPullData;
 
 
-
-
-@property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer;
+@property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer;
 
 
 /*   Schedule Parameters  */

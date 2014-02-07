@@ -37,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[ServerConnection sharedServerConnection] AppStart];
+    [[ServerConnection sharedServerConnection] appStart];
 	// Do any additional setup after loading the view.
 }
 

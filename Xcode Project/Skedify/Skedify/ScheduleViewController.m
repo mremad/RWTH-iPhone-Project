@@ -95,7 +95,7 @@
     NSDate *endingDate =[cal1 dateFromComponents:compEnd];
     
     ServerConnection* sharedConnection = [ServerConnection sharedServerConnection];
-    [sharedConnection SendToServerCreateMeeting:[sharedConnection getGroupGivenGroupId:_groupID] fromTimeSlot:startingDate toTimeSlot:endingDate];
+    [sharedConnection createMeeting:[sharedConnection getGroupGivenGroupId:_groupID] fromTimeSlot:startingDate toTimeSlot:endingDate];
     
     for(int i = startIndex;i<=endIndex;i++)
     {

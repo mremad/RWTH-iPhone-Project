@@ -6,4 +6,4 @@
 //  Copyright (c) 2014 SkedifyGroup. All rights reserved.
 //
 
-#define clientID "rpT3zeE8RYfrLJszT1MpMnkPUx0sOvNwBhABOnWJDbqKyl3HvHLp7kUgn0ER1q5Z.apps.rwth-aachen.de"
+#define clientID "qbp8G4YFwe2wczEyDBzNKVDV05nvfeYYDMMydxYZfLkX8SDpKkwvbKC6nzt4mxOY.apps.rwth-aachen.de"

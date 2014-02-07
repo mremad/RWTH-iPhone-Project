@@ -18,7 +18,7 @@
 @synthesize createdGroupID;
 
 #pragma mark -
-#pragma mark Singleton stuff
+#pragma mark Inisilaisation
 
 static ServerConnection *sharedServerConnection = nil;
 static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
@@ -40,34 +40,38 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return sharedServerConnection;
 }
 
-- (void) AppStart
+
+
+- (id)init
 {
-    //method called as soon as app starts
-    //still testing NsDate
-    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSCalendar *cal1 = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *comp =[[NSDateComponents alloc] init];
-    [comp setYear:2014];
-    [comp setMonth:1];
-    [comp setDay:13];
-    [comp setHour:23];
-    [comp setMinute:15];
-   // [comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    NSDate *startingDate =[cal dateFromComponents:comp];
+    self = [super init];
     
-    NSDateComponents *compEnd =[[NSDateComponents alloc] init];
-    [compEnd setYear:2014];
-    [compEnd setMonth:1];
-    [compEnd setDay:13];
-    [compEnd setHour:23];
-    [compEnd setMinute:45];
-    //[compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    NSDate *endingDate =[cal1 dateFromComponents:compEnd];
+    if (self)
+    {
+        _dateOfLastShakeGesture= [NSDate dateWithTimeIntervalSince1970:0];
+        _userSlotsArray = [NSMutableArray arrayWithObjects:nil];
+        _userSchedules = [[NSMutableDictionary alloc] initWithObjects:[NSMutableArray arrayWithObjects:nil]
+                                                              forKeys:[NSMutableArray arrayWithObjects:nil]];
+        _savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer =[[NSMutableArray alloc] initWithArray:@[[[NSMutableArray alloc]init],[[NSMutableArray alloc]init], [[NSMutableArray alloc]init]]];
+        _counterOfSentDatesFromIPhoneAndL2pToServer=0;
+        _notificationsList = [[NSMutableArray alloc]init];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(updateAllDateTimerMethod:) userInfo:nil repeats:YES];
+            [[NSRunLoop currentRunLoop] run];
+        });
+    }
+    
+    return self;
+}
+#pragma mark -
+#pragma mark some convenience methods
 
-    [self addScheduleSlotStartingAtDate:startingDate andEndingAtDate:endingDate withSlotStatus:SlotStateBusy];
 
-
-     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];//deletes stored values
+- (void) appStart
+{
+     [[NSUserDefaults standardUserDefaults] setPersistentDomain:[NSDictionary dictionary] forName:[[NSBundle mainBundle] bundleIdentifier]];
+    //deletes stored NsUserDefaults values
     // TODO: make sure the line above is removed
 }
 
@@ -79,98 +83,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     NSDateComponents *components = [gregorian components:unitFlags fromDate:theDate];
     return components;
 }
-
-/*One time (per user) Schedule functions*/
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status
-{
-    NSMutableArray *startDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
-    NSMutableArray *endDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
-    NSMutableArray *statuses=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
-    [startDates addObject:startDate];
-    [endDates addObject:endDate];
-    [statuses addObject:[NSString stringWithFormat: @"%d", status]];
-    
-}
-
-
-
--(void) SendScheduleToOurServerOnlyCalledOnce
-{
-    NSMutableArray *startDates = (NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
-    NSMutableArray *endDates = [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
-    NSMutableArray *statuses = [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
-
-    for(int i=0;i<[startDates count];i++)
-    {
-        NSDate *startDate = (NSDate *) [startDates objectAtIndex:i ];
-        NSDate *endDate = (NSDate *) [endDates objectAtIndex:i ];
-        int status = [(NSString *) [statuses objectAtIndex:i ] intValue];
-        [self SendToServerSendSlot:startDate toTimeSlot:endDate isAvailable:status];
-    }
-}
-
-
-
-
--(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
-{
-    [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
-    
-    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
-    [_userSlotsArray addObject:newSlot];
-    
-    
-    
-    
-
-}
-/*One time (per user) Schedule functions*/
-
-
-
-
-/*Specialized (per group) Schedule functions*/
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId
-{
-    while([endDate compare: startDate] == NSOrderedDescending)
-    {
-        [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status withGroupId:groupId];
-        startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
-    }
-}
-
-
-- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId
-{
-    NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
-    
-    int weekday=[startDateComponents weekday]-2;
-    if(weekday==-1)
-    {
-        weekday = 6;
-    }
-    
-    [self AddDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status andGroupId:groupId];
-}
-
-
--(void)AddDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber
-                                    AndDay:(Day) weekDay
-                           andStartingSlot: (NSDate *) startingSlot
-                            andSlotStatus :(SlotStatus) status
-                                andGroupId:(NSInteger)groupId
-{
-    [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
-    
-    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
-    
-    NSMutableArray* groupSched = [self getGroupGivenGroupId:groupId].groupSchedule;
-    [groupSched addObject:newSlot];
-    
-    
-    
-}
-/*Specialized (per group) Schedule functions*/
 
 -(void)logDate:(NSDate *) startingSlot andSlotStatus :(SlotStatus) status andweekDay:(Day) weekDay
 {
@@ -186,137 +98,189 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
           , theDate, theTime,status,weekDay);
 }
 
-- (id)init
+-(void)navigateToScheduleView:(NSInteger) thegroupId andGroupName:(NSString*) groupName
 {
-    self = [super init];
-    if (self)
-    {
-        
-        _dateOfLastShakeGesture= [NSDate dateWithTimeIntervalSince1970:0];
-        
-        _userSlotsArray = [NSMutableArray arrayWithObjects:nil];
-        _userSchedules = [[NSMutableDictionary alloc] initWithObjects:[NSMutableArray arrayWithObjects:nil]
-                                                              forKeys:[NSMutableArray arrayWithObjects:nil]];
-     
-        _savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer =[[NSMutableArray alloc] init];
-        
-        [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer addObject:[[NSMutableArray alloc]init]];
-        [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer addObject:[[NSMutableArray alloc]init]];
-        [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer addObject:[[NSMutableArray alloc]init]];
-        
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            
-            [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:YES];
-            
-            [[NSRunLoop currentRunLoop] run];
-            
-            
-        });
-        
-        _counterOfSentDatesFromIPhoneAndL2pToServer=0;
-        
-        _notificationsList = [[NSMutableArray alloc]init];
-    
-  
-        
-    }
-    
-    return self;
+    [_delegatenotificationsView shakeGroupCreationActionRecieved:thegroupId];
 }
 
-- (void)timerFireMethod:(NSTimer *)timer{
+-(BOOL) existsEquivalentNotification :(Notification*)fetchedNotification
+{
+    for (Notification *notification in self.notificationsList)
+    {
+        if ([self compareNotification:notification isEqualNotification:fetchedNotification])
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(BOOL) compareNotification:(Notification *)firstNotification isEqualNotification:(Notification *)secondNotification{
     
+    if ((firstNotification.isGroupInvitationNotification == secondNotification.isGroupInvitationNotification) && (firstNotification.group.groupId== secondNotification.group.groupId) && ([firstNotification.senderName isEqualToString:secondNotification.senderName]) && ([firstNotification.meetingBeginningTime isEqual:secondNotification.meetingBeginningTime]) && ([firstNotification.meetingEndingTime isEqual:secondNotification.meetingEndingTime]))
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (NSString*) getUserEmail
+{
+    if ([_accountEmailAddress length] == 0)
+    {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        _accountEmailAddress = [defaults objectForKey:@"accountEmailAddress"];
+    }
+    return _accountEmailAddress;
+}
+
+- (NSString*) getNickname
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return[defaults objectForKey:@"accountNickName"];
+}
+
+- (void)updateAllDateTimerMethod:(NSTimer *)timer
+{
+    return ; //TODO: think about how to to this
     if(!_alreadySignedIn)
     {
         return;
     }
-    
-    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSCalendar *cal1 = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    
     if (YES) { //if there is shaking motion
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self GetFromServerPullData];
+            [self getFromServerPullData];
         });
     }
-    NSDateComponents *comp =[[NSDateComponents alloc] init];
-    [comp setYear:2010];
-    [comp setMonth:1];
-    [comp setDay:1];
-    [comp setHour:2];
-    [comp setMinute:15];
-    NSDate *startingDate =[cal dateFromComponents:comp];
-    
-    NSDateComponents *compEnd =[[NSDateComponents alloc] init];
-    [compEnd setYear:2015];
-    [compEnd setMonth:1];
-    [compEnd setDay:1];
-    [compEnd setHour:2];
-    [compEnd setMinute:15];
-    NSDate *endingDate =[cal1 dateFromComponents:compEnd];
     
     for(int i=0;i<[_groupsList count];i++)
     {
         Group* g = [_groupsList objectAtIndex:i];
         if(g.groupId!=0) //some groups are added in the grouplist but did not yet retieve their id
         {
-            [self fetchGroupSchedule:g fromTimeSlot:startingDate toTimeSlot:endingDate];
+            [self fetchGroupSchedule:g fromTimeSlot:[NSDate dateWithTimeIntervalSince1970:1259539200] toTimeSlot:[NSDate dateWithTimeIntervalSince1970:1417305600]];
         }
     }
-    
 }
 
-- (void) fetchNeededInformation
+-(void) memberAcceptedGroupInvitation:(Member *) memberThatAcceptedGroupInvitation
 {
-    _groupsList = [[NSMutableArray alloc]init];
-    NSLog(@"fetching froups");
-    NSDictionary* requestDictionary = @{@"action" : @"GetGroups",
-                                        @"username" : [self getUserEmail]};
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        int i = 0;
-        for (NSDictionary *dict in dictionary) {
-            NSLog(@"Dict: %@", dict);
-            NSDictionary * groups = [dict objectForKey:@"groups"];
-                // NSLog(@"Groups: %@", groups);
-                for (NSDictionary *group in groups) {
-                    NSNumber *groupID = [group objectForKey:@"groupID"];
-                    NSString *groupName = [group objectForKey:@"groupname"];
-                    NSLog(@"Group %@ with id %@", groupName, groupID);
-                    
-                    // create group object and add it to the list
-                    Group* g = [[Group alloc]initWithName:groupName andID:[groupID integerValue]];
-                    [_groupsList insertObject:g atIndex:i];
-                    i++;
-                }
-            
-        }
-        NSLog(@"%d groups received", i);
-    } errorHandler:nil];
-    
-
-    
-/*
-    Member *a = [[Member alloc]initWithName:@"Dil"];
-    Member *b = [[Member alloc]initWithName:@"Daimon"];
-    [g1 insertMember:a];
-    [g1 insertMember:b];
-    [_groupsList insertObject:g1 atIndex:0];
-     */
-
+    memberThatAcceptedGroupInvitation.hasAcceptedGroupInvitation=YES;
+    if ([_delegatenotificationsView respondsToSelector:@selector(memberAcceptRejectinGroupNotification)])
+    {
+        [_delegatenotificationsView memberAcceptRejectinGroupNotification];
+    }
 }
+
+#pragma theL2PIphone Begginig Calls
+
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status
+{
+    [(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0] addObject:startDate];
+    [(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1] addObject:endDate];
+    [(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2] addObject:[NSString stringWithFormat: @"%d", status]];
+}
+
+-(void) sendPrivateSchedule
+{
+    for(int i=0;i<[(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count];i++)
+    {
+        NSDate *startDate = (NSDate *) [(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0] objectAtIndex:i];
+        NSDate *endDate = (NSDate *) [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1] objectAtIndex:i];
+        int status = [(NSString *) [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2] objectAtIndex:i] intValue];
+        [self sendSlot:startDate toTimeSlot:endDate WithSlotStatus:status];
+    }
+}
+
+
+- (void)storeAccountInfoInUserDefaultsAndOnServer
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
+    [defaults setObject:_accountNickName forKey:@"accountNickName"];
+    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator
+    [self login];
+}
+
+
+#pragma Schedule Methods
+
+-(void)addDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
+{
+    [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
+    
+    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    [_userSlotsArray addObject:newSlot];
+}
+
+
+/*Specialized (per group) Schedule functions*/
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate andEndingAtDate:(NSDate *) endDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId
+{
+    while([endDate compare: startDate] == NSOrderedDescending)
+    {
+        [self addScheduleSlotStartingAtDate:startDate withSlotStatus:status withGroupId:groupId];
+        startDate = [startDate dateByAddingTimeInterval:+900]; //add 15minutes to the start date
+    }
+}
+
+/*Specialized (per group) Schedule functions*/
+- (void) addScheduleSlotStartingAtDate:(NSDate *) startDate withSlotStatus:(SlotStatus) status withGroupId:(NSInteger)groupId
+{
+    NSDateComponents *startDateComponents = [self getNSDateComponents:startDate];
+    
+    int weekday=[startDateComponents weekday]-2;
+    if(weekday==-1)
+    {
+        weekday = 6;
+    }
+    
+    [self addDateToMutableArrayWithWeekNumber: [startDateComponents weekOfYear] AndDay:weekday andStartingSlot:startDate  andSlotStatus:status andGroupId:groupId];
+}
+
+/*Specialized (per group) Schedule functions*/
+-(void)addDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber
+                                    AndDay:(Day) weekDay
+                           andStartingSlot: (NSDate *) startingSlot
+                            andSlotStatus :(SlotStatus) status
+                                andGroupId:(NSInteger)groupId
+{
+    [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
+    
+    Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
+    
+    NSMutableArray* groupSched = [self getGroupGivenGroupId:groupId].groupSchedule;
+    [groupSched addObject:newSlot];
+}
+
 
 #pragma mark -
-#pragma mark Group Handling methods
-- (NSArray *) GetGroupList
+#pragma mark Group Handling INTERNAL methods
+
+- (NSArray *) getGroupList
 {
     return _groupsList; //we do not have an instance of this class thats why we retrive properties this way
 }
 
+-(Group *) getGroupGivenGroupId:(NSInteger) theGroupId
+{
+    for(int i =0;i<[_groupsList count];i++)
+    {
+        Group* g =[_groupsList objectAtIndex:i];
+        if(g.groupId==theGroupId)
+        {
+            return g;
+        }
+    }
+    [NSException raise:@"Unrecognized Id" format:@"should never happen getGroupGivnGroupId"];
+    NSLog(@"should never happen getGroupGivnGroupId");
+    return nil;
+}
 
-
-- (Group *) GetGroupGivenName:(NSString *) groupName
+- (Group *) getGroupGivenName:(NSString *) groupName
 {
     for(int i=0;i<[_groupsList count];i++)
     {
@@ -329,80 +293,50 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return nil;
 }
 
-- (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) members
+- (void) addGroupInternally:(Group *) theGroup WithMembersEmails:(NSArray *) members
 {
+    return; //needs to be thought about
     for(int i=0;i<[members count];i++)
     {
         [theGroup insertMember: [[Member alloc] initWithEmail:[members objectAtIndex:i]]];
     }
     
     [_groupsList insertObject:theGroup atIndex:[_groupsList count]];//insert in last slot
-    
-    // add observer
-    [self addObserver:self forKeyPath:@"createdGroupID" options:NSKeyValueObservingOptionNew +
-     NSKeyValueObservingOptionOld context:nil];
-    // send to server
-    [self SendToServerAddGroup:theGroup WithMembersEmails:members];
-    }
+}
+
+
 
 // receive KVO notification
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    //not sure if we need such methods
     NSLog(@"kvo received: %@", keyPath);
     if([keyPath isEqualToString:@"createdGroupID"])
     {
-        NSNumber *groupID = [change objectForKey:@"new"];
+        //NSNumber *groupID = [change objectForKey:@"new"];
         // TODO: do whatever you want to do with this id
-    } else {
+    }
+    else
+    {
         NSLog(@"unknown kvo received: %@", keyPath);
-        for (id key in change) {
+        for (id key in change)
+        {
             NSLog(@"key: %@, value: %@ \n", key, [change objectForKey:key]);
         }
     }
+    /*
+     //[self addObserver:self forKeyPath:@"createdGroupID" options:NSKeyValueObservingOptionNew +
+     NSKeyValueObservingOptionOld context:nil];
+     */
 }
 
 
-- (NSArray *) GetGroupContacts: (NSInteger) groupId
-{
-    _groupMembers = [[NSMutableArray alloc]init];
-    NSLog(@"fetching members of group %D", groupId);
-    NSDictionary* requestDictionary = @{@"action" : @"GetGroupUsers",
-                                        @"username" : [self getUserEmail],
-                                        @"groupID" : [NSNumber numberWithInt:groupId]};
-    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        int i = 0;
-        for (NSDictionary *dict in dictionary) {
-            NSLog(@"Dict: %@", dict);
-            
-            NSDictionary * users = [dict objectForKey:@"users"];
-            NSLog(@"Users of group: %@", users);
-            for (NSDictionary *user in users) {
-                // NSNumber *userID = [user objectForKey:@"groupID"];
-                NSString *name = [user objectForKey:@"username"];
-                
-                // create group object and add it to the list
-                Member *m = [[Member alloc]initWithName: name];
-                [_groupMembers insertObject:m atIndex:i];
-                i++;
-            }
-            
-        }
-        NSLog(@"%d users for group received", i);
-    } errorHandler:nil];
-    
-    
-    // TODO: KIKO change groupIdentifier from array position to group Id
-    Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId];
-    return [theIdentifierGroup members];
-}
 
 #pragma mark -
 #pragma mark Recieiving Data From Server methods
 
 - (void) fetchGroupSchedule: (Group*) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    
-    
-    
+    //TODO : change after Yigit changes the last day bug
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
 
@@ -412,14 +346,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"start" : startDate,
                                         @"end" : endDate};
     
-    
-    
-    
-    
-    
-    NSMutableArray *startDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
-    NSMutableArray *endDates=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
-    NSMutableArray *statuses=(NSMutableArray *)[_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
+    NSMutableArray *startDates=(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
+    NSMutableArray *endDates=(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
+    NSMutableArray *statuses=(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
     int size = [startDates count];
     for(int i=0;i<100;i++)
     {
@@ -430,9 +359,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:status withGroupId:[group groupId]];
     }
     return;//TODO: REMOVE all this
-    
-    
-    
     
     
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
@@ -464,7 +390,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                         i++;
                         }
                     }
-                    
                 }
                 NSLog(@"%d groups received", i);
             } errorHandler:nil];
@@ -480,20 +405,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
  
  */
 
--(Group *) getGroupGivenGroupId:(NSInteger) theGroupId
-{
-    for(int i =0;i<[_groupsList count];i++)
-    {
-        Group* g =[_groupsList objectAtIndex:i];
-        if(g.groupId==theGroupId)
-        {
-            return g;
-        }
-    }
-    [NSException raise:@"Unrecognized Id" format:@"should never happen getGroupGivnGroupId"];
-    NSLog(@"should never happen getGroupGivnGroupId");
-    return nil;
-}
+
+
+#pragma Notification Handling 
 
 /**Receive Notification from server and concatinate it in the notifications list
  Expected from server isGroupInvitation = Yes => GroupInvitation, NO => MeetingInvitation
@@ -528,52 +442,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     }
 }
 
--(BOOL) existsEquivalentNotification :(Notification*)fetchedNotification
-{
-    for (Notification *notification in self.notificationsList)
-    {
-        if ([self compareNotification:notification isEqualNotification:fetchedNotification])
-        {
-            return YES;
-        }
-    }
-    return NO;
-}
-
--(BOOL) compareNotification:(Notification *)firstNotification isEqualNotification:(Notification *)secondNotification{
-    
-    if ((firstNotification.isGroupInvitationNotification == secondNotification.isGroupInvitationNotification) && (firstNotification.group.groupId== secondNotification.group.groupId) && ([firstNotification.senderName isEqualToString:secondNotification.senderName]) && ([firstNotification.meetingBeginningTime isEqual:secondNotification.meetingBeginningTime]) && ([firstNotification.meetingEndingTime isEqual:secondNotification.meetingEndingTime])) {
-        return YES;
-    }
-    else {
-        return NO;
-    }
- }
-
-- (void)storeAccountInfoInUserDefaultsAndOnServer
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
-    [defaults setObject:_accountNickName forKey:@"accountNickName"];
-    [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator
-    [self SendToServerLogin];
-    
-}
-
-- (NSString*) getUserEmail
-{
-    if ([_accountEmailAddress length] == 0) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        _accountEmailAddress = [defaults objectForKey:@"accountEmailAddress"];
-    }
-    return _accountEmailAddress;
-}
-
-- (NSString*) getNickname
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return[defaults objectForKey:@"accountNickName"];
-}
 
 /*
  * handles all notfication messages recieved from the server
@@ -583,19 +451,16 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     if(YES) // member accepted Group
     {
         Member *theFetchedMember=[[Member alloc]init];
-            [self MemberAcceptedGroupInvitation:theFetchedMember];
+            [self memberAcceptedGroupInvitation:theFetchedMember];
     }
     if(YES) // member declined Group
     {
             // TODO: We need to think of this a little about ... (probelm woth multple group names..)
             NSString *emailOfMember = @"theDeclinedMembersEmail";
             NSString *theGroupName =@"theGroupName";
-            Group *g = [self GetGroupGivenName:theGroupName];
+            Group *g = [self getGroupGivenName:theGroupName];
             [g removeMemberWithEmail:emailOfMember];
     }
-        
-        
-        
         // here the situation is that you get a notification in one of the add group or add contact view.
         // in thoose views you do not have a notification icon as designed
         // The question was if we need to generate a kind of alert to the user that something is recieved
@@ -604,302 +469,317 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         // views(Views containg the notification icon)
 }
 
--(void)GetRecieveShakeMessageFromServer
+
+
+
+
+
+#pragma Server HTTP Requests
+
+//this clang diagnostic pragma is to ignore the warning about the selector causing a leak
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
+- (void) sendToServerTemplate : (NSDictionary *) jsonArguments WithHandler:(SEL) selectorToCall usingHTTPResultInHandler: (BOOL) useResult WithObjectToHandler:(NSObject*) handlerObject WithBeforeLogMessage:(NSString *) beforeLog WithAfterLogMessage:(NSString *) afterLog
 {
-    NSLog(@"Pulling data from server");
-    NSDictionary* requestDictionary = @{@"action" : @"PullData",
-                                        @"username" : [self getUserEmail],
-                                        @"getShakeInfo" : @1};
-    
-    // add observer
-    [self addObserver:self forKeyPath:@"createdGroupID" options:NSKeyValueObservingOptionNew +
-     NSKeyValueObservingOptionOld context:nil];
-    
-    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Pulles shake result: %@", dictionary);
-        
-        for (NSDictionary *dict in dictionary)
-        {
-            // will be something like
-            // [{"shakeInfo":{"groupID":"66","groupname":"New Group"}}]
-            NSDictionary * info = [dict objectForKey:@"shakeInfo"];
-            createdGroupID = [[info objectForKey:@"groupID"] integerValue];
-            NSString *groupName = [info objectForKey:@"groupname"];
-            [self navigateToScheduleView:createdGroupID andGroupName:groupName];
-        }
-    } errorHandler:nil];
-}
-
-
-#pragma mark -
-#pragma mark Sending Data From Server methods
-
-
--(void)SendToServerShakeLocation:(CLLocation *)location
-{
-    NSLog(@"sending shake action to server");
-    
-    CLLocationCoordinate2D coord = [location coordinate];
-    
-    NSDictionary* requestDictionary = @{@"action" : @"Shake",
-                                        @"username" : [self getUserEmail],
-                                        @"latitude" : [NSNumber numberWithDouble:coord.latitude],
-                                        @"longitude" : [NSNumber numberWithDouble:coord.longitude]};
-    
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
+    NSLog(@"%@",beforeLog);
+    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:jsonArguments completionHandler:^(NSDictionary* dictionary)
             {
-                NSLog(@"Shake sent: %@", dictionary);
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    
-                    
-                    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(GetRecieveShakeMessageFromServer) userInfo:nil repeats:NO];
-                    
-                    [[NSRunLoop currentRunLoop] run];
-                    
-                    
-                });
+                NSLog(@"%@",afterLog);
+                if(useResult && handlerObject != nil)
+                {
+                    [self performSelector:selectorToCall withObject:dictionary withObject:handlerObject];
+                }
+                else if(useResult)
+                {
+                    [self performSelector:selectorToCall withObject:dictionary];
+                }
+                else
+                {
+                    [self performSelector:selectorToCall withObject:handlerObject];
+                }
             } errorHandler:nil];
 }
 
+#pragma clang diagnostic warning "-Warc-performSelector-leaks"
 
--(void)navigateToScheduleView:(NSInteger) thegroupId andGroupName:(NSString*) groupName
+- (void) acceptGroupRequest:(NSInteger) groupId;
 {
-    [_delegatenotificationsView shakeGroupCreationActionRecieved:thegroupId];
+    NSDictionary* requestDictionary = @{@"action"   : @"AcceptInvitation",
+                                        @"username" : [self getUserEmail],
+                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)groupId]};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Accepting group request %ld", (long)groupId] WithAfterLogMessage:[NSString stringWithFormat:@"Accepted group request %@", requestDictionary]];
 }
 
 
 
-/**
- this method creates a new group in server.
- */
--(void)SendToServerAddGroup:(Group *)group WithMembersEmails:(NSArray *) members
+- (void) addMemberWithEmail:(NSString *)memberEmail inGroup:(NSInteger) theGroupId
 {
-    NSLog(@"creating group %@ with %lu members", [group name], (unsigned long)[members count]);
+    NSDictionary* requestDictionary = @{@"action"   : @"AddGroupUser",
+                                        @"username" : memberEmail,
+                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)theGroupId],
+                                        @"adder"    : [self getUserEmail]};
     
+    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Adding user %@ to group %ld", memberEmail, (long)theGroupId] WithAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
+}
+
+-(void)addGroup:(Group *)group WithMembersEmails:(NSArray *) members
+{
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
                                         @"username" : [self getUserEmail],
                                         @"groupname" : [group name]};
     
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
-    {
-        for (NSDictionary *dict in dictionary)
-        {
-            NSNumber *groupID = [dict objectForKey:@"groupID"];
-            group.groupId=[groupID intValue];
-            
-            // add Members:
-            for (NSString *email in members) {
-                //
-                [self SendToServerAddMemberEmail:email inGroup:[groupID intValue]];
-            }
-        }
-    } errorHandler:nil];
-    
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(addGroupHandler:withArrayContainingMembersAndGroup:) usingHTTPResultInHandler:YES WithObjectToHandler:@[members,group] WithBeforeLogMessage:[NSString stringWithFormat:@"Creating group %@ with %lu members", [group name], (unsigned long)[members count]] WithAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
 }
 
-
--(void)SendToServerAddMemberEmail:(NSString *)memberEmail inGroup:(NSInteger) theGroupId
+- (void) createMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    NSLog(@"Adding user %@ to group %ld", memberEmail, (long)theGroupId);
-    NSString *groupIdString = [NSString stringWithFormat: @"%d", theGroupId];
-    NSString *myEmail = [self getUserEmail];
-    NSDictionary* requestDictionary = @{@"action" : @"AddGroupUser",
-                                        @"username" : memberEmail,
-                                        @"groupID" : groupIdString,
-                                        @"adder" :myEmail };
-    NSLog(@"Request: %@", requestDictionary);
-    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"User added: %@", dictionary);
-        
-        for (NSDictionary *dict in dictionary)
-        {
-            // TODO: do anything with the response...
-        }
-    } errorHandler:nil];
+    NSDictionary* requestDictionary = @{@"action"   : @"SetAppointment",
+                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)group.groupId],
+                                        @"start"    : [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]],
+                                        @"end"      : [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]]};
     
+    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Setting Appointment for group  %ld", (long)[group groupId]] WithAfterLogMessage:@""];
 }
 
--(void)SendToServerRemoveGroup:(Group *)group
+- (void) fetchGroups
 {
-    NSLog(@"Removing group %@", [group name]);    
-    NSDictionary* requestDictionary = @{@"action" : @"RemoveGroup",
+    _groupsList = [[NSMutableArray alloc]init]; //TODO this either should be changed or should be done in the whole app
+    NSDictionary* requestDictionary = @{@"action"   : @"GetGroups",
                                         @"username" : [self getUserEmail]};
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Group removed: %@", dictionary);
-    } errorHandler:nil];
-}
-
-- (void) SendToServerAcceptGroupRequestGivenGroupId:(NSInteger) groupId;
-{
-    NSString *groupIdString = [NSString stringWithFormat: @"%d", groupId];
-    NSLog(@"Accepting group request %ld", (long)groupId);
-    NSDictionary* requestDictionary = @{@"action" : @"AcceptInvitation",
-                                        @"username" : [self getUserEmail],
-                                        @"groupID" : groupIdString};
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Invitation accepted: %@", dictionary);
-    } errorHandler:nil];
-    //- **action=AcceptInvitation&username=<username>&groupID=<groupID>**
-}
-
--(void) SendToServerRejectGroupRequest:(Group *) group
-{
-    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
-    NSLog(@"Rejecting group request %@", [group name]);
-    NSDictionary* requestDictionary = @{@"action" : @"RejectInvitation",
-                                        @"username" : [self getUserEmail],
-                                        @"groupID" : groupIdString};
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Invitation accepted: %@", dictionary);
-    } errorHandler:nil];
-    //- **action=RejectInvitation&username=<username>&groupID=<groupID>**
-}
-
-
-//- **action=SetAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
-
--(void)SendToServerCreateMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
-{
-    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
-    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
-    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
-    NSLog(@"Rejecting group request %@", [group name]);
-    NSDictionary* requestDictionary = @{@"action" : @"SetAppointment",
-                                        @"groupID" : groupIdString,
-                                        @"start" : startDate,
-                                        @"end" : endDate};
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Invitation accepted: %@", dictionary);
-    } errorHandler:nil];
-}
-
-
--(void)SendToServerRejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
-{
-    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
-    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
-    NSString *groupIdString = [NSString stringWithFormat: @"%d", group.groupId];
-    NSLog(@"Rejecting group request %@", [group name]);
-    NSDictionary* requestDictionary = @{@"action" : @"DeleteAppointment",
-                                        @"username" : _accountEmailAddress,
-                                        @"groupID" : groupIdString,
-                                        @"start" : startDate,
-                                        @"end" : endDate};
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Invitation accepted: %@", dictionary);
-    } errorHandler:nil];
-    //- **action=DeleteAppointment&groupID=<groupID>&start=<unix_timestamp>&end=<unix_timestamp>**
-}
-
-
--(void)SendToServerSendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot isAvailable: (SlotStatus) slotStatus
-{
-    NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
-    NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
     
-    NSDictionary* requestDictionary;
-    if (slotStatus == SlotStateFree) {
-        requestDictionary = @{@"action" : @"SetAvailable",
-                                        @"username" : [self getUserEmail],
-                                        @"start" : startDate,
-                                        @"end" : endDate};
-    } else if(slotStatus == SlotStateBusy) {
-        requestDictionary = @{@"action" : @"SetBusy",
-                              @"username" : [self getUserEmail],
-                              @"start" : startDate,
-                              @"end" : endDate};
-    }
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
-    {
-        _counterOfSentDatesFromIPhoneAndL2pToServer++;
-        NSMutableArray *startDatesOfIphoneAndL2p = [_savedIphoneAndL2pEventsTosendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
-        if(_counterOfSentDatesFromIPhoneAndL2pToServer == [startDatesOfIphoneAndL2p count] )
-        {
-            [self fetchNeededInformation];
-            _alreadySignedIn=YES;
-            [self timerFireMethod:Nil];
-        }
-        NSLog(@"Appointment set: %@", dictionary);
-    } errorHandler:nil];
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(fetchGroupHandler:) usingHTTPResultInHandler:YES  WithObjectToHandler:nil WithBeforeLogMessage:@"Fetching Groups" WithAfterLogMessage:@"Groups received"];
 }
 
-/**
+- (void) getFromServerPullData
+{
+    NSDictionary* requestDictionary = @{@"action"   : @"PullData",
+                                        @"username" : [self getUserEmail]};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(pullDataHanlder:) usingHTTPResultInHandler:YES  WithObjectToHandler:nil WithBeforeLogMessage:@"Pulling data from server" WithAfterLogMessage:[NSString stringWithFormat:@"Data pulled from server"]];
+}
+
+/*
  logs in with email.
- Make shure that account information was stored before!
  */
--(void)SendToServerLogin
+- (void) login
 {
-    NSLog(@"logging in %@", [self getUserEmail]);
-    NSDictionary* requestDictionary = @{@"action" : @"Login",
+    NSDictionary* requestDictionary = @{@"action"   : @"Login",
                                         @"username" : [self getUserEmail]};
-    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Login completed with dictionary: %@", dictionary);
-        [self SendToServerSetNickName];
     
-    } errorHandler:nil];
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(setNickName) usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"logging in %@", [self getUserEmail]] WithAfterLogMessage:[NSString stringWithFormat:@"Login completed with dictionary: %@", requestDictionary]];
 }
 
--(void) SendToServerSetNickName
+- (void) removeGroup:(Group *)group
 {
-    NSLog(@"Sending nickname %@", [self getNickname]);
-    NSDictionary* requestDictionary = @{@"action" : @"SetNickname",
+    NSDictionary* requestDictionary = @{@"action"   : @"RemoveGroup",
+                                        @"username" : [self getUserEmail]};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Removing a group %ld", (long)group.groupId] WithAfterLogMessage:[NSString stringWithFormat:@"Group removed: %@", requestDictionary]];
+}
+
+- (void) rejectGroupRequest:(Group *) group
+{
+    NSDictionary* requestDictionary = @{@"action"   : @"RejectInvitation",
+                                        @"username" : [self getUserEmail],
+                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)group.groupId]};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] WithAfterLogMessage:[NSString stringWithFormat:@"Rejected group request %@", [group name]]];
+}
+
+- (void) rejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+{
+    NSDictionary* requestDictionary = @{@"action"   : @"DeleteAppointment",
+                                        @"username" : _accountEmailAddress,
+                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)group.groupId],
+                                        @"start"    : [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]],
+                                        @"end"      : [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]]};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] WithAfterLogMessage:[NSString stringWithFormat:@"Group Meeting rejected. %@", requestDictionary]];
+}
+
+- (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus
+{
+    NSString *action = slotStatus==SlotStateFree ? @"SetAvailable" : @"SetBusy" ;
+    NSDictionary* requestDictionary = @{@"action"   : action,
+                                        @"username" : [self getUserEmail],
+                                        @"start"    : [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]],
+                                        @"end"      : [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]]};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(sendSlotHandler) usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:@"" WithAfterLogMessage:[NSString stringWithFormat:@"Appointment set: %@", requestDictionary]];
+}
+
+- (void) setNickName
+{
+    NSDictionary* requestDictionary = @{@"action"   : @"Login",
                                         @"username" : [self getUserEmail],
                                         @"nickname" : [self getNickname]};
-    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Nickname sent: %@", dictionary);
-        [self SendScheduleToOurServerOnlyCalledOnce];
-        
-    } errorHandler:nil];
-}
-
-- (void) GetFromServerPullData {
-    NSLog(@"Pulling data from server");
-    NSDictionary* requestDictionary = @{@"action" : @"PullData",
-                                        @"username" : [self getUserEmail]};
     
-    (void)  [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary) {
-        NSLog(@"Pull Result: %@", dictionary);
-        
-        for (NSDictionary *dict in dictionary)
-        {
-            NSDictionary * invites = [dict objectForKey:@"invites"];
-            for (NSDictionary *invite in invites) {
-                NSLog(@"Got invite");
-                NSNumber *groupID = [invite objectForKey:@"groupID"];
-                NSString *senderName = [invite objectForKey:@"senderUsername"];
-                NSString *groupName = [invite objectForKey:@"groupname"];
-                
-                NSDate *date;
-                [self didReceiveFromServerRequestNotificationWithType:YES group:[groupID integerValue] sender:senderName beginsAt:date endsAt:date groupName:groupName senderNickName:senderName];
-            }
-            
-            NSDictionary * appointments = [dict objectForKey:@"invites"];
-            for (NSDictionary *app in appointments) {
-                NSLog(@"Got appointment");
-                NSNumber *groupID = [app objectForKey:@"groupID"];
-                NSString *senderName = [app objectForKey:@"senderUsername"];
-                
-                NSTimeInterval intStart=[[app objectForKey:@"start"] doubleValue];
-                NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
-
-                NSTimeInterval intEnd =[[app objectForKey:@"end"] doubleValue];
-                NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
-                
-                [self didReceiveFromServerRequestNotificationWithType:NO group:[groupID integerValue] sender:senderName beginsAt:startDate endsAt:endDate groupName:@"" senderNickName:@""];
-            }
-        }
-
-        
-    } errorHandler:nil];
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(sendPrivateSchedule) usingHTTPResultInHandler:NO  WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Sending Nickname %@", [self getNickname]] WithAfterLogMessage:[NSString stringWithFormat:@"Nickname sent: %@", requestDictionary]];
 }
 
--(void) MemberAcceptedGroupInvitation:(Member *) memberThatAcceptedGroupInvitation
+-(void) setShakelocation:(CLLocation *)location
 {
-    memberThatAcceptedGroupInvitation.hasAcceptedGroupInvitation=YES;
-    if ([_delegatenotificationsView respondsToSelector:@selector(memberAcceptRejectinGroupNotification)])
+    NSDictionary* requestDictionary = @{@"action"   : @"Shake",
+                                        @"username" : [self getUserEmail],
+                                        @"latitude" : [NSNumber numberWithDouble:[location coordinate].latitude],
+                                        @"longitude": [NSNumber numberWithDouble:[location coordinate].longitude]};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(shakeLocationHandler:) usingHTTPResultInHandler:YES WithObjectToHandler:nil WithBeforeLogMessage:@"sending shake action to server" WithAfterLogMessage:@""];
+}
+
+-(void)getShakeMessageFromServer
+{
+    NSDictionary* requestDictionary = @{@"action"   : @"PullData",
+                                        @"username" : [self getUserEmail],
+                                        @"getShakeInfo" : @1};
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(getShakeMessageFromServerHandler:) usingHTTPResultInHandler:YES WithObjectToHandler:nil WithBeforeLogMessage:@"Pulling Shake info from server" WithAfterLogMessage:@""];
+    
+}
+
+- (NSArray *) getGroupContacts: (NSInteger) groupId
+{
+    NSDictionary* requestDictionary = @{@"action"   : @"GetGroupUsers",
+                                        @"username" : [self getUserEmail],
+                                        @"groupID"  : [NSNumber numberWithInt:groupId]};
+    _groupMembers = [[NSMutableArray alloc]init];//TODO: proabbly change
+    
+    [self sendToServerTemplate:requestDictionary WithHandler:@selector(getGroupHandler:) usingHTTPResultInHandler:YES WithObjectToHandler:nil WithBeforeLogMessage:@"Fetching group members" WithAfterLogMessage:@""];
+    
+    
+    // TODO: KIKO change groupIdentifier from array position to group Id
+    Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId]; // TODO: check what this does
+    return [theIdentifierGroup members];
+}
+
+#pragma Method Calls Handler
+
+- (void) sendSlotHandler
+{
+    [self fetchGroups];
+    _alreadySignedIn=YES;
+    [self updateAllDateTimerMethod:Nil];
+}
+
+-(void) pullDataHanlder :(NSDictionary *) dictionary
+{
+    for (NSDictionary *dict in dictionary)
     {
-        [_delegatenotificationsView memberAcceptRejectinGroupNotification];
+        NSDictionary * invites = [dict objectForKey:@"invites"];
+        for (NSDictionary *invite in invites)
+        {
+            NSLog(@"Got invite");
+            NSNumber *groupID = [invite objectForKey:@"groupID"];
+            NSString *senderName = [invite objectForKey:@"senderUsername"];
+            NSString *groupName = [invite objectForKey:@"groupname"];
+            
+            NSDate *date;
+            [self didReceiveFromServerRequestNotificationWithType:YES group:[groupID integerValue] sender:senderName beginsAt:date endsAt:date groupName:groupName senderNickName:senderName];
+        }
+        
+        NSDictionary * appointments = [dict objectForKey:@"invites"];
+        for (NSDictionary *app in appointments)
+        {
+            NSLog(@"Got appointment");
+            NSNumber *groupID = [app objectForKey:@"groupID"];
+            NSString *senderName = [app objectForKey:@"senderUsername"];
+            
+            NSTimeInterval intStart=[[app objectForKey:@"start"] doubleValue];
+            NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
+            
+            NSTimeInterval intEnd =[[app objectForKey:@"end"] doubleValue];
+            NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
+            
+            [self didReceiveFromServerRequestNotificationWithType:NO group:[groupID integerValue] sender:senderName beginsAt:startDate endsAt:endDate groupName:@"" senderNickName:@""];
+        }
     }
 }
+
+
+- (void)fetchGroupHandler:(NSDictionary *) dictionary
+{
+    int i = 0;
+    for (NSDictionary *dict in dictionary)
+    {
+        NSLog(@"Dict: %@", dict);
+        NSDictionary * groups = [dict objectForKey:@"groups"];
+        for (NSDictionary *group in groups)
+        {
+            NSNumber *groupID = [group objectForKey:@"groupID"];
+            NSString *groupName = [group objectForKey:@"groupname"];
+            
+            NSLog(@"Group %@ with id %@", groupName, groupID);
+            
+            Group* g = [[Group alloc]initWithName:groupName andID:[groupID integerValue]];
+            [_groupsList insertObject:g atIndex:i];
+            i++;
+        }
+    }
+}
+
+
+-(void) shakeLocationHandler:(NSDictionary *) dictionary
+{
+    NSLog(@"Shake sent: %@", dictionary);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(getShakeMessageFromServer) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] run];
+    });
+}
+
+
+
+-(void) addGroupHandler :(NSDictionary *) dictionary withArrayContainingMembersAndGroup:(NSArray *) membersAndGroup
+{
+    Group *group = [membersAndGroup objectAtIndex:0];
+    NSArray *members = [membersAndGroup objectAtIndex:1];
+    for (NSDictionary *dict in dictionary)
+    {
+        NSNumber *groupID = [dict objectForKey:@"groupID"];
+        group.groupId=[groupID intValue];
+        
+        for (NSString *email in members)
+        {
+            [self addMemberWithEmail:email inGroup:[groupID intValue]];
+        }
+    }
+}
+
+- (void)getShakeMessageFromServerHandler:(NSDictionary *) dictionary
+{
+    for (NSDictionary *dict in dictionary)
+    {
+        // will be something like
+        // [{"shakeInfo":{"groupID":"66","groupname":"New Group"}}]
+        NSDictionary * info = [dict objectForKey:@"shakeInfo"];
+        createdGroupID = [[info objectForKey:@"groupID"] integerValue];
+        NSString *groupName = [info objectForKey:@"groupname"];
+        [self navigateToScheduleView:createdGroupID andGroupName:groupName];
+    }
+}
+
+-(void) getGroupHandler :(NSDictionary *) dictionary
+{
+    int i = 0;
+    for (NSDictionary *dict in dictionary)
+    {
+        NSLog(@"Dict: %@", dict);
+        
+        NSDictionary * users = [dict objectForKey:@"users"];
+        NSLog(@"Users of group: %@", users);
+        for (NSDictionary *user in users)
+        {
+            // NSNumber *userID = [user objectForKey:@"groupID"];
+            NSString *name = [user objectForKey:@"username"];
+            
+            // create group object and add it to the list
+            Member *m = [[Member alloc]initWithName: name];
+            [_groupMembers insertObject:m atIndex:i];
+            i++;
+        }
+    }
+}
+
 
 @end

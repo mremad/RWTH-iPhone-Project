@@ -115,7 +115,7 @@
 
         if (notificationChosen.isGroupInvitationNotification) {
             
-            [[ServerConnection sharedServerConnection] SendToServerAcceptGroupRequestGivenGroupId:notificationChosen.groupId];
+            [[ServerConnection sharedServerConnection] acceptGroupRequest:notificationChosen.groupId];
         }
         else{
 //            [[ServerConnection sharedServerConnection] SendToServerAcceptMeeting:<#(Group *)#> fromTimeSlot:<#(NSDate *)#>];
@@ -125,10 +125,10 @@
          NSLog(@"Decline");
 
         if (notificationChosen.isGroupInvitationNotification) {
-            [[ServerConnection sharedServerConnection] SendToServerRejectGroupRequest:notificationChosen.group];
+            [[ServerConnection sharedServerConnection] rejectGroupRequest:notificationChosen.group];
         }
         else{
-           [[ServerConnection sharedServerConnection] SendToServerRejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
+           [[ServerConnection sharedServerConnection] RejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
         }
     }
 }

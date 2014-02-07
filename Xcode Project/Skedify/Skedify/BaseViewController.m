@@ -62,7 +62,7 @@
             // Put in code here to handle shake
             location = [self getLocation];
             if (location != nil) {
-                [[ServerConnection sharedServerConnection] SendToServerShakeLocation:location];
+                [[ServerConnection sharedServerConnection] setShakelocation:location];
             }
             
             //Testing Location
