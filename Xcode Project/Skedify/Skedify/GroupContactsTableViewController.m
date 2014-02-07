@@ -60,12 +60,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[ServerConnection sharedServerConnection] GetGroupContacts:_groupId] count ];
+    return [[[ServerConnection sharedServerConnection] getGroupContacts:_groupId] count ];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupId]  objectAtIndex:indexPath.row];
+    Member *theContact=[[[ServerConnection sharedServerConnection] getGroupContacts:_groupId]  objectAtIndex:indexPath.row];
     theContact.hasAcceptedGroupInvitation=YES;
     
   [_membersTableView reloadData]; //TODO remove the complete method ..leave it for now..
@@ -76,7 +76,7 @@
 {
     NSString *CellIdentifier = @"GroupContactsCell"; //also written in StoryBoard
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    Member *theContact=[[[ServerConnection sharedServerConnection] GetGroupContacts:_groupId]  objectAtIndex:indexPath.row];
+    Member *theContact=[[[ServerConnection sharedServerConnection] getGroupContacts:_groupId]  objectAtIndex:indexPath.row];
     NSString *contactName =[theContact getStrongestIdentifier];
    if (cell == nil||[cell.contentView.subviews count]==0) //[cell.contentView.subviews count]==0) solving weird bug where executution find a cell with this identifier which does not own a nameLabel
    {

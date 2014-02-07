@@ -479,7 +479,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 //this clang diagnostic pragma is to ignore the warning about the selector causing a leak
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 
-- (void) sendToServerTemplate : (NSDictionary *) jsonArguments WithHandler:(SEL) selectorToCall usingHTTPResultInHandler: (BOOL) useResult WithObjectToHandler:(NSObject*) handlerObject WithBeforeLogMessage:(NSString *) beforeLog WithAfterLogMessage:(NSString *) afterLog
+- (void) sendToServerTemplate : (NSDictionary *) jsonArguments withHandler:(SEL) selectorToCall usingHTTPResultInHandler: (BOOL) useResult withObjectToHandler:(NSObject*) handlerObject withBeforeLogMessage:(NSString *) beforeLog withAfterLogMessage:(NSString *) afterLog
 {
     NSLog(@"%@",beforeLog);
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:jsonArguments completionHandler:^(NSDictionary* dictionary)
@@ -498,6 +498,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                     [self performSelector:selectorToCall withObject:handlerObject];
                 }
             } errorHandler:nil];
+    
 }
 
 #pragma clang diagnostic warning "-Warc-performSelector-leaks"
@@ -508,7 +509,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"username" : [self getUserEmail],
                                         @"groupID"  : [NSString stringWithFormat: @"%ld", (long)groupId]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Accepting group request %ld", (long)groupId] WithAfterLogMessage:[NSString stringWithFormat:@"Accepted group request %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Accepting group request %ld", (long)groupId] withAfterLogMessage:[NSString stringWithFormat:@"Accepted group request %@", requestDictionary]];
 }
 
 
@@ -520,7 +521,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"groupID"  : [NSString stringWithFormat: @"%ld", (long)theGroupId],
                                         @"adder"    : [self getUserEmail]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Adding user %@ to group %ld", memberEmail, (long)theGroupId] WithAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Adding user %@ to group %ld", memberEmail, (long)theGroupId] withAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
 }
 
 -(void)addGroup:(Group *)group WithMembersEmails:(NSArray *) members
@@ -529,7 +530,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"username" : [self getUserEmail],
                                         @"groupname" : [group name]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(addGroupHandler:withArrayContainingMembersAndGroup:) usingHTTPResultInHandler:YES WithObjectToHandler:@[members,group] WithBeforeLogMessage:[NSString stringWithFormat:@"Creating group %@ with %lu members", [group name], (unsigned long)[members count]] WithAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(addGroupHandler:withArrayContainingMembersAndGroup:) usingHTTPResultInHandler:YES withObjectToHandler:@[members,group] withBeforeLogMessage:[NSString stringWithFormat:@"Creating group %@ with %lu members", [group name], (unsigned long)[members count]] withAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
 }
 
 - (void) createMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
@@ -539,7 +540,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"start"    : [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]],
                                         @"end"      : [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Setting Appointment for group  %ld", (long)[group groupId]] WithAfterLogMessage:@""];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Setting Appointment for group  %ld", (long)[group groupId]] withAfterLogMessage:@""];
 }
 
 - (void) fetchGroups
@@ -548,7 +549,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     NSDictionary* requestDictionary = @{@"action"   : @"GetGroups",
                                         @"username" : [self getUserEmail]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(fetchGroupHandler:) usingHTTPResultInHandler:YES  WithObjectToHandler:nil WithBeforeLogMessage:@"Fetching Groups" WithAfterLogMessage:@"Groups received"];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(fetchGroupHandler:) usingHTTPResultInHandler:YES  withObjectToHandler:nil withBeforeLogMessage:@"Fetching Groups" withAfterLogMessage:@"Groups received"];
 }
 
 - (void) getFromServerPullData
@@ -556,7 +557,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     NSDictionary* requestDictionary = @{@"action"   : @"PullData",
                                         @"username" : [self getUserEmail]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(pullDataHanlder:) usingHTTPResultInHandler:YES  WithObjectToHandler:nil WithBeforeLogMessage:@"Pulling data from server" WithAfterLogMessage:[NSString stringWithFormat:@"Data pulled from server"]];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(pullDataHanlder:) usingHTTPResultInHandler:YES  withObjectToHandler:nil withBeforeLogMessage:@"Pulling data from server" withAfterLogMessage:[NSString stringWithFormat:@"Data pulled from server"]];
 }
 
 /*
@@ -567,7 +568,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     NSDictionary* requestDictionary = @{@"action"   : @"Login",
                                         @"username" : [self getUserEmail]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(setNickName) usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"logging in %@", [self getUserEmail]] WithAfterLogMessage:[NSString stringWithFormat:@"Login completed with dictionary: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(setNickName) usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"logging in %@", [self getUserEmail]] withAfterLogMessage:[NSString stringWithFormat:@"Login completed with dictionary: %@", requestDictionary]];
 }
 
 - (void) removeGroup:(Group *)group
@@ -575,7 +576,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     NSDictionary* requestDictionary = @{@"action"   : @"RemoveGroup",
                                         @"username" : [self getUserEmail]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Removing a group %ld", (long)group.groupId] WithAfterLogMessage:[NSString stringWithFormat:@"Group removed: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Removing a group %ld", (long)group.groupId] withAfterLogMessage:[NSString stringWithFormat:@"Group removed: %@", requestDictionary]];
 }
 
 - (void) rejectGroupRequest:(Group *) group
@@ -584,7 +585,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"username" : [self getUserEmail],
                                         @"groupID"  : [NSString stringWithFormat: @"%ld", (long)group.groupId]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] WithAfterLogMessage:[NSString stringWithFormat:@"Rejected group request %@", [group name]]];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] withAfterLogMessage:[NSString stringWithFormat:@"Rejected group request %@", [group name]]];
 }
 
 - (void) rejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
@@ -595,7 +596,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"start"    : [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]],
                                         @"end"      : [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:nil usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] WithAfterLogMessage:[NSString stringWithFormat:@"Group Meeting rejected. %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] withAfterLogMessage:[NSString stringWithFormat:@"Group Meeting rejected. %@", requestDictionary]];
 }
 
 - (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus
@@ -606,7 +607,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"start"    : [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]],
                                         @"end"      : [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(sendSlotHandler) usingHTTPResultInHandler:NO WithObjectToHandler:nil WithBeforeLogMessage:@"" WithAfterLogMessage:[NSString stringWithFormat:@"Appointment set: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(sendSlotHandler) usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:@"" withAfterLogMessage:[NSString stringWithFormat:@"Appointment set: %@", requestDictionary]];
 }
 
 - (void) setNickName
@@ -615,7 +616,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"username" : [self getUserEmail],
                                         @"nickname" : [self getNickname]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(sendPrivateSchedule) usingHTTPResultInHandler:NO  WithObjectToHandler:nil WithBeforeLogMessage:[NSString stringWithFormat:@"Sending Nickname %@", [self getNickname]] WithAfterLogMessage:[NSString stringWithFormat:@"Nickname sent: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(sendPrivateSchedule) usingHTTPResultInHandler:NO  withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Sending Nickname %@", [self getNickname]] withAfterLogMessage:[NSString stringWithFormat:@"Nickname sent: %@", requestDictionary]];
 }
 
 -(void) setShakelocation:(CLLocation *)location
@@ -625,7 +626,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"latitude" : [NSNumber numberWithDouble:[location coordinate].latitude],
                                         @"longitude": [NSNumber numberWithDouble:[location coordinate].longitude]};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(shakeLocationHandler:) usingHTTPResultInHandler:YES WithObjectToHandler:nil WithBeforeLogMessage:@"sending shake action to server" WithAfterLogMessage:@""];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(shakeLocationHandler:) usingHTTPResultInHandler:YES withObjectToHandler:nil withBeforeLogMessage:@"sending shake action to server" withAfterLogMessage:@""];
 }
 
 -(void)getShakeMessageFromServer
@@ -634,7 +635,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"username" : [self getUserEmail],
                                         @"getShakeInfo" : @1};
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(getShakeMessageFromServerHandler:) usingHTTPResultInHandler:YES WithObjectToHandler:nil WithBeforeLogMessage:@"Pulling Shake info from server" WithAfterLogMessage:@""];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(getShakeMessageFromServerHandler:) usingHTTPResultInHandler:YES withObjectToHandler:nil withBeforeLogMessage:@"Pulling Shake info from server" withAfterLogMessage:@""];
     
 }
 
@@ -645,7 +646,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"groupID"  : [NSNumber numberWithInt:groupId]};
     _groupMembers = [[NSMutableArray alloc]init];//TODO: proabbly change
     
-    [self sendToServerTemplate:requestDictionary WithHandler:@selector(getGroupHandler:) usingHTTPResultInHandler:YES WithObjectToHandler:nil WithBeforeLogMessage:@"Fetching group members" WithAfterLogMessage:@""];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(getGroupHandler:) usingHTTPResultInHandler:YES withObjectToHandler:nil withBeforeLogMessage:@"Fetching group members" withAfterLogMessage:@""];
     
     
     // TODO: KIKO change groupIdentifier from array position to group Id
@@ -696,7 +697,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     }
 }
 
-
 - (void)fetchGroupHandler:(NSDictionary *) dictionary
 {
     int i = 0;
@@ -718,7 +718,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     }
 }
 
-
 -(void) shakeLocationHandler:(NSDictionary *) dictionary
 {
     NSLog(@"Shake sent: %@", dictionary);
@@ -727,8 +726,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         [[NSRunLoop currentRunLoop] run];
     });
 }
-
-
 
 -(void) addGroupHandler :(NSDictionary *) dictionary withArrayContainingMembersAndGroup:(NSArray *) membersAndGroup
 {

@@ -128,7 +128,7 @@
             [[ServerConnection sharedServerConnection] rejectGroupRequest:notificationChosen.group];
         }
         else{
-           [[ServerConnection sharedServerConnection] RejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
+           [[ServerConnection sharedServerConnection] rejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
         }
     }
 }
