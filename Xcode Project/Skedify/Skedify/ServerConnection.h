@@ -21,6 +21,7 @@
 @optional
 - (void) notificationRecieved;
 - (void) memberAcceptRejectinGroupNotification;
+- (void) groupsRefreshed;
 @end
 @interface ServerConnection : NSObject
 {

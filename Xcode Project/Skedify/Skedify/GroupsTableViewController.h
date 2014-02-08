@@ -14,4 +14,6 @@
 #import "BaseTableViewController.h"
 @interface GroupsTableViewController : BaseTableViewController<UITextFieldDelegate>
 -(void)pushGroupMenuController;
+
+-(void)groupsRefreshed;
 @end

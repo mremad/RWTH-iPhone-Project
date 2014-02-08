@@ -56,10 +56,10 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         _counterOfSentDatesFromIPhoneAndL2pToServer=0;
         _notificationsList = [[NSMutableArray alloc]init];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(updateAllDateTimerMethod:) userInfo:nil repeats:YES];
-            [[NSRunLoop currentRunLoop] run];
-        });
+        //dispatch_async(dispatch_get_main_queue(), ^{
+          //  [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(updateAllDateTimerMethod:) userInfo:nil repeats:YES];
+           // [[NSRunLoop currentRunLoop] run];
+       // });
     }
     
     return self;
@@ -75,7 +75,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     // TODO: make sure the line above is removed
 }
 
--(NSDateComponents *)getNSDateComponents :(NSDate *) theDate
+-(NSDateComponents *) getNSDateComponents :(NSDate *) theDate
 {
     NSCalendar *gregorian = [[NSCalendar alloc]
                              initWithCalendarIdentifier:NSGregorianCalendar];
@@ -84,7 +84,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return components;
 }
 
--(void)logDate:(NSDate *) startingSlot andSlotStatus :(SlotStatus) status andweekDay:(Day) weekDay
+- (void) logDate:(NSDate *) startingSlot andSlotStatus :(SlotStatus) status andweekDay:(Day) weekDay
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
@@ -98,7 +98,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
           , theDate, theTime,status,weekDay);
 }
 
--(void)navigateToScheduleView:(NSInteger) thegroupId andGroupName:(NSString*) groupName
+- (void) navigateToScheduleView:(NSInteger) thegroupId andGroupName:(NSString*) groupName
 {
     [_delegatenotificationsView shakeGroupCreationActionRecieved:thegroupId];
 }
@@ -143,7 +143,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return[defaults objectForKey:@"accountNickName"];
 }
 
-- (void)updateAllDateTimerMethod:(NSTimer *)timer
+- (void) updateAllDateTimerMethod:(NSTimer *)timer
 {
     return ; //TODO: think about how to to this
     if(!_alreadySignedIn)
@@ -151,9 +151,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         return;
     }
     if (YES) { //if there is shaking motion
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self getFromServerPullData];
-        });
+       // dispatch_async(dispatch_get_main_queue(), ^{
+         //   [self getFromServerPullData];
+        //});
     }
     
     for(int i=0;i<[_groupsList count];i++)
@@ -185,7 +185,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 -(void) sendPrivateSchedule
-{
+{   //called once
+    _counterOfSentDatesFromIPhoneAndL2pToServer = [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count] ;
     for(int i=0;i<[(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count];i++)
     {
         NSDate *startDate = (NSDate *) [(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0] objectAtIndex:i];
@@ -196,7 +197,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 
-- (void)storeAccountInfoInUserDefaultsAndOnServer
+- (void) storeAccountInfoInUserDefaultsAndOnServer
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
@@ -208,7 +209,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 #pragma Schedule Methods
 
--(void)addDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
+- (void) addDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber AndDay :(Day) weekDay andStartingSlot: (NSDate *) startingSlot andSlotStatus :(SlotStatus) status
 {
     [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
     
@@ -242,7 +243,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 }
 
 /*Specialized (per group) Schedule functions*/
--(void)addDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber
+-(void) addDateToMutableArrayWithWeekNumber:(NSInteger)weekNumber
                                     AndDay:(Day) weekDay
                            andStartingSlot: (NSDate *) startingSlot
                             andSlotStatus :(SlotStatus) status
@@ -265,7 +266,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return _groupsList; //we do not have an instance of this class thats why we retrive properties this way
 }
 
--(Group *) getGroupGivenGroupId:(NSInteger) theGroupId
+- (Group *) getGroupGivenGroupId:(NSInteger) theGroupId
 {
     for(int i =0;i<[_groupsList count];i++)
     {
@@ -307,7 +308,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 
 // receive KVO notification
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     //not sure if we need such methods
     NSLog(@"kvo received: %@", keyPath);
     if([keyPath isEqualToString:@"createdGroupID"])
@@ -415,7 +416,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
  else if meeting invitation: group name, meeting beginning time and meeting ending time
  **/
 
--(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime groupName:(NSString *) groupName senderNickName:(NSString *) theSenderNick
+-(void) didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime groupName:(NSString *) groupName senderNickName:(NSString *) theSenderNick
 {
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
@@ -446,7 +447,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 /*
  * handles all notfication messages recieved from the server
  */
-- (void)didReceiveFromServerAcceptRejectNotification
+- (void) didReceiveFromServerAcceptRejectNotification
 {
     if(YES) // member accepted Group
     {
@@ -524,7 +525,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Adding user %@ to group %ld", memberEmail, (long)theGroupId] withAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
 }
 
--(void)addGroup:(Group *)group WithMembersEmails:(NSArray *) members
+-(void) addGroup:(Group *)group WithMembersEmails:(NSArray *) members
 {
     NSDictionary* requestDictionary = @{@"action" : @"AddGroup",
                                         @"username" : [self getUserEmail],
@@ -545,7 +546,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 - (void) fetchGroups
 {
-    _groupsList = [[NSMutableArray alloc]init]; //TODO this either should be changed or should be done in the whole app
     NSDictionary* requestDictionary = @{@"action"   : @"GetGroups",
                                         @"username" : [self getUserEmail]};
     
@@ -629,7 +629,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [self sendToServerTemplate:requestDictionary withHandler:@selector(shakeLocationHandler:) usingHTTPResultInHandler:YES withObjectToHandler:nil withBeforeLogMessage:@"sending shake action to server" withAfterLogMessage:@""];
 }
 
--(void)getShakeMessageFromServer
+-(void) getShakeMessageFromServer
 {
     NSDictionary* requestDictionary = @{@"action"   : @"PullData",
                                         @"username" : [self getUserEmail],
@@ -642,7 +642,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 - (NSArray *) getGroupContacts: (NSInteger) groupId
 {
     NSDictionary* requestDictionary = @{@"action"   : @"GetGroupUsers",
-                                        @"username" : [self getUserEmail],
+                                        @"username" : [self getUserEmail], //is not necesary theoritical
                                         @"groupID"  : [NSNumber numberWithInt:groupId]};
     _groupMembers = [[NSMutableArray alloc]init];//TODO: proabbly change
     
@@ -658,9 +658,16 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 - (void) sendSlotHandler
 {
-    [self fetchGroups];
-    _alreadySignedIn=YES;
-    [self updateAllDateTimerMethod:Nil];
+    //
+    
+    _counterOfSentDatesFromIPhoneAndL2pToServer--;
+    if(_counterOfSentDatesFromIPhoneAndL2pToServer==0)
+    {
+        _alreadySignedIn=YES;
+        [self fetchGroups];
+        [self updateAllDateTimerMethod:Nil];
+    }
+    //[self updateAllDateTimerMethod:Nil];
 }
 
 -(void) pullDataHanlder :(NSDictionary *) dictionary
@@ -697,8 +704,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     }
 }
 
-- (void)fetchGroupHandler:(NSDictionary *) dictionary
+- (void) fetchGroupHandler:(NSDictionary *) dictionary
 {
+    _groupsList = [[NSMutableArray alloc]init];
     int i = 0;
     for (NSDictionary *dict in dictionary)
     {
@@ -708,13 +716,17 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         {
             NSNumber *groupID = [group objectForKey:@"groupID"];
             NSString *groupName = [group objectForKey:@"groupname"];
-            
+            //TODO:add members here
             NSLog(@"Group %@ with id %@", groupName, groupID);
             
             Group* g = [[Group alloc]initWithName:groupName andID:[groupID integerValue]];
             [_groupsList insertObject:g atIndex:i];
             i++;
         }
+    }
+    if ([_delegatenotificationsView respondsToSelector:@selector(groupsRefreshed)])
+    {
+        [_delegatenotificationsView groupsRefreshed];
     }
 }
 
@@ -729,21 +741,22 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void) addGroupHandler :(NSDictionary *) dictionary withArrayContainingMembersAndGroup:(NSArray *) membersAndGroup
 {
-    Group *group = [membersAndGroup objectAtIndex:0];
-    NSArray *members = [membersAndGroup objectAtIndex:1];
+    [self fetchGroups]; //update All groups again here
+    
+    NSArray *members = [membersAndGroup objectAtIndex:0];
     for (NSDictionary *dict in dictionary)
     {
         NSNumber *groupID = [dict objectForKey:@"groupID"];
-        group.groupId=[groupID intValue];
-        
         for (NSString *email in members)
         {
             [self addMemberWithEmail:email inGroup:[groupID intValue]];
         }
     }
+    
+    [self fetchGroups];
 }
 
-- (void)getShakeMessageFromServerHandler:(NSDictionary *) dictionary
+- (void) getShakeMessageFromServerHandler:(NSDictionary *) dictionary
 {
     for (NSDictionary *dict in dictionary)
     {
@@ -762,7 +775,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     for (NSDictionary *dict in dictionary)
     {
         NSLog(@"Dict: %@", dict);
-        
         NSDictionary * users = [dict objectForKey:@"users"];
         NSLog(@"Users of group: %@", users);
         for (NSDictionary *user in users)

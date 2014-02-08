@@ -54,6 +54,12 @@
   
 }
 
+
+-(void)groupsRefreshed
+{
+     [self.tableView reloadData];
+}
+
 -(void)notificationRecieved
 {
     [super notificationRecieved];
