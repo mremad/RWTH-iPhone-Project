@@ -583,7 +583,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [self sendToServerTemplate:requestDictionary withHandler:@selector(shakeLocationHandler:) usingHTTPResultInHandler:YES withObjectToHandler:nil withBeforeLogMessage:@"sending shake action to server" withAfterLogMessage:@""];
 }
 
--(void) getShakeMessageFromServer
+-(void) getShakeMessageFromServer:(NSTimer *)timer
 {
     NSDictionary* requestDictionary = @{@"action"   : @"PullData",
                                         @"username" : [self getUserEmail],
@@ -692,10 +692,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 -(void) shakeLocationHandler:(NSDictionary *) dictionary
 {
     NSLog(@"Shake sent: %@", dictionary);
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+   
         [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(getShakeMessageFromServer) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] run];
-    });
 }
 
 -(void) addGroupHandler :(NSDictionary *) dictionary withArrayContainingMembersAndGroup:(NSArray *) membersAndGroup
@@ -720,8 +718,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         // will be something like
         // [{"shakeInfo":{"groupID":"66","groupname":"New Group"}}]
         NSDictionary * info = [dict objectForKey:@"shakeInfo"];
-        createdGroupID = [[info objectForKey:@"groupID"] integerValue];
+        NSInteger createdGroupID = [[info objectForKey:@"groupID"] integerValue];
         NSString *groupName = [info objectForKey:@"groupname"];
+        [self fetchGroups];
         [self navigateToScheduleView:createdGroupID andGroupName:groupName];
     }
 }

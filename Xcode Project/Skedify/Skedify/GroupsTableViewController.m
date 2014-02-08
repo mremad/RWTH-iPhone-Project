@@ -52,12 +52,6 @@
    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
--(void)notificationRecieved
-{
-    [super notificationRecieved];
-    [self.tableView reloadData];
-}
-
 
 - (void)didReceiveMemoryWarning
 {

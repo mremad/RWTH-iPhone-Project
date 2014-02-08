@@ -284,8 +284,6 @@
         [self addLocalNotification];
         
                });
-    
-    
 }
 
 -(void)shakeGroupCreationActionRecieved:(NSInteger) groupID

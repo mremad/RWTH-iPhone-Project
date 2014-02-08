@@ -26,8 +26,6 @@
 @end
 @interface ServerConnection : NSObject
 {
-  NSInteger createdGroupID;
-    
 }
 @property NSInteger createdGroupID;
 
