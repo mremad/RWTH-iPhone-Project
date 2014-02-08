@@ -61,7 +61,7 @@
 - (void) getFromServerPullData;
 - (void) fetchGroupMembers: (NSInteger) groupId;
 - (void) fetchGroups;
-
+-(void) renameGroup:(NSInteger)groupId WithNewName :(NSString *) newName;
 @property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer;
 
 

@@ -13,6 +13,7 @@
 - (IBAction)buttonDonePressed:(id)sender
 {
     [[ServerConnection sharedServerConnection] getGroupGivenGroupId:_groupId].name=[_textFieldGroupName text];
+    [[ServerConnection sharedServerConnection] renameGroup:_groupId WithNewName:[_textFieldGroupName text]];
      [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

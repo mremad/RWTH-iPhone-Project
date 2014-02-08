@@ -183,7 +183,7 @@
     groupsMenu.groupId=groupID;
     ScheduleViewController *sced = (ScheduleViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"ScheduleIdentifier"];
     
-    
+    sced.groupID=groupID;
     [baseNC popToViewController:groupMenu animated:NO];
     [baseNC pushViewController:groupsMenu animated:NO];
     [baseNC pushViewController:sced animated:YES];

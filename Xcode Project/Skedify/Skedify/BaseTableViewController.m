@@ -148,9 +148,10 @@
     if (event.subtype == UIEventSubtypeMotionShake)
     {
         CLLocation *location = [self getLocation];
-        if (location != nil) {
+        if (location != nil)
+        {
         
-        NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
+            NSDate *lastShakeDatePlusSomeSeconds =[[[ServerConnection sharedServerConnection] dateOfLastShakeGesture] dateByAddingTimeInterval:15];
         if ([lastShakeDatePlusSomeSeconds compare: [NSDate date]] == NSOrderedDescending)
         {
             return;
@@ -162,7 +163,8 @@
 
         // Put in code here to handle shake
         location = [self getLocation];
-        if (location != nil) {
+        if (location != nil)
+        {
             [[ServerConnection sharedServerConnection] setShakelocation:location];
         }
         
@@ -316,7 +318,7 @@
     GroupMenuTableViewController *groupsMenu = (GroupMenuTableViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"GroupMenuIdentifier"];
     groupsMenu.groupId=groupID;
     ScheduleViewController *sced = (ScheduleViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"ScheduleIdentifier"];
-    
+    sced.groupID=groupID;
     
     [baseNC popToViewController:groupMenu animated:NO];
     [baseNC pushViewController:groupsMenu animated:NO];
