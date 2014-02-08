@@ -55,8 +55,8 @@
 
 - (void) setShakelocation:(CLLocation *)location;
 - (void) acceptGroupRequest:(NSInteger) groupId;
-- (void) rejectGroupRequest:(Group *) group;
-- (void) rejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
+- (void) rejectGroupRequest:(NSInteger) grpId withGroupName:(NSString*) grpName;
+- (void) rejectMeeting:(NSInteger) grpId withGroupName:(NSString*) grpName fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
 - (void) createMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot;
 - (void) removeGroup:(Group *)group;
 - (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus;

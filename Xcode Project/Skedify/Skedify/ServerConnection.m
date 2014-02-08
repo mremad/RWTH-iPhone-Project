@@ -353,9 +353,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 {
     Notification *fetechedNotification = [[Notification alloc] init];
     fetechedNotification.isGroupInvitationNotification = isGroupInvitation;
-   // Group *g=[self getGroupGivenGroupId:groupId]; group not yet here
-    Group *g=nil;
-    fetechedNotification.group = g;
+//    Group *g=[self getGroupGivenGroupId:groupId]; group not yet here
+//    Group *g=nil;
+//    fetechedNotification.group = g;
     fetechedNotification.groupName = groupName;
     fetechedNotification.senderName = theSenderNick;
     fetechedNotification.meetingBeginningTime = beginTime;
@@ -533,24 +533,24 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Removing a group %ld", (long)group.groupId] withAfterLogMessage:[NSString stringWithFormat:@"Group removed: %@", requestDictionary]];
 }
 
-- (void) rejectGroupRequest:(Group *) group
+- (void) rejectGroupRequest:(NSInteger) grpId withGroupName:(NSString*) grpName
 {
     NSDictionary* requestDictionary = @{@"action"   : @"RejectInvitation",
                                         @"username" : [self getUserEmail],
-                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)group.groupId]};
+                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)grpId]};
     
-    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] withAfterLogMessage:[NSString stringWithFormat:@"Rejected group request %@", [group name]]];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", grpName] withAfterLogMessage:[NSString stringWithFormat:@"Rejected group request %@", grpName]];
 }
 
-- (void) rejectMeeting:(Group *) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
+- (void) rejectMeeting:(NSInteger) grpId withGroupName:(NSString*) grpName fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
     NSDictionary* requestDictionary = @{@"action"   : @"DeleteAppointment",
                                         @"username" : _accountEmailAddress,
-                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)group.groupId],
+                                        @"groupID"  : [NSString stringWithFormat: @"%ld", (long)grpId],
                                         @"start"    : [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]],
                                         @"end"      : [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]]};
     
-    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", [group name]] withAfterLogMessage:[NSString stringWithFormat:@"Group Meeting rejected. %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Rejecting group request %@", grpName] withAfterLogMessage:[NSString stringWithFormat:@"Group Meeting rejected. %@", requestDictionary]];
 }
 
 - (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus

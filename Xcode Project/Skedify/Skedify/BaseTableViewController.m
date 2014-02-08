@@ -19,6 +19,8 @@
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
     
+    UILocalNotification* localNotification;
+    
     int testingNotificationCounter;
 }
 
@@ -241,7 +243,8 @@
     
     if (self.notificationBadge != nil) {
     [self.notificationBadge removeFromSuperview];
-    testingNotificationCounter = 0;
+    localNotification.applicationIconBadgeNumber = 0;
+//    testingNotificationCounter = 0;
     }
 }
 
@@ -260,7 +263,7 @@
 -(void)addLocalNotification{
     
     //Add Local Notification scheduled to fire after 5 seconds
-    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+    localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     localNotification.alertBody = @"You have an invitation from Skedify";
     localNotification.timeZone = [NSTimeZone defaultTimeZone];

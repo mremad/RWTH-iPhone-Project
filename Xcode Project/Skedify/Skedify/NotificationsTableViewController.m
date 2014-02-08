@@ -79,10 +79,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     notificationChosen = [NotificationsTableData  objectAtIndex:indexPath.row];
+    UIAlertView *alert;
     NSString *alertMessage = @"You have received a ";
     
     if (notificationChosen.isGroupInvitationNotification) {
         alertMessage = [[[[[alertMessage stringByAppendingString:@"Group Invitation from "] stringByAppendingString:notificationChosen.senderName] stringByAppendingString:@", group name "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@"."];
+        
+        alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        [alert addButtonWithTitle:@"Accept"];
+        [alert addButtonWithTitle:@"Decline"];
     }
     else{
         
@@ -97,11 +102,11 @@
                                                               timeStyle:NSDateFormatterShortStyle];
         
         alertMessage = [[[[[[[[[alertMessage stringByAppendingString:@"Meeting Invitation for "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@". On: "] stringByAppendingString:date] stringByAppendingString:@". Begins at: "] stringByAppendingString:beginTime] stringByAppendingString:@" and Ends at: "] stringByAppendingString:endTime] stringByAppendingString:@"."];
+        alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        [alert addButtonWithTitle:@"Decline"];
     }
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-    // optional - add more buttons:
-    [alert addButtonWithTitle:@"Accept"];
-    [alert addButtonWithTitle:@"Decline"];
+    
+
     [alert show];
     
 }
@@ -111,24 +116,22 @@
         NSLog(@"Cancel");
     }
     else if (buttonIndex == 1){
-        NSLog(@"Accept");
+        NSLog(@"Accept Group or reject meeting");
 
         if (notificationChosen.isGroupInvitationNotification) {
             
             [[ServerConnection sharedServerConnection] acceptGroupRequest:notificationChosen.groupId];
         }
-        else{
-//            [[ServerConnection sharedServerConnection] SendToServerAcceptMeeting:<#(Group *)#> fromTimeSlot:<#(NSDate *)#>];
+        else{ //This a meeting rejection
+            
+            [[ServerConnection sharedServerConnection] rejectMeeting:notificationChosen.groupId withGroupName:notificationChosen.groupName fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
         }
     }
     else{
-         NSLog(@"Decline");
+         NSLog(@"Decline Group");
 
         if (notificationChosen.isGroupInvitationNotification) {
-            [[ServerConnection sharedServerConnection] rejectGroupRequest:notificationChosen.group];
-        }
-        else{
-           [[ServerConnection sharedServerConnection] rejectMeeting:notificationChosen.group fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
+            [[ServerConnection sharedServerConnection] rejectGroupRequest:notificationChosen.groupId withGroupName:notificationChosen.groupName];
         }
     }
 }
