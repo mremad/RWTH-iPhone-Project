@@ -186,6 +186,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void) sendPrivateSchedule
 {   //called once
+    
+    return; //To be removed
+    
     _counterOfSentDatesFromIPhoneAndL2pToServer = [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count] ;
     for(int i=0;i<[(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count];i++)
     {
@@ -741,7 +744,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void) addGroupHandler :(NSDictionary *) dictionary withArrayContainingMembersAndGroup:(NSArray *) membersAndGroup
 {
-    [self fetchGroups]; //update All groups again here
     
     NSArray *members = [membersAndGroup objectAtIndex:0];
     for (NSDictionary *dict in dictionary)

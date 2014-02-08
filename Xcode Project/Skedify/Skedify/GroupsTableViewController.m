@@ -36,7 +36,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
+    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -45,7 +45,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-     [self.tableView reloadData];
+    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
+    
+    [self.tableView reloadData];
 }
 
 
@@ -57,7 +59,7 @@
 
 -(void)groupsRefreshed
 {
-     [self.tableView reloadData];
+   [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 -(void)notificationRecieved
@@ -106,6 +108,9 @@
     {
         ((UILabel *)[cell.contentView.subviews objectAtIndex:0]).text = group.name;
     }
+    
+    
+    NSLog(@"CellRow: %d CellName: %@",indexPath.row,group.name);
     
     return cell;
 }
