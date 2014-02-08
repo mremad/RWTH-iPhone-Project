@@ -54,7 +54,10 @@
 - (IBAction)loginButtonPressed:(UIButton*)sender
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *accountEmail = [defaults objectForKey: @"accountEmailAddress"];
+  //  NSString *accountEmail = [defaults objectForKey: @"accountEmailAddress"];
+    NSString *accountEmail = [ServerConnection sharedServerConnection].accountEmailAddress;
+    
+    
     
     if(accountEmail==nil)
     {
@@ -63,6 +66,7 @@
     else
     {
         [self performSegueWithIdentifier:@"toGroupsDirectly" sender:sender];
+        [[ServerConnection sharedServerConnection] fetchGroups];
     }
     //[self saveCredentials:[_textFieldUserName text] withPass:[_textFieldPassword text]];
     

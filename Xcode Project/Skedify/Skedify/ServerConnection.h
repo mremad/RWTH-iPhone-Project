@@ -62,6 +62,7 @@
 - (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus;
 - (void) getFromServerPullData;
 - (void) fetchGroupMembers: (NSInteger) groupId;
+- (void) fetchGroups;
 
 @property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer;
 

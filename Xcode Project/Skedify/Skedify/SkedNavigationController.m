@@ -38,7 +38,15 @@
 {
     [super viewDidLoad];
     [[ServerConnection sharedServerConnection] appStart];
-	// Do any additional setup after loading the view.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *accountEmail = [defaults objectForKey: @"accountEmailAddress"];
+   
+    if(accountEmail!=nil)
+    {
+        NSString *accountNickName =[defaults objectForKey: @"accountNickName"];
+        [ServerConnection sharedServerConnection].accountEmailAddress = accountEmail;
+        [ServerConnection sharedServerConnection].accountNickName = accountNickName;
+    }
 }
 
 - (void)viewDidUnload
