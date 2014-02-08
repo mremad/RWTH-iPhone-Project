@@ -1,20 +1,20 @@
 //
-//  GroupContactsTableViewController.m
+//  GroupMembersTableViewController.m
 //  Skedify
 //
 //  Created by M on 1/14/14.
 //  Copyright (c) 2014 SkedifyGroup. All rights reserved.
 //
 
-#import "GroupContactsTableViewController.h"
+#import "GroupMembersTableViewController.h"
 #import "Group.h"
 #import "AddMemberViewController.h"
 
-@interface GroupContactsTableViewController ()
+@interface GroupMembersTableViewController ()
 
 @end
 
-@implementation GroupContactsTableViewController
+@implementation GroupMembersTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,8 +41,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.tableView reloadData];
-    [[ServerConnection sharedServerConnection] fetchGroupContacts:_groupId];
+    [[ServerConnection sharedServerConnection] fetchGroupMembers:_groupId];
 }
 
 
@@ -185,15 +186,6 @@
 -(void)buttonAddAction:(id)sender
 {
     [self performSegueWithIdentifier:@"toAddMember" sender:sender];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
-}
--(void)viewWillDisappear:(BOOL)animated
-{
-    [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
 }
 
 -(void)memberAcceptRejectinGroupNotification

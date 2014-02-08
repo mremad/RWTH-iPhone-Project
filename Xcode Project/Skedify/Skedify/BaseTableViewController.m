@@ -24,13 +24,21 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:YES];
+    [super viewWillAppear:animated];
+    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
     if([[ServerConnection sharedServerConnection] notificationsNotReadCounter] != 0){
     [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
     }
+    
 //    For testing Purpose
 //        [self addNotificationBadgeWithNumber:testingNotificationCounter];
 
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style

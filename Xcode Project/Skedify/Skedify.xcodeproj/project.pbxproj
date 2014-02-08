@@ -22,7 +22,7 @@
 		546EDF45189466E900B1EE77 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546EDF44189466E900B1EE77 /* CoreLocation.framework */; };
 		D946F4141884A7100008D209 /* AddGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D946F4131884A7100008D209 /* AddGroupViewController.m */; };
 		D97145E31885519D008C97AA /* ServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E21885519D008C97AA /* ServerConnection.m */; };
-		D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E518856840008C97AA /* GroupContactsTableViewController.m */; };
+		D97145E618856840008C97AA /* GroupMembersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E518856840008C97AA /* GroupMembersTableViewController.m */; };
 		D97145E918856FC0008C97AA /* GroupMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145E818856FC0008C97AA /* GroupMenuTableViewController.m */; };
 		D97145F118858551008C97AA /* Member.m in Sources */ = {isa = PBXBuildFile; fileRef = D97145F018858551008C97AA /* Member.m */; };
 		D97EBB7D188469900024CC6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D97EBB7C188469900024CC6E /* Foundation.framework */; };
@@ -90,8 +90,8 @@
 		D946F4131884A7100008D209 /* AddGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AddGroupViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D97145E11885519D008C97AA /* ServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnection.h; sourceTree = "<group>"; };
 		D97145E21885519D008C97AA /* ServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnection.m; sourceTree = "<group>"; };
-		D97145E418856840008C97AA /* GroupContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GroupContactsTableViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		D97145E518856840008C97AA /* GroupContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GroupContactsTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		D97145E418856840008C97AA /* GroupMembersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GroupMembersTableViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		D97145E518856840008C97AA /* GroupMembersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GroupMembersTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D97145E718856FC0008C97AA /* GroupMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupMenuTableViewController.h; sourceTree = "<group>"; };
 		D97145E818856FC0008C97AA /* GroupMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupMenuTableViewController.m; sourceTree = "<group>"; };
 		D97145EF18858551008C97AA /* Member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Member.h; sourceTree = "<group>"; };
@@ -343,8 +343,8 @@
 				D97EBBBD1884736F0024CC6E /* GroupsTableViewController.m */,
 				D97145E718856FC0008C97AA /* GroupMenuTableViewController.h */,
 				D97145E818856FC0008C97AA /* GroupMenuTableViewController.m */,
-				D97145E418856840008C97AA /* GroupContactsTableViewController.h */,
-				D97145E518856840008C97AA /* GroupContactsTableViewController.m */,
+				D97145E418856840008C97AA /* GroupMembersTableViewController.h */,
+				D97145E518856840008C97AA /* GroupMembersTableViewController.m */,
 				545FA46B189C289900E98B6A /* NotificationsTableViewController.h */,
 				545FA46C189C289900E98B6A /* NotificationsTableViewController.m */,
 			);
@@ -500,7 +500,7 @@
 				3436E4A2188C48ED00006A53 /* WebViewController.m in Sources */,
 				D9BDF098189D647A0043F601 /* SkedNavigationController.m in Sources */,
 				D9F3AAE61892C3060039D9DA /* ScheduleSlotView.m in Sources */,
-				D97145E618856840008C97AA /* GroupContactsTableViewController.m in Sources */,
+				D97145E618856840008C97AA /* GroupMembersTableViewController.m in Sources */,
 				D9B7ABC21886A2CE00883E67 /* AddMemberViewController.m in Sources */,
 				545FA470189D73B900E98B6A /* Notification.m in Sources */,
 				D9B7ABC51886A7C000883E67 /* Group.m in Sources */,

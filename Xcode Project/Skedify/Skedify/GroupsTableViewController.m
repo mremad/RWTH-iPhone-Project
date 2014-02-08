@@ -34,15 +34,9 @@
     [self performSegueWithIdentifier:@"toAddGroup" sender:sender];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
-}
-
 -(void)viewWillAppear:(BOOL)animated
 {
-    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
-    
+    [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
 

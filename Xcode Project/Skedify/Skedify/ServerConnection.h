@@ -15,7 +15,7 @@
 
 //enum _acceptRejectNotification {
   //Kiko
-@protocol ServerConnectionCurrentNotifiableShakableViewDelegate <NSObject>
+@protocol ServerConnectionViewedDelegate <NSObject>
 @required
 - (void)shakeGroupCreationActionRecieved:(NSInteger) groupID;
 @optional
@@ -61,7 +61,7 @@
 - (void) removeGroup:(Group *)group;
 - (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus;
 - (void) getFromServerPullData;
-- (void) fetchGroupContacts: (NSInteger) groupId;
+- (void) fetchGroupMembers: (NSInteger) groupId;
 
 @property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer;
 
@@ -77,7 +77,7 @@
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, readonly) NSMutableArray *groupMembers;
-@property (nonatomic, weak) id<ServerConnectionCurrentNotifiableShakableViewDelegate> delegatenotificationsView;
+@property (nonatomic, weak) id<ServerConnectionViewedDelegate> delegatenotificationsView;
 @property NSMutableArray *notificationsList;
 @property int notificationsNotReadCounter;
 @property (nonatomic) NSString *accountEmailAddress;

@@ -7,7 +7,7 @@
 //
 
 #import "GroupMenuTableViewController.h"
-#import "GroupContactsTableViewController.h"
+#import "GroupMembersTableViewController.h"
 #import "ScheduleViewController.h"
 #import "ServerConnection.h"
 #import "Group.h"
@@ -37,17 +37,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self setViewTitle];
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
-    
-   // [self.tableView reloadData];
-}
--(void)viewWillDisappear:(BOOL)animated
-{
-    [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
 }
 
 -(void)setViewTitle
@@ -125,7 +114,7 @@
  {
      if([[segue identifier] isEqual:@"toGroupContacts"])
      {
-         GroupContactsTableViewController *groupContactsMenu=(GroupContactsTableViewController *)[segue destinationViewController];
+         GroupMembersTableViewController *groupContactsMenu=(GroupMembersTableViewController *)[segue destinationViewController];
          groupContactsMenu.groupId=_groupId; //just delegating the value to the next controller
      }
 //     if([[segue identifier] isEqual:@"toNotifications"])

@@ -18,7 +18,7 @@
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
 }
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -27,7 +27,19 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
+}
+
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     

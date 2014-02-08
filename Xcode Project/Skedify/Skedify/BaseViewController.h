@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "ServerConnection.h"
 
-@interface BaseViewController : UIViewController <CLLocationManagerDelegate, ServerConnectionCurrentNotifiableShakableViewDelegate>
+@interface BaseViewController : UIViewController <CLLocationManagerDelegate, ServerConnectionViewedDelegate>
 
 -(void)notificationRecieved;
 @end

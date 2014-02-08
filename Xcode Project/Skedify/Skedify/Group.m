@@ -59,7 +59,23 @@
 
 -(void)insertMember :(Member *)theMember
 {
- [_members insertObject:theMember atIndex:[_members count]];
+    if([self memberDoesNotHasSameEmailAsAGroupMember:theMember])
+    {
+         [_members insertObject:theMember atIndex:[_members count]];
+    }
+}
+
+-(BOOL)memberDoesNotHasSameEmailAsAGroupMember:(Member *) theMember
+{
+    for(Member *otherMember in _members)
+    {
+        if([[theMember emailAddress] isEqualToString:[otherMember emailAddress]])
+        {
+            return NO;
+        }
+    }
+    
+    return YES;
 }
 
 -(void)removeMemberWithEmail :(NSString *)theEmail

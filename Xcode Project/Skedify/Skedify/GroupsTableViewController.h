@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ServerConnection.h"
 #import "GroupMenuTableViewController.h"
-#import "GroupContactsTableViewController.h"
+#import "GroupMembersTableViewController.h"
 #import "Group.h"
 #import "BaseTableViewController.h"
 @interface GroupsTableViewController : BaseTableViewController<UITextFieldDelegate>

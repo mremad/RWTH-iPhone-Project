@@ -51,6 +51,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [ServerConnection sharedServerConnection].accountNickName = [_textFieldNickName text];
     
 }

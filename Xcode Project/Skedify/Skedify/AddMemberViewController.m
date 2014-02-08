@@ -7,7 +7,7 @@
 //
 
 #import "AddMemberViewController.h"
-#import "GroupContactsTableViewController.h"
+#import "GroupMembersTableViewController.h"
 #import "Member.h"
 @interface AddMemberViewController ()
 

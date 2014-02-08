@@ -1,5 +1,5 @@
 //
-//  GroupContactsTableViewController.h
+//  GroupMembersTableViewController.h
 //  Skedify
 //
 //  Created by M on 1/14/14.
@@ -10,7 +10,7 @@
 #import "ServerConnection.h"
 #import "BaseTableViewController.h"
 
-@interface GroupContactsTableViewController : BaseTableViewController
+@interface GroupMembersTableViewController : BaseTableViewController
 {
    // NSInteger groupIndex;
 }

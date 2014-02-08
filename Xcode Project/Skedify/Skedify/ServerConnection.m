@@ -143,23 +143,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return[defaults objectForKey:@"accountNickName"];
 }
 
-- (void) fetchGroupSchedules
-{
-    //EMAD
-    for(int i=0;i<[_groupsList count];i++)
-    {
-        Group* g = [_groupsList objectAtIndex:i];
-        if(g.groupId!=0) //some groups are added in the grouplist but did not yet retieve their id
-        {
-            [self fetchGroupSchedule:g fromTimeSlot:[NSDate dateWithTimeIntervalSinceNow:0] toTimeSlot:[NSDate dateWithTimeIntervalSinceNow:2592000]];
-        }
-        else
-        {
-            int breakpoint = 0; //testing
-        }
-    }
-}
-
 -(void) memberAcceptedGroupInvitation:(Member *) memberThatAcceptedGroupInvitation
 {
     memberThatAcceptedGroupInvitation.hasAcceptedGroupInvitation=YES;
@@ -332,64 +315,19 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 - (void) fetchGroupSchedule: (Group*) group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
 {
-    //TODO : change after Yigit changes the last day bug
     NSString *startDate = [NSString stringWithFormat: @"%f", [startingTimeSlot timeIntervalSince1970]];
     NSString *endDate = [NSString stringWithFormat: @"%f", [endingTimeSlot timeIntervalSince1970]];
 
-    NSDictionary* requestDictionary = @{@"action" : @"CalculateGroupSchedule",
+    NSDictionary* requestDictionary = @{@"action"   : @"CalculateGroupSchedule",
                                         @"username" : [self getUserEmail],
-                                        @"groupID" : [NSNumber numberWithInt:[group groupId]],
-                                        @"start" : startDate,
-                                        @"end" : endDate};
+                                        @"groupID"  : [NSNumber numberWithInt:[group groupId]],
+                                        @"start"    : startDate,
+                                        @"end"      : endDate};
     
-    NSMutableArray *startDates=(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0];
-    NSMutableArray *endDates=(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1];
-    NSMutableArray *statuses=(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2];
-    int size = [startDates count];
-    for(int i=0;i<100;i++)
-    {
-        int random=(i*group.groupId)%size;
-        NSDate *startDate = (NSDate *) [startDates objectAtIndex:random ];
-        NSDate *endDate = (NSDate *) [endDates objectAtIndex:random ];
-        int status = [(NSString *) [statuses objectAtIndex:random ] intValue];
-        [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:status withGroupId:[group groupId]];
-    }
-    return;//TODO: REMOVE all this
-    
-    
-    (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:requestDictionary completionHandler:^(NSDictionary* dictionary)
-            {
-                NSLog(@"Schedule received: %@", dictionary);
-                int i = 0;
-                for (NSDictionary *dict in dictionary) {
-                    NSLog(@"Dict: %@", dict);
-                    for (NSDictionary *slot in dict) {
-                        if ([[slot allKeys] containsObject:@"start"]) {
-                        NSTimeInterval intStart=[[slot objectForKey:@"start"] doubleValue];
-                        NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
-                        
-                        NSTimeInterval intEnd=[[slot objectForKey:@"end"] doubleValue];
-                        NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
-                        
-                        SlotStatus slotStaus;
-                        NSString *state = [slot objectForKey:@"state"];
-                        if ([state isEqualToString:@"appointment_fixed"]) {
-                            slotStaus = SlotStateMeeting;
-                        } else if ([state isEqualToString:@"busy"]) {
-                            slotStaus = SlotStateBusy;
-                        } else {
-                            slotStaus = SlotStateFree;
-                        }
-                        NSLog(@"state %u", slotStaus);
-                        
-                        [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus withGroupId:[group groupId]];
-                        i++;
-                        }
-                    }
-                }
-                NSLog(@"%d groups received", i);
-            } errorHandler:nil];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(fetchGroupScheduleHandler:withGroupId:) usingHTTPResultInHandler:YES withObjectToHandler:[NSNumber numberWithInt:[group groupId]] withBeforeLogMessage:@"Recieving Schedule" withAfterLogMessage:@""];
 }
+
+
 
 
 
@@ -403,7 +341,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 
 
-#pragma Notification Handling 
+#pragma Notification Handling
 
 /**Receive Notification from server and concatinate it in the notifications list
  Expected from server isGroupInvitation = Yes => GroupInvitation, NO => MeetingInvitation
@@ -488,9 +426,13 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 {
                     [self performSelector:selectorToCall withObject:dictionary];
                 }
-                else
+                else if(selectorToCall!=nil)
                 {
                     [self performSelector:selectorToCall withObject:handlerObject];
+                }
+                else
+                {
+                    int breakpoint=1;
                 }
             } errorHandler:nil];
     
@@ -516,7 +458,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"groupID"  : [NSString stringWithFormat: @"%ld", (long)theGroupId],
                                         @"adder"    : [self getUserEmail]};
     
-    [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Adding user %@ to group %ld", memberEmail, (long)theGroupId] withAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(fetchGroupMembers:) usingHTTPResultInHandler:NO withObjectToHandler:[NSString stringWithFormat: @"%ld", (long)theGroupId] withBeforeLogMessage:[NSString stringWithFormat:@"Adding user %@ to group %ld", memberEmail, (long)theGroupId] withAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
 }
 
 -(void) addGroup:(Group *)group WithMembersEmails:(NSArray *) members
@@ -525,7 +467,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"username" : [self getUserEmail],
                                         @"groupname" : [group name]};
     
-    [self sendToServerTemplate:requestDictionary withHandler:@selector(addGroupHandler:withArrayContainingMembersAndGroup:) usingHTTPResultInHandler:YES withObjectToHandler:@[members,group] withBeforeLogMessage:[NSString stringWithFormat:@"Creating group %@ with %lu members", [group name], (unsigned long)[members count]] withAfterLogMessage:[NSString stringWithFormat:@"User added: %@", requestDictionary]];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(addGroupHandler:withArrayContainingMembersAndGroup:) usingHTTPResultInHandler:YES withObjectToHandler:@[members,group] withBeforeLogMessage:[NSString stringWithFormat:@"Creating group %@ with %lu members", [group name], (unsigned long)[members count]] withAfterLogMessage:[NSString stringWithFormat:@"User added inside group: %@", requestDictionary]];
 }
 
 - (void) createMeeting:(Group *)group fromTimeSlot:(NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot
@@ -545,6 +487,24 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     
     [self sendToServerTemplate:requestDictionary withHandler:@selector(fetchGroupHandler:) usingHTTPResultInHandler:YES  withObjectToHandler:nil withBeforeLogMessage:@"Fetching Groups" withAfterLogMessage:@"Groups received"];
 }
+
+- (void) fetchGroupSchedules
+{
+    //EMAD
+    for(int i=0;i<[_groupsList count];i++)
+    {
+        Group* g = [_groupsList objectAtIndex:i];
+        if(g.groupId!=0) //some groups are added in the grouplist but did not yet retieve their id
+        {
+            [self fetchGroupSchedule:g fromTimeSlot:[NSDate dateWithTimeIntervalSinceNow:0] toTimeSlot:[NSDate dateWithTimeIntervalSinceNow:2592000]];
+        }
+        else
+        {
+            int breakpoint = 0; //testing
+        }
+    }
+}
+
 
 - (void) getFromServerPullData
 {
@@ -740,7 +700,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void) addGroupHandler :(NSDictionary *) dictionary withArrayContainingMembersAndGroup:(NSArray *) membersAndGroup
 {
-    
     NSArray *members = [membersAndGroup objectAtIndex:0];
     for (NSDictionary *dict in dictionary)
     {
@@ -785,6 +744,51 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     if ([_delegatenotificationsView respondsToSelector:@selector(membersRefreshed)])
     {
         [_delegatenotificationsView membersRefreshed];
+    }
+}
+
+-(void) fetchGroupScheduleHandler:(NSDictionary *) dictionary withGroupId:(NSNumber *) groupId
+{
+    NSLog(@"Schedule received: %@", dictionary);
+    for (NSDictionary *dict in dictionary)
+    {
+        NSLog(@"Dict: %@", dict);
+        NSArray *response = (NSArray *)[dict objectForKey:@"response"];
+        if([response count]==0)
+        {
+            return; //TODO check this (mine) shit
+        }
+        for (NSDictionary *slot in dict)
+        {
+            if ([[slot allKeys] containsObject:@"start"])
+            {
+                NSTimeInterval intStart=[[slot objectForKey:@"start"] doubleValue];
+                NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
+                
+                NSTimeInterval intEnd=[[slot objectForKey:@"end"] doubleValue];
+                NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
+                
+                SlotStatus slotStaus;
+                NSString *state = [slot objectForKey:@"state"];
+                if ([state isEqualToString:@"appointment_fixed"])
+                {
+                    slotStaus = SlotStateMeeting;
+                }
+                else if ([state isEqualToString:@"busy"])
+                {
+                    slotStaus = SlotStateBusy;
+                }
+                else
+                {
+                    int breakpoint=1; //test
+                    slotStaus = SlotStateFree;
+                }
+                
+                NSLog(@"state %u", slotStaus);
+                
+                [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus withGroupId:[groupId intValue]];
+            }
+        }
     }
 }
 

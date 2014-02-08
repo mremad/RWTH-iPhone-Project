@@ -13,7 +13,7 @@
 
 
 
-@interface BaseTableViewController : UITableViewController <CLLocationManagerDelegate,ServerConnectionCurrentNotifiableShakableViewDelegate>
+@interface BaseTableViewController : UITableViewController <CLLocationManagerDelegate,ServerConnectionViewedDelegate>
 
 @property CustomBadge *notificationBadge;
 @property UIButton *badgeButton;
