@@ -267,9 +267,14 @@
 
 -(void)notificationRecieved
 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
+        [self addLocalNotification];
+        
+               });
     
-    [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
-    [self addLocalNotification];
+    
 }
 
 -(void)shakeGroupCreationActionRecieved:(NSInteger) groupID

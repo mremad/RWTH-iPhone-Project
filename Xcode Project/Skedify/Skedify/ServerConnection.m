@@ -181,8 +181,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 -(void) sendPrivateSchedule
 {   //called once
     
-    //return; //To be removed
-    
     _counterOfSentDatesFromIPhoneAndL2pToServer = [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count] ;
     for(int i=0;i<[(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count];i++)
     {
@@ -681,7 +679,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             [self didReceiveFromServerRequestNotificationWithType:YES group:[groupID integerValue] sender:senderName beginsAt:date endsAt:date groupName:groupName senderNickName:senderName];
         }
         
-        NSDictionary * appointments = [dict objectForKey:@"invites"];
+        NSDictionary * appointments = [dict objectForKey:@"appointments"];
         for (NSDictionary *app in appointments)
         {
             NSLog(@"Got appointment");
