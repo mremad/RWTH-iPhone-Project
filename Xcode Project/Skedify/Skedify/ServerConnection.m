@@ -143,25 +143,19 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     return[defaults objectForKey:@"accountNickName"];
 }
 
-- (void) updateAllDateTimerMethod:(NSTimer *)timer
+- (void) fetchGroupSchedules
 {
-    return ; //TODO: think about how to to this
-    if(!_alreadySignedIn)
-    {
-        return;
-    }
-    if (YES) { //if there is shaking motion
-       // dispatch_async(dispatch_get_main_queue(), ^{
-         //   [self getFromServerPullData];
-        //});
-    }
-    
+    //EMAD
     for(int i=0;i<[_groupsList count];i++)
     {
         Group* g = [_groupsList objectAtIndex:i];
         if(g.groupId!=0) //some groups are added in the grouplist but did not yet retieve their id
         {
-            [self fetchGroupSchedule:g fromTimeSlot:[NSDate dateWithTimeIntervalSince1970:1259539200] toTimeSlot:[NSDate dateWithTimeIntervalSince1970:1417305600]];
+            [self fetchGroupSchedule:g fromTimeSlot:[NSDate dateWithTimeIntervalSinceNow:0] toTimeSlot:[NSDate dateWithTimeIntervalSinceNow:2592000]];
+        }
+        else
+        {
+            int breakpoint = 0; //testing
         }
     }
 }
@@ -187,7 +181,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 -(void) sendPrivateSchedule
 {   //called once
     
-    return; //To be removed
+    //return; //To be removed
     
     _counterOfSentDatesFromIPhoneAndL2pToServer = [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count] ;
     for(int i=0;i<[(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0]  count];i++)
@@ -446,7 +440,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     }
 }
 
-
 /*
  * handles all notfication messages recieved from the server
  */
@@ -668,7 +661,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     {
         _alreadySignedIn=YES;
         [self fetchGroups];
-        [self updateAllDateTimerMethod:Nil];
     }
     //[self updateAllDateTimerMethod:Nil];
 }
@@ -731,6 +723,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     {
         [_delegatenotificationsView groupsRefreshed];
     }
+    [self fetchGroupSchedules];
 }
 
 -(void) shakeLocationHandler:(NSDictionary *) dictionary

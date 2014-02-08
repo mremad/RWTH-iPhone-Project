@@ -34,10 +34,6 @@
     [self performSegueWithIdentifier:@"toAddGroup" sender:sender];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    
-}
 -(void)viewWillDisappear:(BOOL)animated
 {
     [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
@@ -53,7 +49,7 @@
 
 -(void)pushGroupMenuController
 {
-  
+    
 }
 
 

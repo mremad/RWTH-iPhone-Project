@@ -50,7 +50,7 @@
 
 -(void)didReceiveFromServerRequestNotificationWithType: (BOOL)isGroupInvitation group:(NSInteger)groupId sender:(NSString*)senderName beginsAt:(NSDate*) beginTime endsAt:(NSDate*) endTime groupName:(NSString *) groupName senderNickName:(NSString *) theSenderNick;
 
-
+- (void) addMemberWithEmail:(NSString *)memberEmail inGroup:(NSInteger) theGroupId;
 
 - (void) setShakelocation:(CLLocation *)location;
 - (void) acceptGroupRequest:(NSInteger) groupId;
