@@ -37,9 +37,18 @@
 
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+   
+    [self removeNotificationBadge];
+    if([[ServerConnection sharedServerConnection] notificationsNotReadCounter] != 0){
+        [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
+    }
+}
+
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    [self removeNotificationBadge];
     [ServerConnection sharedServerConnection].delegatenotificationsView = nil;
 }
 
@@ -280,12 +289,18 @@
 
 -(void)notificationRecieved
 {
+    if([ServerConnection sharedServerConnection].notificationsReadCounter > 0){
+        [ServerConnection sharedServerConnection].notificationsReadCounter --;
+        return;
+    }
+    else{
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [self addNotificationBadgeWithNumber:[[ServerConnection sharedServerConnection] notificationsNotReadCounter]];
         [self addLocalNotification];
         
                });
+    }
 }
 
 -(void)shakeGroupCreationActionRecieved:(NSInteger) groupID

@@ -72,13 +72,15 @@
 @property (nonatomic) BOOL alreadySignedIn;
 /*   Schedule Parameters  */
 
-
+/*   Notifications Parameters  */
+@property NSMutableArray *notificationsList;
+@property int notificationsNotReadCounter;
+@property int notificationsReadCounter;
+/*   Notifications Parameters  */
 
 @property (nonatomic, readonly) NSMutableArray *groupsList;
 @property (nonatomic, readonly) NSMutableArray *groupMembers;
 @property (nonatomic, weak) id<ServerConnectionViewedDelegate> delegatenotificationsView;
-@property NSMutableArray *notificationsList;
-@property int notificationsNotReadCounter;
 @property (nonatomic) NSString *accountEmailAddress;
 @property (nonatomic) NSString  *accountNickName;
 @property (nonatomic) NSDate* dateOfLastShakeGesture;

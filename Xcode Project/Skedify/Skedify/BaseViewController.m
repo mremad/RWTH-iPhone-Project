@@ -157,7 +157,16 @@
 
 -(void)notificationRecieved
 {
-    [self addLocalNotification];
+    if([ServerConnection sharedServerConnection].notificationsReadCounter > 0){
+        [ServerConnection sharedServerConnection].notificationsReadCounter --;
+        return;
+    }
+    else{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self addLocalNotification];            
+        });
+}
 }
 
 -(void)shakeGroupCreationActionRecieved:(NSInteger ) groupID

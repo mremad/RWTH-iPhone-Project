@@ -47,6 +47,8 @@
         [ServerConnection sharedServerConnection].accountEmailAddress = accountEmail;
         [ServerConnection sharedServerConnection].accountNickName = accountNickName;
     }
+    
+    [ServerConnection sharedServerConnection].notificationsReadCounter= [defaults integerForKey: @"notificationsRead"];
 }
 
 - (void)viewDidUnload

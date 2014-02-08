@@ -178,6 +178,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:_accountEmailAddress forKey:@"accountEmailAddress"];
     [defaults setObject:_accountNickName forKey:@"accountNickName"];
+    [defaults setInteger:_notificationsReadCounter forKey:@"notificationsRead"];
     [[NSUserDefaults standardUserDefaults] synchronize]; //just to be sure its saved ..even on simulator
     [self login];
 }
