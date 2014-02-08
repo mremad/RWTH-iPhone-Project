@@ -16,7 +16,7 @@
 
 - **action=GetGroups&username=<username>**
 
-- **action=GetGroupUsers&username=<username>**
+- **action=GetGroupUsers&groupID=<groupID>**
 - 
 - **action=RenameGroup&groupID=<groupID>&groupname=<new_groupname>**
 
