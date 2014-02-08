@@ -117,7 +117,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(BOOL) compareNotification:(Notification *)firstNotification isEqualNotification:(Notification *)secondNotification{
     
-    if ((firstNotification.isGroupInvitationNotification == secondNotification.isGroupInvitationNotification) && (firstNotification.group.groupId== secondNotification.group.groupId) && ([firstNotification.senderName isEqualToString:secondNotification.senderName]) && ([firstNotification.meetingBeginningTime isEqual:secondNotification.meetingBeginningTime]) && ([firstNotification.meetingEndingTime isEqual:secondNotification.meetingEndingTime]))
+    if ((firstNotification.isGroupInvitationNotification == secondNotification.isGroupInvitationNotification) && (firstNotification.group.groupId== secondNotification.group.groupId) && ([firstNotification.senderName isEqualToString:secondNotification.senderName]) && ([firstNotification.meetingBeginningTime compare:secondNotification.meetingBeginningTime] == NSOrderedSame) && ([firstNotification.meetingEndingTime compare:secondNotification.meetingEndingTime] == NSOrderedSame))
     {
         return YES;
     }
