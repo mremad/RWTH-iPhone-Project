@@ -22,6 +22,7 @@
 - (void) notificationRecieved;
 - (void) memberAcceptRejectinGroupNotification;
 - (void) groupsRefreshed;
+- (void) membersRefreshed;
 @end
 @interface ServerConnection : NSObject
 {
@@ -60,7 +61,7 @@
 - (void) removeGroup:(Group *)group;
 - (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus;
 - (void) getFromServerPullData;
-
+- (void) fetchGroupContacts: (NSInteger) groupId;
 
 @property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer;
 

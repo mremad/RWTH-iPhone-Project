@@ -12,7 +12,7 @@
 
 
 
-- (id)initWithName:(NSString *)theNickName
+- (id)initWithNickName:(NSString *)theNickName
 {
     //TODO: REMOVE This method should be never called..
     self = [super init];

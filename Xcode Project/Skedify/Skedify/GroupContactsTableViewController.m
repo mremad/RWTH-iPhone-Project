@@ -42,6 +42,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
+    [[ServerConnection sharedServerConnection] fetchGroupContacts:_groupId];
 }
 
 
@@ -109,6 +110,11 @@
     }
     
     return cell;
+}
+
+- (void) membersRefreshed
+{
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 /*

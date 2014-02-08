@@ -14,7 +14,7 @@
 @property (nonatomic) BOOL hasAcceptedGroupInvitation;
 
 
-- (id)initWithName:(NSString *)theNickName;
+- (id)initWithNickName:(NSString *)theNickName;
 - (id)initWithEmail:(NSString *)theEmail;
 - (NSString *) getStrongestIdentifier;
 +(BOOL) NSStringIsValidRWTHAachenEmail:(NSString *)checkString;

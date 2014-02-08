@@ -630,22 +630,21 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"getShakeInfo" : @1};
     
     [self sendToServerTemplate:requestDictionary withHandler:@selector(getShakeMessageFromServerHandler:) usingHTTPResultInHandler:YES withObjectToHandler:nil withBeforeLogMessage:@"Pulling Shake info from server" withAfterLogMessage:@""];
-    
 }
 
 - (NSArray *) getGroupContacts: (NSInteger) groupId
 {
+    Group *group = [self getGroupGivenGroupId:groupId];
+    return [group members];
+}
+
+- (void) fetchGroupMembers: (NSInteger) groupId
+{
     NSDictionary* requestDictionary = @{@"action"   : @"GetGroupUsers",
                                         @"username" : [self getUserEmail], //is not necesary theoritical
                                         @"groupID"  : [NSNumber numberWithInt:groupId]};
-    _groupMembers = [[NSMutableArray alloc]init];//TODO: proabbly change
     
-    [self sendToServerTemplate:requestDictionary withHandler:@selector(getGroupHandler:) usingHTTPResultInHandler:YES withObjectToHandler:nil withBeforeLogMessage:@"Fetching group members" withAfterLogMessage:@""];
-    
-    
-    // TODO: KIKO change groupIdentifier from array position to group Id
-    Group *theIdentifierGroup = [self getGroupGivenGroupId:groupId]; // TODO: check what this does
-    return [theIdentifierGroup members];
+    [self sendToServerTemplate:requestDictionary withHandler:@selector(fetchGroupMembersHandler:withGroupId:) usingHTTPResultInHandler:YES withObjectToHandler:[NSNumber numberWithInt:groupId] withBeforeLogMessage:@"Fetching group members" withAfterLogMessage:@""];
 }
 
 #pragma Method Calls Handler
@@ -700,7 +699,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 - (void) fetchGroupHandler:(NSDictionary *) dictionary
 {
     _groupsList = [[NSMutableArray alloc]init];
-    int i = 0;
     for (NSDictionary *dict in dictionary)
     {
         NSLog(@"Dict: %@", dict);
@@ -709,19 +707,26 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         {
             NSNumber *groupID = [group objectForKey:@"groupID"];
             NSString *groupName = [group objectForKey:@"groupname"];
-            //TODO:add members here
             NSLog(@"Group %@ with id %@", groupName, groupID);
-            
             Group* g = [[Group alloc]initWithName:groupName andID:[groupID integerValue]];
-            [_groupsList insertObject:g atIndex:i];
-            i++;
+            [_groupsList addObject:g];
         }
     }
     if ([_delegatenotificationsView respondsToSelector:@selector(groupsRefreshed)])
     {
         [_delegatenotificationsView groupsRefreshed];
     }
+    //after fetching groups get other grooup information
     [self fetchGroupSchedules];
+    [self fetchGroupMembers];
+}
+
+-(void) fetchGroupMembers
+{
+    for(Group *group in _groupsList)
+    {
+        [self fetchGroupMembers:group.groupId];
+    }
 }
 
 -(void) shakeLocationHandler:(NSDictionary *) dictionary
@@ -762,9 +767,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     }
 }
 
--(void) getGroupHandler :(NSDictionary *) dictionary
+-(void) fetchGroupMembersHandler :(NSDictionary *) dictionary withGroupId : (NSNumber *) theGroupId
 {
-    int i = 0;
     for (NSDictionary *dict in dictionary)
     {
         NSLog(@"Dict: %@", dict);
@@ -772,14 +776,15 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         NSLog(@"Users of group: %@", users);
         for (NSDictionary *user in users)
         {
-            // NSNumber *userID = [user objectForKey:@"groupID"];
-            NSString *name = [user objectForKey:@"username"];
-            
-            // create group object and add it to the list
-            Member *m = [[Member alloc]initWithName: name];
-            [_groupMembers insertObject:m atIndex:i];
-            i++;
+            NSString *email = [user objectForKey:@"username"];
+            Member *m = [[Member alloc]initWithEmail: email];
+            Group *theGroup=[self getGroupGivenGroupId:[theGroupId intValue]];
+            [theGroup insertMember:m];
         }
+    }
+    if ([_delegatenotificationsView respondsToSelector:@selector(membersRefreshed)])
+    {
+        [_delegatenotificationsView membersRefreshed];
     }
 }
 
