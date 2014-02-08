@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ServerConnection.h"
 
 @implementation AppDelegate
 
@@ -83,12 +84,15 @@
 - (void)timerFireMethod:(NSTimer *)timer{
     
     //TODO: Call checking method
-    if (YES) { //if there is shaking motion
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //TODO: Call Shake received
-        });
+//    if (YES) { //if there is shaking motion
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            //TODO: Call Shake received
+//        });
+//    }
+    if ([[ServerConnection sharedServerConnection] alreadySignedIn]) {
+ 
+    [[ServerConnection sharedServerConnection] getFromServerPullData];
     }
-    
 }
 
 @end
