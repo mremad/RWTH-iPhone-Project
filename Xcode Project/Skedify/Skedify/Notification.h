@@ -19,4 +19,6 @@
 @property NSDate *meetingBeginningTime;
 @property NSDate *meetingEndingTime;
 
+- (int) getIndexOfNotificationInArray:(NSMutableArray*) array;
+
 @end

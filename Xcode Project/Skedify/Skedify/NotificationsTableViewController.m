@@ -126,12 +126,21 @@
             
             [[ServerConnection sharedServerConnection] rejectMeeting:notificationChosen.groupId withGroupName:notificationChosen.groupName fromTimeSlot:notificationChosen.meetingBeginningTime toTimeSlot:notificationChosen.meetingEndingTime];
         }
+        
+        int indexOfNotificationToBeRemoved = [notificationChosen getIndexOfNotificationInArray:[ServerConnection sharedServerConnection].notificationsList];
+        [[ServerConnection sharedServerConnection].notificationsList removeObjectAtIndex:indexOfNotificationToBeRemoved];
+        [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+        
     }
     else{
          NSLog(@"Decline Group");
 
         if (notificationChosen.isGroupInvitationNotification) {
             [[ServerConnection sharedServerConnection] rejectGroupRequest:notificationChosen.groupId withGroupName:notificationChosen.groupName];
+            
+            int indexOfNotificationToBeRemoved = [notificationChosen getIndexOfNotificationInArray:[ServerConnection sharedServerConnection].notificationsList];
+            [[ServerConnection sharedServerConnection].notificationsList removeObjectAtIndex:indexOfNotificationToBeRemoved];
+            [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
         }
     }
 }
