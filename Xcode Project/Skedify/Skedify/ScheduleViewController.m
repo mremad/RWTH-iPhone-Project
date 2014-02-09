@@ -55,7 +55,8 @@
         
         bufferedSchedules[i].contentSize = CGSizeMake(320, ViewContentHeight);
         bufferedSchedules[i].delegate = (id)self;
-        bufferedSchedules[i].backgroundColor=[UIColor whiteColor];
+        bufferedSchedules[i].backgroundColor=[UIColor clearColor];
+        
         
         if(i == ((int)(NUM_BUFFERED_SCHEDULES/2)))
         {
@@ -81,13 +82,10 @@
 -(void)switchViewsToLeft
 {
     ScheduleScrollView* temp = bufferedSchedules[0];
+    ScheduleScrollView* oldScrollView = _scrollView;
     
-    [UIView beginAnimations:@"curlup" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:.5];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
-    [_scrollView removeFromSuperview];
-    [UIView commitAnimations];
+ 
+   
     
     for(int i = 0;i<NUM_BUFFERED_SCHEDULES;i++)
     {
@@ -98,13 +96,9 @@
     }
     _scrollView = bufferedSchedules[((int)(NUM_BUFFERED_SCHEDULES/2))];
     
-    [UIView beginAnimations:@"curlup" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:.5];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
-    [self.view addSubview:_scrollView];
-    [UIView commitAnimations];
+
     
+    [UIView transitionFromView:oldScrollView toView:_scrollView duration:0.5 options:UIViewAnimationOptionTransitionCurlDown completion:nil];
     
     //TODO: update the fullschedule accordingly and fetch more weeks
     
@@ -114,13 +108,11 @@
 -(void)switchViewsToRight
 {
     ScheduleScrollView* temp = bufferedSchedules[NUM_BUFFERED_SCHEDULES - 1];
+    ScheduleScrollView* oldScrollView = _scrollView;
     
-    [UIView beginAnimations:@"curlup" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:.5];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
-    [_scrollView removeFromSuperview];
-    [UIView commitAnimations];
+
+    
+    
     
     for(int i = NUM_BUFFERED_SCHEDULES-1;i>=0;i--)
     {
@@ -131,12 +123,9 @@
     }
     _scrollView = bufferedSchedules[((int)(NUM_BUFFERED_SCHEDULES/2))];
     
-    [UIView beginAnimations:@"curlup" context:nil];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:.5];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
-    [self.view addSubview:_scrollView];
-    [UIView commitAnimations];
+    [UIView transitionFromView:oldScrollView toView:_scrollView duration:0.5 options:UIViewAnimationOptionTransitionCurlUp completion:nil];
+    
+    
     
     
     //TODO: update the fullschedule accordingly and fetch more weeks
@@ -237,7 +226,7 @@
         int hourIndex = ((hour - STARTING_HOUR)*4) + (minute/15);
         int dayIndex = (int)slot.day;
         
-        NSLog(@"Min:%d Hour:%d index:%d",minute,hour,hourIndex);
+        //NSLog(@"Min:%d Hour:%d index:%d",minute,hour,hourIndex);
         
         int weekDay = slot.weekNum;
         

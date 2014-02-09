@@ -164,7 +164,6 @@
         label.center=CGPointMake(DAY_STARTING_CENTER_POINT+i*((int)DAY_WIDTH) + DAY_WIDTH/4,UIVIEWS_STARTING_YPOSITION+ (DAY_HEIGHT/2));
         label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
         label.textColor = [UIColor colorWithHue:29 saturation:100 brightness:100 alpha:1];
-        NSLog(@"%d",DAY_WIDTH);
         dayLabels[i] = label;
         dayLabelOriginalPositions[i] = label.center;
         [self.superview addSubview:label];

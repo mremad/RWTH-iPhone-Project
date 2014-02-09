@@ -233,7 +233,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                             andSlotStatus :(SlotStatus) status
                                 andGroupId:(NSInteger)groupId
 {
-    [self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
+    //[self logDate:startingSlot andSlotStatus:status andweekDay:weekDay];
     
     Slot* newSlot = [[Slot alloc] initWithStartTime:startingSlot withWeekNum:weekNumber withDay:weekDay withSlotStatus:status];
     
@@ -482,6 +482,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             int breakpoint = 0; //testing
         }
     }
+    
+    NSLog(@"Done with fetching schedules");
 }
 
 - (void) fetchGroupSchedules:(NSInteger) groupId
@@ -654,13 +656,13 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     _groupsList = [[NSMutableArray alloc]init];
     for (NSDictionary *dict in dictionary)
     {
-        NSLog(@"Dict: %@", dict);
+        //NSLog(@"Dict: %@", dict);
         NSDictionary * groups = [dict objectForKey:@"groups"];
         for (NSDictionary *group in groups)
         {
             NSNumber *groupID = [group objectForKey:@"groupID"];
             NSString *groupName = [group objectForKey:@"groupname"];
-            NSLog(@"Group %@ with id %@", groupName, groupID);
+            //NSLog(@"Group %@ with id %@", groupName, groupID);
             Group* g = [[Group alloc]initWithName:groupName andID:[groupID integerValue]];
             [_groupsList addObject:g];
         }
@@ -726,9 +728,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 {
     for (NSDictionary *dict in dictionary)
     {
-        NSLog(@"Dict: %@", dict);
+        //NSLog(@"Dict: %@", dict);
         NSDictionary * users = [dict objectForKey:@"users"];
-        NSLog(@"Users of group: %@", users);
+        //NSLog(@"Users of group: %@", users);
         for (NSDictionary *user in users)
         {
             NSString *email = [user objectForKey:@"username"];
@@ -745,10 +747,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void) fetchGroupScheduleHandler:(NSDictionary *) dictionary withGroupId:(NSNumber *) groupId
 {
-    NSLog(@"Schedule received: %@", dictionary);
     for (NSDictionary *dict in dictionary)
     {
-        NSLog(@"Dict: %@", dict);
         NSDictionary *response = (NSDictionary *)[dict objectForKey:@"response"];
         if([response count]==0)
         {
@@ -783,7 +783,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                     slotStaus = SlotStateFree;
                 }
                 
-                NSLog(@"state %u", slotStaus);
+                //NSLog(@"state %u", slotStaus);
                 
                 [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus withGroupId:[groupId intValue]];
             }
