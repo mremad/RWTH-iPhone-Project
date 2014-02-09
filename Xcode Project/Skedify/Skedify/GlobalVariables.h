@@ -34,6 +34,8 @@
 #define STARTING_HOUR 7
 #define ENDING_HOUR 24
 
+#define NUM_BUFFERED_SCHEDULES 3
+
 #endif
 
 typedef enum

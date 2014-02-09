@@ -20,7 +20,10 @@
 
 @implementation ScheduleViewController
 {
-    SlotStatus fullSchedule[NUMBER_DAYS][NUMBER_HOURS*4];
+    SlotStatus fullSchedule[NUMBER_DAYS][NUMBER_HOURS*4]; //TODO: increase schedule to accommodate for more weeks not a single one
+    SlotStatus dummySchedule[NUMBER_DAYS][NUMBER_HOURS*4]; //TODO: to be removed after implementing the fullschedule with week support
+
+    ScheduleScrollView* bufferedSchedules[NUM_BUFFERED_SCHEDULES];
 }
 
 
@@ -41,13 +44,112 @@
     
     [self createSchedule];
     
-    _scrollView=[[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480) withSchedule:fullSchedule];
-    _scrollView.contentSize = CGSizeMake(320, ViewContentHeight);
-    _scrollView.delegate = (id)self;
-    _scrollView.backgroundColor=[UIColor whiteColor];
-    [self.view addSubview:_scrollView];
-    [_scrollView addWeekLabels];
+    for(int i = 0;i<NUM_BUFFERED_SCHEDULES;i++)
+    {
+        if(i == ((int)(NUM_BUFFERED_SCHEDULES/2)))
+            bufferedSchedules[i] = [[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
+                                                 withSchedule:fullSchedule];
+        else
+            bufferedSchedules[i] = [[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
+                                                                withSchedule:dummySchedule];
+        
+        bufferedSchedules[i].contentSize = CGSizeMake(320, ViewContentHeight);
+        bufferedSchedules[i].delegate = (id)self;
+        bufferedSchedules[i].backgroundColor=[UIColor whiteColor];
+        
+        if(i == ((int)(NUM_BUFFERED_SCHEDULES/2)))
+        {
+            _scrollView = bufferedSchedules[i];
+            [self.view addSubview:_scrollView];
+            [_scrollView addWeekLabels];
+        }
+    }
+    
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(leftSwipe:)];
+    
+    [swipeLeft setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rightSwipe:)];
+    
+    [swipeRight setDirection:(UISwipeGestureRecognizerDirectionRight)];
+    
+    [[self view] addGestureRecognizer:swipeRight];
+    [[self view] addGestureRecognizer:swipeLeft];
+    
+}
 
+-(void)switchViewsToLeft
+{
+    ScheduleScrollView* temp = bufferedSchedules[0];
+    
+    [UIView beginAnimations:@"curlup" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:.5];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
+    [_scrollView removeFromSuperview];
+    [UIView commitAnimations];
+    
+    for(int i = 0;i<NUM_BUFFERED_SCHEDULES;i++)
+    {
+        if(i == NUM_BUFFERED_SCHEDULES-1)
+            bufferedSchedules[i] = temp;
+        else
+            bufferedSchedules[i] = bufferedSchedules[i+1];
+    }
+    _scrollView = bufferedSchedules[((int)(NUM_BUFFERED_SCHEDULES/2))];
+    
+    [UIView beginAnimations:@"curlup" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:.5];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
+    [self.view addSubview:_scrollView];
+    [UIView commitAnimations];
+    
+    
+    //TODO: update the fullschedule accordingly and fetch more weeks
+    
+    
+}
+
+-(void)switchViewsToRight
+{
+    ScheduleScrollView* temp = bufferedSchedules[NUM_BUFFERED_SCHEDULES - 1];
+    
+    [UIView beginAnimations:@"curlup" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:.5];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
+    [_scrollView removeFromSuperview];
+    [UIView commitAnimations];
+    
+    for(int i = NUM_BUFFERED_SCHEDULES-1;i>=0;i--)
+    {
+        if(i == 0)
+            bufferedSchedules[i] = temp;
+        else
+            bufferedSchedules[i] = bufferedSchedules[i-1];
+    }
+    _scrollView = bufferedSchedules[((int)(NUM_BUFFERED_SCHEDULES/2))];
+    
+    [UIView beginAnimations:@"curlup" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:.5];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:YES];
+    [self.view addSubview:_scrollView];
+    [UIView commitAnimations];
+    
+    
+    //TODO: update the fullschedule accordingly and fetch more weeks
+}
+
+-(void)leftSwipe:(UISwipeGestureRecognizer*)sender
+{
+    [self switchViewsToLeft];
+}
+
+-(void)rightSwipe:(UISwipeGestureRecognizer*)sender
+{
+    [self switchViewsToRight];
 }
 
 - (void)reserveMeetingAtStartingHour:(int)startingHour
