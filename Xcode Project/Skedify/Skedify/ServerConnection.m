@@ -168,6 +168,13 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         NSDate *startDate = (NSDate *) [(NSMutableArray *)[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:0] objectAtIndex:i];
         NSDate *endDate = (NSDate *) [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1] objectAtIndex:i];
         int status = [(NSString *) [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2] objectAtIndex:i] intValue];
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startDate];
+        NSInteger hour = [components hour];
+        NSInteger minute = [components minute];
+        
+        NSLog(@"Sending Slot with start date: %d:%d",hour,minute);
         [self sendSlot:startDate toTimeSlot:endDate WithSlotStatus:status];
     }
 }
@@ -468,7 +475,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         Group* g = [_groupsList objectAtIndex:i];
         if(g.groupId!=0) //some groups are added in the grouplist but did not yet retieve their id
         {
-            [self fetchGroupSchedule:g.groupId fromTimeSlot:[NSDate dateWithTimeIntervalSinceNow:0] toTimeSlot:[NSDate dateWithTimeIntervalSinceNow:2592000]];
+            [self fetchGroupSchedule:g.groupId fromTimeSlot:[NSDate dateWithTimeIntervalSince1970:0] toTimeSlot:[NSDate dateWithTimeIntervalSinceNow:2592000]];
         }
         else
         {
@@ -742,20 +749,23 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     for (NSDictionary *dict in dictionary)
     {
         NSLog(@"Dict: %@", dict);
-        NSArray *response = (NSArray *)[dict objectForKey:@"response"];
+        NSDictionary *response = (NSDictionary *)[dict objectForKey:@"response"];
         if([response count]==0)
         {
             return; //TODO check this (mine) shit
         }
-        for (NSDictionary *slot in dict)
+        for (id key in response)
         {
+            NSDictionary* slot = (NSDictionary*)[response objectForKey:key];
+            
             if ([[slot allKeys] containsObject:@"start"])
             {
-                NSTimeInterval intStart=[[slot objectForKey:@"start"] doubleValue];
-                NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
                 
-                NSTimeInterval intEnd=[[slot objectForKey:@"end"] doubleValue];
-                NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
+                NSDateFormatter *df = [[NSDateFormatter alloc] init];
+                [df setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                
+                NSDate *startDate = [df dateFromString:[slot objectForKey:@"start"]];
+                NSDate *endDate = [df dateFromString:[slot objectForKey:@"end"]];
                 
                 SlotStatus slotStaus;
                 NSString *state = [slot objectForKey:@"state"];

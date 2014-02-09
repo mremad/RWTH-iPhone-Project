@@ -37,6 +37,7 @@
     {
         _name = theGroupName;
         _members = [[NSMutableArray alloc]init];
+        _groupSchedule = [NSMutableArray arrayWithObjects:nil];
         _groupId=theId;
     }
     
