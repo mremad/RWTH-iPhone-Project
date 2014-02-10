@@ -53,7 +53,7 @@
 
 - (IBAction)loginButtonPressed:(UIButton*)sender
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   //  NSString *accountEmail = [defaults objectForKey: @"accountEmailAddress"];
     NSString *accountEmail = [ServerConnection sharedServerConnection].accountEmailAddress;
     

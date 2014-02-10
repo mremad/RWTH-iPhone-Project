@@ -354,7 +354,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 }
                 else
                 {
-                    int breakpoint=1;
+                    
                 }
             } errorHandler:nil];
     
@@ -423,7 +423,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         }
         else
         {
-            int breakpoint = 0; //testing
+            
         }
     }
     
@@ -726,7 +726,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 }
                 else
                 {
-                    int breakpoint=1; //test
                     slotStaus = SlotStateFree;
                 }
                 
