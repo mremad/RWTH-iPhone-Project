@@ -40,7 +40,6 @@
 
 //Group related
 - (Group *) getGroupGivenGroupId:(NSInteger) theGroupId;
-- (NSArray *) getGroupList;
 - (NSArray *) getGroupContacts: (NSInteger) groupIdentifier;
 - (void) addGroup:(Group *) theGroup WithMembersEmails:(NSArray *) membersEmails;
 

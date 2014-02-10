@@ -246,11 +246,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 #pragma mark -
 #pragma mark Group Handling INTERNAL methods
 
-- (NSArray *) getGroupList
-{
-    return _groupsList; //we do not have an instance of this class thats why we retrive properties this way
-}
-
 - (Group *) getGroupGivenGroupId:(NSInteger) theGroupId
 {
     for(int i =0;i<[_groupsList count];i++)
@@ -264,30 +259,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [NSException raise:@"Unrecognized Id" format:@"should never happen getGroupGivnGroupId"];
     NSLog(@"should never happen getGroupGivnGroupId");
     return nil;
-}
-
-- (Group *) getGroupGivenName:(NSString *) groupName
-{
-    for(int i=0;i<[_groupsList count];i++)
-    {
-        Group *g =[_groupsList objectAtIndex:i];
-        if([g.name isEqualToString:groupName])
-        {
-            return g;
-        }
-    }
-    return nil;
-}
-
-- (void) addGroupInternally:(Group *) theGroup WithMembersEmails:(NSArray *) members
-{
-    return; //needs to be thought about
-    for(int i=0;i<[members count];i++)
-    {
-        [theGroup insertMember: [[Member alloc] initWithEmail:[members objectAtIndex:i]]];
-    }
-    
-    [_groupsList insertObject:theGroup atIndex:[_groupsList count]];//insert in last slot
 }
 
 #pragma mark -
@@ -355,35 +326,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         }
     }
 }
-
-/*
- * handles all notfication messages recieved from the server
- */
-- (void) didReceiveFromServerAcceptRejectNotification
-{
-    if(YES) // member accepted Group
-    {
-        Member *theFetchedMember=[[Member alloc]init];
-            [self memberAcceptedGroupInvitation:theFetchedMember];
-    }
-    if(YES) // member declined Group
-    {
-            // TODO: We need to think of this a little about ... (probelm woth multple group names..)
-            NSString *emailOfMember = @"theDeclinedMembersEmail";
-            NSString *theGroupName =@"theGroupName";
-            Group *g = [self getGroupGivenName:theGroupName];
-            [g removeMemberWithEmail:emailOfMember];
-    }
-        // here the situation is that you get a notification in one of the add group or add contact view.
-        // in thoose views you do not have a notification icon as designed
-        // The question was if we need to generate a kind of alert to the user that something is recieved
-        // Solution 1 vibrate (easy) . Solution 2 do nothing (easy) . Solution 3 build some kind of notification label
-        // appearing showing short discription of the notification and if we built such a thing, we could use it in all other
-        // views(Views containg the notification icon)
-}
-
-
-
 
 
 

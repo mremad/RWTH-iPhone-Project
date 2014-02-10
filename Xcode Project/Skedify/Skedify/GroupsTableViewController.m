@@ -68,14 +68,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[ServerConnection sharedServerConnection].getGroupList count];
+    return [[ServerConnection sharedServerConnection].groupsList count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *CellIdentifier = @"GroupCell"; //also written in StoryBoard
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    Group *group =[[ServerConnection sharedServerConnection].getGroupList objectAtIndex:indexPath.row];
+    Group *group =[[ServerConnection sharedServerConnection].groupsList objectAtIndex:indexPath.row];
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -147,7 +147,7 @@
     {
         GroupMenuTableViewController *groupMenu=(GroupMenuTableViewController *)[segue destinationViewController];
         NSInteger row = ((NSIndexPath *)[self.tableView indexPathForSelectedRow]).row;
-        Group *group =[[ServerConnection sharedServerConnection].getGroupList objectAtIndex:row];
+        Group *group =[[ServerConnection sharedServerConnection].groupsList objectAtIndex:row];
         groupMenu.groupId=group.groupId;
     }
     if([[segue identifier] isEqual:@"toAddGroup"])
