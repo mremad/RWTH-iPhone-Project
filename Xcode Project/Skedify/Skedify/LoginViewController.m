@@ -11,9 +11,7 @@
 
 
 @interface LoginViewController () <L2PHandlerDelegate>
-{
-    BOOL removeButtonPressedInEmailTextField;
-}
+
 @property(retain) L2PHandler *handler;
 
 @end
@@ -45,6 +43,7 @@
     _handler = [[L2PHandler alloc] initWithViewController:self];
     _handler.delegate = self;
 }
+
 
 
 - (void)didReceiveMemoryWarning

@@ -9,7 +9,9 @@
 #import "EmailViewController.h"
 
 @implementation EmailViewController
-
+{
+    BOOL removeButtonPressedInEmailTextField;
+}
 
 - (void)viewDidLoad
 {
@@ -24,6 +26,34 @@
 {
     [textField resignFirstResponder];
     return NO;
+}
+
+- (IBAction)EditingChangedInUserNameTextField:(id)sender
+{
+    NSString *textFieldText=[_textFieldEmail text];
+    if([textFieldText length]>1 && [[textFieldText substringFromIndex:[textFieldText length]-1] isEqualToString:@"@"]&& !removeButtonPressedInEmailTextField)
+    {
+        NSString* autocmpletedString = [NSString stringWithFormat:@"%@%@", _textFieldEmail.text ,@"rwth-aachen.de"];
+        _textFieldEmail.text = autocmpletedString;
+    }
+    else if(removeButtonPressedInEmailTextField && [textFieldText length]>=15 && [[textFieldText substringFromIndex:[textFieldText length]-14] isEqualToString:@"@rwth-aachen.d"])
+    {
+        NSString* stringWithAtRwthAachen = [textFieldText substringToIndex:[textFieldText length]-14];
+        _textFieldEmail.text = stringWithAtRwthAachen;
+    }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if([string isEqualToString:@""])
+    {
+        removeButtonPressedInEmailTextField=YES;
+    }
+    else
+    {
+        removeButtonPressedInEmailTextField=NO;
+    }
+    return YES;
 }
 
 -(BOOL)isAllowedToLeaveView
