@@ -11,7 +11,9 @@
 
 
 @interface LoginViewController () <L2PHandlerDelegate>
-
+{
+    BOOL removeButtonPressedInEmailTextField;
+}
 @property(retain) L2PHandler *handler;
 
 @end
