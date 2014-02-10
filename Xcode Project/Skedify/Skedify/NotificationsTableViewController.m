@@ -85,7 +85,7 @@
     if (notificationChosen.isGroupInvitationNotification) {
         alertMessage = [[[[[alertMessage stringByAppendingString:@"Group Invitation from "] stringByAppendingString:notificationChosen.senderName] stringByAppendingString:@", group name "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@"."];
         
-        alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
         [alert addButtonWithTitle:@"Accept"];
         [alert addButtonWithTitle:@"Decline"];
     }
@@ -102,7 +102,7 @@
                                                               timeStyle:NSDateFormatterShortStyle];
         
         alertMessage = [[[[[[[[[alertMessage stringByAppendingString:@"Meeting Invitation for "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@". On: "] stringByAppendingString:date] stringByAppendingString:@". Begins at: "] stringByAppendingString:beginTime] stringByAppendingString:@" and Ends at: "] stringByAppendingString:endTime] stringByAppendingString:@"."];
-        alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+        alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
         [alert addButtonWithTitle:@"Decline"];
     }
     
