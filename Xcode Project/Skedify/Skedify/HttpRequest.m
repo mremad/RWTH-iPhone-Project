@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#warning - PRIVATE API! This should not be used while uploading the app to AppStore.
+//#warning - PRIVATE API! This should not be used while uploading the app to AppStore.
 @implementation NSURLRequest(AllowAllCerts)
 
 + (BOOL) allowsAnyHTTPSCertificateForHost:(NSString *) host {
@@ -95,7 +95,7 @@
         {
             [post appendFormat:@"&%@=%@", key, [dictionary objectForKey:key]];
         }
-        NSLog(@"%@",post);
+        //NSLog(@"%@",post);
         // create post data
         NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
         NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
@@ -115,7 +115,7 @@
         NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData: response options: NSJSONReadingMutableContainers error: &e];
         if (!responseDictionary)
         {
-            NSLog(@"Error parsing JSON: %@", e);
+            //NSLog(@"Error parsing JSON: %@", e);
         }
         else
         {
@@ -163,9 +163,9 @@
     _errorHandler(error);
     
     // inform the user
-    NSLog(@"Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+    //NSLog(@"Connection failed! Error - %@ %@",
+    //      [error localizedDescription],
+    //      [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
@@ -182,7 +182,7 @@
     
     if (!responseDictionary)
     {
-        NSLog(@"Error parsing JSON: %@", e);
+        //NSLog(@"Error parsing JSON: %@", e);
     }
     else
     {
@@ -204,7 +204,7 @@
 
 - (void) cancel
 {
-    NSLog(@"cancelled!!!!");
+    //NSLog(@"cancelled!!!!");
     [_connection cancel];
 }
 

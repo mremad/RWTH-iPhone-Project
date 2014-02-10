@@ -101,7 +101,7 @@
                                                               dateStyle:NSDateFormatterNoStyle
                                                               timeStyle:NSDateFormatterShortStyle];
         
-        alertMessage = [[[[[[[[[alertMessage stringByAppendingString:@"Meeting Invitation for "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@". On: "] stringByAppendingString:date] stringByAppendingString:@". Begins at: "] stringByAppendingString:beginTime] stringByAppendingString:@" and Ends at: "] stringByAppendingString:endTime] stringByAppendingString:@"."];
+        alertMessage = [[[[[[[[[alertMessage stringByAppendingString:@"Meeting Invitation from "] stringByAppendingString:notificationChosen.groupName] stringByAppendingString:@". On: "] stringByAppendingString:date] stringByAppendingString:@". Begins at: "] stringByAppendingString:beginTime] stringByAppendingString:@" and Ends at: "] stringByAppendingString:endTime] stringByAppendingString:@"."];
         alert = [[UIAlertView alloc] initWithTitle:@"Invitation" message:alertMessage delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil];
         [alert addButtonWithTitle:@"Decline"];
     }
@@ -113,10 +113,10 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        NSLog(@"Cancel");
+        //NSLog(@"Cancel");
     }
     else if (buttonIndex == 1){
-        NSLog(@"Accept Group or reject meeting");
+        //NSLog(@"Accept Group or reject meeting");
 
         if (notificationChosen.isGroupInvitationNotification) {
             
@@ -135,7 +135,7 @@
         
     }
     else{
-         NSLog(@"Decline Group");
+         //NSLog(@"Decline Group");
 
         if (notificationChosen.isGroupInvitationNotification) {
             [[ServerConnection sharedServerConnection] rejectGroupRequest:notificationChosen.groupId withGroupName:notificationChosen.groupName];

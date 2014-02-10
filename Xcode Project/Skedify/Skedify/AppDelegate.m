@@ -89,6 +89,7 @@
     application.applicationIconBadgeNumber = 0;
 }
 
+
 - (void)timerFireMethod:(NSTimer *)timer{
     
     //TODO: Call checking method
