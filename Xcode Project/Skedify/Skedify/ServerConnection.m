@@ -427,12 +427,12 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         }
     }
     
-    NSLog(@"Done with fetching schedules");
+    
 }
 
 - (void) fetchGroupSchedules:(NSInteger) groupId
 {
-    [self fetchGroupSchedule:groupId fromTimeSlot:[NSDate dateWithTimeIntervalSinceNow:0] toTimeSlot:[NSDate dateWithTimeIntervalSinceNow:2592000]];
+    [self fetchGroupSchedule:groupId fromTimeSlot:[NSDate dateWithTimeIntervalSince1970:0] toTimeSlot:[NSDate dateWithTimeIntervalSinceNow:2592000]];
 }
 
 
@@ -617,7 +617,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         [_delegatenotificationsView groupsRefreshed];
     }
     //after fetching groups get other grooup information
-    [self fetchGroupSchedules];
+    //[self fetchGroupSchedules];
     [self fetchGroupMembers];
 }
 
@@ -735,7 +735,12 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                 [self addScheduleSlotStartingAtDate:startDate andEndingAtDate:endDate withSlotStatus:slotStaus withGroupId:[groupId intValue]];
             }
         }
+        
+        
     }
+    
+    [_delegatenotificationsView scheduleFinishedLoading];    
+
 }
 
 

@@ -34,6 +34,9 @@
     
     NSMutableArray* availableWeeks;
     NSInteger currentDisplayedWeekNum;
+    
+    UIView* loadingView;
+    UIActivityIndicatorView* loadingIndicator;
 
 }
 
@@ -87,25 +90,21 @@
     [self.view addSubview:topView];
 }
 
-- (void)viewDidLoad
+-(void) displaySchedule
 {
-    
-    [super viewDidLoad];
-    
     availableWeeks = [[NSMutableArray alloc] initWithObjects:nil];
     allWeeksSchedules = [[NSMutableDictionary alloc] initWithObjects:nil forKeys:nil];
     //set scrollView
     
     [self setAvailableWeeks];
-    [self addWeekLabels];
     
     for(int i = 0;i<NUM_BUFFERED_SCHEDULES;i++)
     {
         
         [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:i] integerValue]];
-
+        
         bufferedSchedules[i] = [[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
-                                                                withSchedule:fullSchedule];
+                                                            withSchedule:fullSchedule];
         
         bufferedSchedules[i].contentSize = CGSizeMake(320, ViewContentHeight);
         bufferedSchedules[i].delegate = (id)self;
@@ -142,7 +141,7 @@
     [[self view] addGestureRecognizer:swipeLeft];
     
     NSDate* randDate = ((Slot*)[[allWeeksSchedules objectForKey:[NSNumber numberWithInt:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] intValue]]] objectAtIndex:0]).startTime;
-
+    
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* comps = [calendar components:NSYearForWeekOfYearCalendarUnit |NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:randDate];
     
@@ -158,6 +157,50 @@
     NSString* title = [NSString stringWithFormat:@"%@ <-> %@",[dateFormatter stringFromDate:firstDayOfTheWeek],[dateFormatter stringFromDate:lastDayOfTheWeek]];
     
     [self.navigationItem setTitle:title];
+    
+    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
+
+}
+
+-(void)scheduleFinishedLoading
+{
+    [loadingIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+    [loadingView performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
+    [loadingIndicator performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
+    
+    [self performSelectorOnMainThread:@selector(displaySchedule) withObject:nil waitUntilDone:NO];
+}
+
+-(void) initSchedule
+{
+    [self addWeekLabels];
+    
+    loadingView = [[UIView alloc] initWithFrame:self.view.frame];
+    loadingView.backgroundColor = [UIColor grayColor];
+    loadingView.alpha = 0.5;
+    [self.view addSubview:loadingView];
+    
+    loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [loadingIndicator setCenter:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)];
+    [self.view addSubview:loadingIndicator];
+    [loadingIndicator startAnimating];
+    
+    
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [ServerConnection sharedServerConnection].delegatenotificationsView = self;
+}
+
+- (void)viewDidLoad
+{
+    
+    [super viewDidLoad];
+    
+    [self initSchedule];
+    
     
 }
 
@@ -221,6 +264,7 @@
     
     [self.navigationItem setTitle:title];
     
+    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
     
     //TODO: update the fullschedule accordingly and fetch more weeks
     
@@ -286,7 +330,7 @@
     
     [self.navigationItem setTitle:title];
     
-    
+    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
     
     //TODO: update the fullschedule accordingly and fetch more weeks
 }
@@ -329,23 +373,76 @@
     
     NSCalendar *gregorian = [[NSCalendar alloc]
                              initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *weekdayComponents =[gregorian components:(NSDayCalendarUnit |NSWeekdayCalendarUnit) fromDate:randDate];
-    NSInteger year = [weekdayComponents year];
-    NSInteger month = [weekdayComponents month];
-    NSInteger randDay = [weekdayComponents day];
-    NSInteger randWeekDay = [weekdayComponents weekday];
-    randWeekDay = randWeekDay - 2;
-    if(randWeekDay == -1)
-        randWeekDay = 6;
     
-    //TODO: Fix appointment date
-
+    NSDateComponents* comps = [gregorian components:NSYearForWeekOfYearCalendarUnit |NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit fromDate:randDate];
+    
+    [comps setWeekday:2];
+    NSDate* firstDayOfTheWeek = [gregorian dateFromComponents:comps];
+    NSDateComponents *firstDayComponents =[gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit |NSWeekdayCalendarUnit) fromDate:firstDayOfTheWeek];
+    
+    NSInteger year = [firstDayComponents year];
+    NSInteger month = [firstDayComponents month];
+    NSInteger randDay = [firstDayComponents day];
+    
+    randDay += meetingDay;
+    
+    switch (month) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            if(randDay > 31)
+            {
+                randDay -= 31;
+                month++;
+                if(month>12)
+                {
+                    month = 1;
+                    year++;
+                }
+            }
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+            if(randDay > 30)
+            {
+                randDay -= 30;
+                month++;
+                if(month>12)
+                {
+                    month = 1;
+                    year++;
+                }
+            }
+            break;
+        case 2:
+            if(randDay > 28)
+            {
+                randDay -= 28;
+                month++;
+                if(month>12)
+                {
+                    month = 1;
+                    year++;
+                }
+            }
+            break;
+            break;
+        default:
+            break;
+    }
+    
 
 
     NSDateComponents *comp =[[NSDateComponents alloc] init];
     [comp setYear:year];
     [comp setMonth:month];
-    [comp setDay:meetingDay];
+    [comp setDay:randDay];
     [comp setHour:startingHour];
     [comp setMinute:startingMin];
     // [comp setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
@@ -354,7 +451,7 @@
     NSDateComponents *compEnd =[[NSDateComponents alloc] init];
     [compEnd setYear:year];
     [compEnd setMonth:month];
-    [compEnd setDay:meetingDay];
+    [compEnd setDay:randDay];
     [compEnd setHour:endingHour];
     [compEnd setMinute:endingMin];
     //[compEnd setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];

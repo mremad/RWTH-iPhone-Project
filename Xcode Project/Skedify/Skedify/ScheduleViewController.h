@@ -12,10 +12,11 @@
 #import "ServerConnection.h"
 
 
-@interface ScheduleViewController : UIViewController<UIScrollViewDelegate>
+@interface ScheduleViewController : UIViewController<UIScrollViewDelegate,ServerConnectionViewedDelegate>
 @property (strong, nonatomic) ScheduleScrollView *scrollView;
 @property NSInteger groupID;
 
 - (void)reserveMeetingAtStartingHour:(int)startingHour startingMin:(int)startingMin endingHour:(int)endingHour endingMin:(int)endingMin day:(Day)meetingDay;
+-(void)scheduleFinishedLoading;
 
 @end

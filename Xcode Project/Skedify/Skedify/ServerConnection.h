@@ -18,6 +18,7 @@
 @protocol ServerConnectionViewedDelegate <NSObject>
 @required
 - (void)shakeGroupCreationActionRecieved:(NSInteger) groupID;
+- (void)scheduleFinishedLoading;
 @optional
 - (void) notificationRecieved;
 - (void) memberAcceptRejectinGroupNotification;
@@ -59,6 +60,7 @@
 - (void) sendSlot: (NSDate *) startingTimeSlot toTimeSlot:(NSDate *) endingTimeSlot WithSlotStatus: (SlotStatus) slotStatus;
 - (void) getFromServerPullData;
 - (void) fetchGroupMembers: (NSInteger) groupId;
+- (void) fetchGroupSchedules:(NSInteger) groupId;
 - (void) fetchGroups;
 -(void) renameGroup:(NSInteger)groupId WithNewName :(NSString *) newName;
 @property (nonatomic, readonly) NSMutableArray *savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer;

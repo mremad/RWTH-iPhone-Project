@@ -131,6 +131,9 @@
      {
          ScheduleViewController *scheduleVC=(ScheduleViewController *)[segue destinationViewController];
          scheduleVC.groupID = _groupId;
+         
+         [[ServerConnection sharedServerConnection] fetchGroupSchedules:_groupId];
+         
      }
  }
 
