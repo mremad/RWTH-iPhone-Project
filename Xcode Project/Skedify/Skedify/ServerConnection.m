@@ -581,6 +581,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             NSLog(@"Got appointment");
             NSNumber *groupID = [app objectForKey:@"groupID"];
             NSString *senderName = [app objectForKey:@"senderUsername"];
+            NSString *groupName = [app objectForKey:@"groupname"];
             
             NSTimeInterval intStart=[[app objectForKey:@"start"] doubleValue];
             NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:intStart];
@@ -588,7 +589,8 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
             NSTimeInterval intEnd =[[app objectForKey:@"end"] doubleValue];
             NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:intEnd];
             
-            [self didReceiveFromServerRequestNotificationWithType:NO group:[groupID integerValue] sender:senderName beginsAt:startDate endsAt:endDate groupName:@"" senderNickName:@""];
+            
+            [self didReceiveFromServerRequestNotificationWithType:NO group:[groupID integerValue] sender:senderName beginsAt:startDate endsAt:endDate groupName:groupName senderNickName:@""];
         }
     }
 }
