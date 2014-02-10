@@ -530,7 +530,6 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 - (void) fetchGroupMembers: (NSInteger) groupId
 {
     NSDictionary* requestDictionary = @{@"action"   : @"GetGroupUsers",
-                                        @"username" : [self getUserEmail], //is not necesary theoritical
                                         @"groupID"  : [NSNumber numberWithInt:groupId]};
     
     [self sendToServerTemplate:requestDictionary withHandler:@selector(fetchGroupMembersHandler:withGroupId:) usingHTTPResultInHandler:YES withObjectToHandler:[NSNumber numberWithInt:groupId] withBeforeLogMessage:@"Fetching group members" withAfterLogMessage:@""];
@@ -677,7 +676,9 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         for (NSDictionary *user in users)
         {
             NSString *email = [user objectForKey:@"username"];
+            NSString *inviterID = [user objectForKey:@"inviterID"];
             Member *m = [[Member alloc]initWithEmail: email];
+            m.hasAcceptedGroupInvitation = inviterID==nil ? YES : NO;
             Group *theGroup=[self getGroupGivenGroupId:[theGroupId intValue]];
             [theGroup insertMember:m];
         }
