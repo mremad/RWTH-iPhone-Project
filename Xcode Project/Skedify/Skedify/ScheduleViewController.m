@@ -172,11 +172,15 @@
     [loadingIndicator performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
     
     [self performSelectorOnMainThread:@selector(displaySchedule) withObject:nil waitUntilDone:NO];
+    
+    self.view.userInteractionEnabled = YES;
 }
 
 -(void) initSchedule
 {
     [self addWeekLabels];
+    
+    self.view.userInteractionEnabled = NO;
     
     loadingView = [[UIView alloc] initWithFrame:self.view.frame];
     loadingView.backgroundColor = [UIColor grayColor];
