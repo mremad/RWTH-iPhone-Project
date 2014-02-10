@@ -369,6 +369,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
                                         @"groupID"  : [NSString stringWithFormat: @"%ld", (long)groupId]};
     
     [self sendToServerTemplate:requestDictionary withHandler:nil usingHTTPResultInHandler:NO withObjectToHandler:nil withBeforeLogMessage:[NSString stringWithFormat:@"Accepting group request %ld", (long)groupId] withAfterLogMessage:[NSString stringWithFormat:@"Accepted group request %@", requestDictionary]];
+    [self fetchGroups];
 }
 
 

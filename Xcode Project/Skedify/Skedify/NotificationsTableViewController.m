@@ -121,6 +121,8 @@
         if (notificationChosen.isGroupInvitationNotification) {
             
             [[ServerConnection sharedServerConnection] acceptGroupRequest:notificationChosen.groupId];
+            Group *g =[[Group alloc] initWithName:notificationChosen.groupName andID:notificationChosen.groupId];
+            [[ServerConnection sharedServerConnection].groupsList addObject:g];
         }
         else{ //This a meeting rejection
             
