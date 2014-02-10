@@ -8,7 +8,7 @@
 
 #import "ScheduleScrollView.h"
 
-#define UIVIEWS_STARTING_YPOSITION 64
+
 
 
 
@@ -108,6 +108,19 @@
     return result;
 }
 
+-(void)setDayLabel:(UILabel*)label forIndex:(int)index;
+{
+    dayLabels[index] = label;
+}
+-(void)setVerticalLineLabel:(UIView*)label forIndex:(int)index
+{
+    verticalLineLabels[index] = label;
+}
+-(void)setDayLabelOriginalPosition:(CGPoint)point forIndex:(int)index;
+{
+    dayLabelOriginalPositions[index] = point;
+}
+
 -(void)addTimeLabels
 {
     for(int i=STARTING_HOUR;i<ENDING_HOUR;i++)
@@ -147,45 +160,7 @@
     }
 }
 
--(void)addWeekLabels
-{
-    self.superview.opaque = NO;
-    self.superview.clipsToBounds = YES;
-    
-    
-    
-    NSArray *weekDays = @[@"Mo",@"Tu",@"We",@"Th",@"Fr",@"Sa",@"Su"];
-    for(int i=0;i<NUMBER_DAYS;i++)
-    {
-        UILabel *label =[[UILabel alloc] init];
-        label.text=[NSString stringWithFormat:@"%@", [weekDays objectAtIndex:i]];
-        label.bounds = CGRectMake(0,0 ,DAY_WIDTH, DAY_HEIGHT);
-        label.layer.borderColor = [UIColor blackColor].CGColor;
-        label.center=CGPointMake(DAY_STARTING_CENTER_POINT+i*((int)DAY_WIDTH) + DAY_WIDTH/4,UIVIEWS_STARTING_YPOSITION+ (DAY_HEIGHT/2));
-        label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
-        label.textColor = [UIColor colorWithHue:29 saturation:100 brightness:100 alpha:1];
-        dayLabels[i] = label;
-        dayLabelOriginalPositions[i] = label.center;
-        [self.superview addSubview:label];
-        
-        CGFloat borderWidth = 0.5;
-        UIColor *borderColor = [UIColor colorWithRed:0.5 green:0.6 blue:0.6 alpha:0.7];
-        UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(TIME_WIDTH +i*((int)DAY_WIDTH),UIVIEWS_STARTING_YPOSITION+(DAY_HEIGHT/2),borderWidth,self.superview.frame.size.height-14)];
-        topView.opaque = YES;
-        topView.backgroundColor = borderColor;
-        verticalLineLabels[i] = topView;
-        [self.superview addSubview:topView];
-        
-    }
-    
-    CGFloat borderWidth = 0.5;
-    UIColor *borderColor = [UIColor colorWithRed:0.5 green:0.6 blue:0.6 alpha:0.7];
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0,0, self.layer.bounds.size.width-14, borderWidth)];
-    topView.center = CGPointMake(self.superview.frame.size.width/2,UIVIEWS_STARTING_YPOSITION+ (DAY_HEIGHT));
-    topView.opaque = YES;
-    topView.backgroundColor = borderColor;
-    [self.superview addSubview:topView];
-}
+
 
 -(void)updateViewForNewMeeting
 {

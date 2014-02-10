@@ -103,6 +103,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(BOOL) existsEquivalentNotification :(Notification*)fetchedNotification
 {
+    //TODO: it breaks sometimes
     for (Notification *notification in self.notificationsList)
     {
         if ([self compareNotification:notification isEqualNotification:fetchedNotification])

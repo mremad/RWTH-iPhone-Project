@@ -12,6 +12,8 @@
 
 @protocol ScheduleControllerProtocol<NSObject,UIScrollViewDelegate>
 
+
+
 - (void)singleTap:(UITapGestureRecognizer *)gestureRecognizer;
 - (void)doubleTap:(UITapGestureRecognizer *)gestureRecognizer;
 - (void)reserveMeetingAtStartingHour:(int)startingHour startingMin:(int)startingMin endingHour:(int)endingHour endingMin:(int)endingMin day:(Day)meetingDay;
@@ -25,6 +27,10 @@
 @property (nonatomic, weak) id<ScheduleControllerProtocol> delegate;
 - (id)initWithFrame:(CGRect)frame withSchedule:(SlotStatus[NUMBER_DAYS][NUMBER_HOURS*4])fullSchedule;
 -(void)updateViewForNewMeeting;
--(void)addWeekLabels;
+
+-(void)setDayLabel:(UILabel*)label forIndex:(int)index;
+-(void)setVerticalLineLabel:(UIView*)label forIndex:(int)index;
+-(void)setDayLabelOriginalPosition:(CGPoint)point forIndex:(int)index;
+
 
 @end
