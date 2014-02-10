@@ -88,12 +88,12 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
     [dateFormat setDateFormat:@"yyyy-MM-dd"];
     NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
     [timeFormat setDateFormat:@"HH:mm:ss"];
-    NSString *theDate = [dateFormat stringFromDate:startingSlot];
-    NSString *theTime = [timeFormat stringFromDate:startingSlot];
-    NSLog(@" Adding this slot \n"
-          "theDate: |%@| \n"
-          "theStartTime: |%@| \n" "marked as %u and the weekday is %d"
-          , theDate, theTime,status,weekDay);
+    //NSString *theDate = [dateFormat stringFromDate:startingSlot];
+    //NSString *theTime = [timeFormat stringFromDate:startingSlot];
+   // NSLog(@" Adding this slot \n"
+   //       "theDate: |%@| \n"
+   //       "theStartTime: |%@| \n" "marked as %u and the weekday is %d"
+   //       , theDate, theTime,status,weekDay);
 }
 
 - (void) navigateToScheduleView:(NSInteger) thegroupId andGroupName:(NSString*) groupName
@@ -170,12 +170,12 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         NSDate *endDate = (NSDate *) [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:1] objectAtIndex:i];
         int status = [(NSString *) [[_savedIphoneAndL2pEventsToSendToServerOnceNickNameAndEmailSentToServer objectAtIndex:2] objectAtIndex:i] intValue];
         
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startDate];
-        NSInteger hour = [components hour];
-        NSInteger minute = [components minute];
+        //NSCalendar *calendar = [NSCalendar currentCalendar];
+        //NSDateComponents *components = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:startDate];
+        //NSInteger hour = [components hour];
+        //NSInteger minute = [components minute];
         
-        NSLog(@"Sending Slot with start date: %d:%d",hour,minute);
+        //NSLog(@"Sending Slot with start date: %d:%d",hour,minute);
         [self sendSlot:startDate toTimeSlot:endDate WithSlotStatus:status];
     }
 }
@@ -257,7 +257,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         }
     }
     [NSException raise:@"Unrecognized Id" format:@"should never happen getGroupGivnGroupId"];
-    NSLog(@"should never happen getGroupGivnGroupId");
+    //NSLog(@"should never happen getGroupGivnGroupId");
     return nil;
 }
 
@@ -336,10 +336,10 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 - (void) sendToServerTemplate : (NSDictionary *) jsonArguments withHandler:(SEL) selectorToCall usingHTTPResultInHandler: (BOOL) useResult withObjectToHandler:(NSObject*) handlerObject withBeforeLogMessage:(NSString *) beforeLog withAfterLogMessage:(NSString *) afterLog
 {
-    NSLog(@"%@",beforeLog);
+    //NSLog(@"%@",beforeLog);
     (void) [[HttpRequest alloc] initRequestWithURL:serverAdress dictionary:jsonArguments completionHandler:^(NSDictionary* dictionary)
             {
-                NSLog(@"%@",afterLog);
+                //NSLog(@"%@",afterLog);
                 if(useResult && handlerObject != nil)
                 {
                     [self performSelector:selectorToCall withObject:dictionary withObject:handlerObject];
@@ -567,7 +567,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         NSDictionary * invites = [dict objectForKey:@"invites"];
         for (NSDictionary *invite in invites)
         {
-            NSLog(@"Got invite");
+            //NSLog(@"Got invite");
             NSNumber *groupID = [invite objectForKey:@"groupID"];
             NSString *senderName = [invite objectForKey:@"senderUsername"];
             NSString *groupName = [invite objectForKey:@"groupname"];
@@ -579,7 +579,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
         NSDictionary * appointments = [dict objectForKey:@"appointments"];
         for (NSDictionary *app in appointments)
         {
-            NSLog(@"Got appointment");
+            //NSLog(@"Got appointment");
             NSNumber *groupID = [app objectForKey:@"groupID"];
             NSString *senderName = [app objectForKey:@"senderUsername"];
             NSString *groupName = [app objectForKey:@"groupname"];
@@ -631,7 +631,7 @@ static NSString *serverAdress = @"https://www.gcmskit.com/skedify/ajax.php";
 
 -(void) shakeLocationHandler:(NSDictionary *) dictionary
 {
-    NSLog(@"Shake sent: %@", dictionary);
+    //NSLog(@"Shake sent: %@", dictionary);
    //   timerForPressingDoneButton = [NSTimer scheduledTimerWithTimeInterval:timeOutToGoToEntnahme target:self selector:@selector(timerMethod) userInfo:nil repeats:NO];
    NSTimer *timer= [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(getShakeMessageFromServer:) userInfo:nil repeats:NO];
     

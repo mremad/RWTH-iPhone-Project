@@ -125,8 +125,8 @@
     
     if (error)
     {
-        NSLog(@"Error: %@", error);
-        NSLog(@"Data is: %@", dataDictionary);
+        //NSLog(@"Error: %@", error);
+        //NSLog(@"Data is: %@", dataDictionary);
     }
     //obtaining user code
     else if (connection == self.userCodeURLConnection)
@@ -152,7 +152,7 @@
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"Received response: %@", response);
+    //NSLog(@"Received response: %@", response);
 }
 
 #pragma mark -
@@ -182,7 +182,7 @@
     
     [self saveUserDefaults];
     
-    NSLog(@"user code response: %@", dict);
+    //NSLog(@"user code response: %@", dict);
     
     if (_viewController)
     {
@@ -202,7 +202,7 @@
     NSString *status = [dict objectForKey:@"status"];
     NSRange rangeOfErrorInStatusString = [status rangeOfString:@"error"];
     if (rangeOfErrorInStatusString.location != NSNotFound) {
-        NSLog(@"%@", status);
+        //NSLog(@"%@", status);
         return;
     }
     
@@ -219,7 +219,7 @@
     
     
     // After access token is received, fetch course room data from L2P using the fetcher.
-    NSLog(@"access token: %@", _accessToken);
+    //NSLog(@"access token: %@", _accessToken);
     _fetcher.accessToken = _accessToken;
     [_fetcher fetchL2PCourseRooms];
     [_fetcher fetchIphoneEvents];
@@ -284,7 +284,7 @@
     [self obtainAccessToken];
     
     
-    NSLog(@"test");
+    //NSLog(@"test");
     
 }
 

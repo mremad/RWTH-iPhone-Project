@@ -94,7 +94,7 @@
     }
     
     
-    NSLog(@"CellRow: %d CellName: %@",indexPath.row,group.name);
+    //NSLog(@"CellRow: %d CellName: %@",indexPath.row,group.name);
     
     return cell;
 }

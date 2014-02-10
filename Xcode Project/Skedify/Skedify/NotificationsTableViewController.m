@@ -113,10 +113,10 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
-        NSLog(@"Cancel");
+        //NSLog(@"Cancel");
     }
     else if (buttonIndex == 1){
-        NSLog(@"Accept Group or reject meeting");
+        //NSLog(@"Accept Group or reject meeting");
 
         if (notificationChosen.isGroupInvitationNotification) {
             
@@ -135,7 +135,7 @@
         
     }
     else{
-         NSLog(@"Decline Group");
+         //NSLog(@"Decline Group");
 
         if (notificationChosen.isGroupInvitationNotification) {
             [[ServerConnection sharedServerConnection] rejectGroupRequest:notificationChosen.groupId withGroupName:notificationChosen.groupName];

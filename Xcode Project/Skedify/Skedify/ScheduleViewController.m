@@ -473,8 +473,8 @@
             break;
     }
     
-    NSLog(@"Start Date: %d %d %d %d:%d",year,month,randDay,startingHour,startingMin);
-    NSLog(@"End Date: %d %d %d %d:%d",year,month,randDay,endingHour,endingMin);
+    //NSLog(@"Start Date: %d %d %d %d:%d",year,month,randDay,startingHour,startingMin);
+    //NSLog(@"End Date: %d %d %d %d:%d",year,month,randDay,endingHour,endingMin);
 
 
     NSDateComponents *comp =[[NSDateComponents alloc] init];

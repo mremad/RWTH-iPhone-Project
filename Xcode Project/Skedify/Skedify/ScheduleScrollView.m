@@ -236,7 +236,7 @@
     
     Day day =[(ScheduleSlotView*)sender.view getDay];
     int time = [(ScheduleSlotView*)sender.view getTime];
-    NSLog(@"Tapped at time:%d and Day:%d!",time,day);
+    //NSLog(@"Tapped at time:%d and Day:%d!",time,day);
     
     int leftDay  = (int)day - 1;
     int rightDay = (int)day + 1;
@@ -288,8 +288,8 @@
         
         selectorView.frame = CGRectMake(hitView.frame.origin.x, tappedPt.y, hitView.frame.size.width, tappedPt.y - hitView.frame.origin.y);
         
-        NSLog(@"%d    %d",[hitView getDay],[hitView getTime]);
-        NSLog(@"Location In Time: %f",[[touches anyObject] locationInView:hitView].y);
+        //NSLog(@"%d    %d",[hitView getDay],[hitView getTime]);
+        //NSLog(@"Location In Time: %f",[[touches anyObject] locationInView:hitView].y);
         
         int touchedLocInView = ((int)[[touches anyObject] locationInView:hitView].y);
         int quarterPos = (int)(hitView.frame.size.height);
@@ -307,7 +307,7 @@
         selectorView.backgroundColor = [UIColor darkGrayColor];
         selectorView.alpha = 0.3;
         
-        NSLog(@"Starting Time: %d:%d",startingHour,startingMin);
+        //NSLog(@"Starting Time: %d:%d",startingHour,startingMin);
         
         beganDragging = YES;
         
@@ -366,7 +366,7 @@
                 return;
             }
             
-            NSLog(@"%d    %d",[hitFinalView getDay],[hitFinalView getTime]);
+            //NSLog(@"%d    %d",[hitFinalView getDay],[hitFinalView getTime]);
             
             
             int touchedLocInView = ((int)[[touches anyObject] locationInView:hitFinalView].y);
@@ -383,7 +383,7 @@
             endingHour = [hitFinalView getTime];
             meetingDay = [hitFinalView getDay];
             
-            NSLog(@"Ending Time: %d:%d",endingHour,endingMin);
+            //NSLog(@"Ending Time: %d:%d",endingHour,endingMin);
             
             beganDragging = FALSE;
             
@@ -508,7 +508,7 @@
     int extraLabelsCounter = 0;
     for(int i = STARTING_HOUR;i<ENDING_HOUR;i++)
     {
-        NSLog(@"%d %d",topHour,bottomHour);
+        //NSLog(@"%d %d",topHour,bottomHour);
 
         for(int j = 0;j < NUMBER_DAYS;j++)
         {
