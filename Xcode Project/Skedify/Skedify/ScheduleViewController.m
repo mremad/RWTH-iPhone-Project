@@ -25,7 +25,8 @@
     UIView  * verticalLineLabels[NUMBER_DAYS];
     CGPoint dayLabelOriginalPositions[NUMBER_DAYS];
     
-    SlotStatus fullSchedule[NUMBER_DAYS][NUMBER_HOURS*4]; //TODO: increase schedule to accommodate for more weeks not a single one
+    SlotStatus fullSchedule[NUMBER_WEEKS][NUMBER_DAYS][NUMBER_HOURS*4]; //TODO: increase schedule to accommodate for more weeks not a single one
+    BOOL createdSchedules[NUMBER_WEEKS];
     SlotStatus dummySchedule[NUMBER_DAYS][NUMBER_HOURS*4]; //TODO: to be removed after implementing the fullschedule with week support
 
     NSMutableDictionary* allWeeksSchedules;
@@ -40,6 +41,10 @@
 
 }
 
+-(void) shakeGroupCreationActionRecieved:(NSInteger)groupID
+{
+    
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -101,10 +106,10 @@
     for(int i = 0;i<NUM_BUFFERED_SCHEDULES;i++)
     {
         
-        [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:i] integerValue]];
+        [self createScheduleForWeek:[[availableWeeks objectAtIndex:i] integerValue]];
         
         bufferedSchedules[i] = [[ScheduleScrollView alloc] initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
-                                                            withSchedule:fullSchedule];
+                                                            withSchedule:fullSchedule[[[availableWeeks objectAtIndex:i] integerValue]]];
         
         bufferedSchedules[i].contentSize = CGSizeMake(320, ViewContentHeight);
         bufferedSchedules[i].delegate = (id)self;
@@ -157,8 +162,6 @@
     NSString* title = [NSString stringWithFormat:@"%@ <-> %@",[dateFormatter stringFromDate:firstDayOfTheWeek],[dateFormatter stringFromDate:lastDayOfTheWeek]];
     
     [self.navigationItem setTitle:title];
-    
-    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
 
 }
 
@@ -184,6 +187,15 @@
     [loadingIndicator setCenter:CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2)];
     [self.view addSubview:loadingIndicator];
     [loadingIndicator startAnimating];
+    
+    for(int i = 0;i<NUMBER_WEEKS;i++)
+    {
+        createdSchedules[i] = FALSE;
+        
+        for(int j = 0;j<NUMBER_DAYS;j++)
+            for(int k = 0;k<NUMBER_HOURS*4;k++)
+                fullSchedule[i][j][k] = SlotStateFree;
+    }
     
     
 }
@@ -223,21 +235,31 @@
     
     currentDisplayedWeekNum++;
    
+    int weekNum = [[availableWeeks objectAtIndex:currentDisplayedWeekNum] intValue];
     
-    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
+    if(!createdSchedules[weekNum])
+        [self createScheduleForWeek:weekNum];
     
-    bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] = [[ScheduleScrollView alloc]
-                                                   initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
-                                                   withSchedule:fullSchedule];
-    
-    bufferedSchedules[NUM_BUFFERED_SCHEDULES-1].contentSize = CGSizeMake(320, ViewContentHeight);
-    bufferedSchedules[NUM_BUFFERED_SCHEDULES-1].delegate = (id)self;
-    bufferedSchedules[NUM_BUFFERED_SCHEDULES-1].backgroundColor=[UIColor clearColor];
-    for(int j = 0;j<NUMBER_DAYS;j++)
+    if(currentDisplayedWeekNum < [availableWeeks count]-1)
     {
-        [bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] setDayLabel:dayLabels[j] forIndex:j];
-        [bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] setVerticalLineLabel:verticalLineLabels[j] forIndex:j];
-        [bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] setDayLabelOriginalPosition:dayLabelOriginalPositions[j] forIndex:j];
+        int buffWeekNum = [[availableWeeks objectAtIndex:currentDisplayedWeekNum+1] intValue];
+        
+        if(!createdSchedules[buffWeekNum])
+            [self createScheduleForWeek:buffWeekNum];
+        
+        bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] = [[ScheduleScrollView alloc]
+                                                       initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
+                                                       withSchedule:fullSchedule[buffWeekNum]];
+        
+        bufferedSchedules[NUM_BUFFERED_SCHEDULES-1].contentSize = CGSizeMake(320, ViewContentHeight);
+        bufferedSchedules[NUM_BUFFERED_SCHEDULES-1].delegate = (id)self;
+        bufferedSchedules[NUM_BUFFERED_SCHEDULES-1].backgroundColor=[UIColor clearColor];
+        for(int j = 0;j<NUMBER_DAYS;j++)
+        {
+            [bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] setDayLabel:dayLabels[j] forIndex:j];
+            [bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] setVerticalLineLabel:verticalLineLabels[j] forIndex:j];
+            [bufferedSchedules[NUM_BUFFERED_SCHEDULES-1] setDayLabelOriginalPosition:dayLabelOriginalPositions[j] forIndex:j];
+        }
     }
     
     _scrollView = bufferedSchedules[((int)(NUM_BUFFERED_SCHEDULES/2))];
@@ -264,7 +286,6 @@
     
     [self.navigationItem setTitle:title];
     
-    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
     
     //TODO: update the fullschedule accordingly and fetch more weeks
     
@@ -290,22 +311,32 @@
     }
     currentDisplayedWeekNum--;
    
+    int weekNum = [[availableWeeks objectAtIndex:currentDisplayedWeekNum] intValue];
     
-    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
+    if(!createdSchedules[weekNum])
+        [self createScheduleForWeek:weekNum];
     
-    bufferedSchedules[0] = [[ScheduleScrollView alloc]
-                                                   initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
-                                                   withSchedule:fullSchedule];
-    
-    bufferedSchedules[0].contentSize = CGSizeMake(320, ViewContentHeight);
-    bufferedSchedules[0].delegate = (id)self;
-    bufferedSchedules[0].backgroundColor=[UIColor clearColor];
-    
-    for(int j = 0;j<NUMBER_DAYS;j++)
+    if(currentDisplayedWeekNum > 0)
     {
-        [bufferedSchedules[0] setDayLabel:dayLabels[j] forIndex:j];
-        [bufferedSchedules[0] setVerticalLineLabel:verticalLineLabels[j] forIndex:j];
-        [bufferedSchedules[0] setDayLabelOriginalPosition:dayLabelOriginalPositions[j] forIndex:j];
+        int buffWeekNum = [[availableWeeks objectAtIndex:currentDisplayedWeekNum-1] intValue];
+        
+        if(!createdSchedules[buffWeekNum])
+            [self createScheduleForWeek:buffWeekNum];
+        
+        bufferedSchedules[0] = [[ScheduleScrollView alloc]
+                                                       initWithFrame:CGRectMake(0, ViewContentXStart, 320, 480)
+                                                       withSchedule:fullSchedule[buffWeekNum]];
+        
+        bufferedSchedules[0].contentSize = CGSizeMake(320, ViewContentHeight);
+        bufferedSchedules[0].delegate = (id)self;
+        bufferedSchedules[0].backgroundColor=[UIColor clearColor];
+        
+        for(int j = 0;j<NUMBER_DAYS;j++)
+        {
+            [bufferedSchedules[0] setDayLabel:dayLabels[j] forIndex:j];
+            [bufferedSchedules[0] setVerticalLineLabel:verticalLineLabels[j] forIndex:j];
+            [bufferedSchedules[0] setDayLabelOriginalPosition:dayLabelOriginalPositions[j] forIndex:j];
+        }
     }
     
     _scrollView = bufferedSchedules[((int)(NUM_BUFFERED_SCHEDULES/2))];
@@ -330,7 +361,6 @@
     
     [self.navigationItem setTitle:title];
     
-    [self createSchedule:fullSchedule ForWeek:[[availableWeeks objectAtIndex:currentDisplayedWeekNum] integerValue]];
     
     //TODO: update the fullschedule accordingly and fetch more weeks
 }
@@ -357,9 +387,11 @@
     int startIndex = ((startingHour - STARTING_HOUR)*4) + (startingMin/15);
     int endIndex = ((endingHour - STARTING_HOUR)*4) + (endingMin/15);
     
+    int weekNum = [[availableWeeks objectAtIndex:currentDisplayedWeekNum] intValue];
+    
     for(int i = startIndex;i<=endIndex;i++)
     {
-        if(fullSchedule[(int)meetingDay][i] == SlotStateBusy || fullSchedule[(int)meetingDay][i] == SlotStateMeeting)
+        if(fullSchedule[weekNum][(int)meetingDay][i] == SlotStateBusy || fullSchedule[weekNum][(int)meetingDay][i] == SlotStateMeeting)
         {
             selectedFreeArea = FALSE;
             break;
@@ -437,6 +469,8 @@
             break;
     }
     
+    NSLog(@"Start Date: %d %d %d %d:%d",year,month,randDay,startingHour,startingMin);
+    NSLog(@"End Date: %d %d %d %d:%d",year,month,randDay,endingHour,endingMin);
 
 
     NSDateComponents *comp =[[NSDateComponents alloc] init];
@@ -462,7 +496,7 @@
     
     for(int i = startIndex;i<=endIndex;i++)
     {
-        fullSchedule[(int)meetingDay][i] = SlotStateMeeting;
+        fullSchedule[weekNum][(int)meetingDay][i] = SlotStateMeeting;
     }
     
     [_scrollView updateViewForNewMeeting];
@@ -518,17 +552,8 @@
     
 }
 
-- (void)createSchedule:(SlotStatus[NUMBER_DAYS][NUMBER_HOURS*4])returnSchedule ForWeek:(int)weekNum
+- (void)createScheduleForWeek:(int)weekNum
 {
-    
-    for(int i = 0;i<NUMBER_DAYS;i++)
-    {
-        for(int j = 0;j<NUMBER_HOURS*4;j++)
-        {
-            
-            returnSchedule[i][j] = SlotStateFree;
-        }
-    }
     
 
     NSMutableArray* schedToDisplay = [allWeeksSchedules objectForKey:[NSNumber numberWithInt:weekNum]];
@@ -551,10 +576,12 @@
         
         SlotStatus slotStatus = slot.slotStatus;
         
-        returnSchedule[dayIndex][hourIndex] = slotStatus;
+        fullSchedule[weekNum][dayIndex][hourIndex] = slotStatus;
         
         
     }
+    
+    createdSchedules[weekNum] = TRUE;
     
 
 }

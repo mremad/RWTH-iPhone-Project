@@ -18,8 +18,8 @@
 @protocol ServerConnectionViewedDelegate <NSObject>
 @required
 - (void)shakeGroupCreationActionRecieved:(NSInteger) groupID;
-- (void)scheduleFinishedLoading;
 @optional
+- (void)scheduleFinishedLoading;
 - (void) notificationRecieved;
 - (void) memberAcceptRejectinGroupNotification;
 - (void) groupsRefreshed;

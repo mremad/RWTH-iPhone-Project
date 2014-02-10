@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#warning - PRIVATE API! This should not be used while uploading the app to AppStore.
+//#warning - PRIVATE API! This should not be used while uploading the app to AppStore.
 @implementation NSURLRequest(AllowAllCerts)
 
 + (BOOL) allowsAnyHTTPSCertificateForHost:(NSString *) host {

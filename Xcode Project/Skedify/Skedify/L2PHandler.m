@@ -160,9 +160,9 @@
 -(void)updateTimeTillRefreshLabel:(NSTimer*)timer
 {
     //access token time
-    NSInteger currentTimeInterval = [NSDate date].timeIntervalSince1970;
-    NSInteger timeIntervalOfNextRequest = self.accessExpiresAtDate.timeIntervalSince1970;
-    NSInteger secondsTillNextRequest = timeIntervalOfNextRequest - currentTimeInterval;
+    //NSInteger currentTimeInterval = [NSDate date].timeIntervalSince1970;
+    //NSInteger timeIntervalOfNextRequest = self.accessExpiresAtDate.timeIntervalSince1970;
+    //NSInteger secondsTillNextRequest = timeIntervalOfNextRequest - currentTimeInterval;
     //[self.timeTillRefreshLabel setText:[NSString stringWithFormat:@"%is", secondsTillNextRequest]];
 }
 
